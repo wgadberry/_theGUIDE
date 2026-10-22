@@ -1,0 +1,30 @@
+{
+  "RPC_URL": "https://solana-mainnet.core.chainstack.com/d0eda0bf942f17f68a75b67030395ceb",
+  "SOLSCAN_API": "https://pro-api.solscan.io/v2.0",
+  "SOLSCAN_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOjE3NTg0MzQzODI5MTEsImVtYWlsIjoid2dhZGJlcnJ5QGdtYWlsLmNvbSIsImFjdGlvbiI6InRva2VuLWFwaSIsImFwaVZlcnNpb24iOiJ2MiIsImlhdCI6MTc1ODQzNDM4Mn0.d_ZYyfZGaFdLfYXsuB_M2rT_Q6WkwpxVp0ZqNE_zUAk",
+
+  "DB_HOST": "127.0.0.1",
+  "DB_PORT": 3396,
+  "DB_USER": "root",
+  "DB_PASSWORD": "rootpassword",
+  "DB_NAME": "t16o_db",
+
+  "RABBITMQ_HOST": "localhost",
+  "RABBITMQ_PORT": 5692,
+  "RABBITMQ_USER": "admin",
+  "RABBITMQ_PASSWORD": "admin123",
+  "RABBITMQ_VHOST": "t16o_mq",
+
+  "RPC_BATCH_SIZE": 100,
+  "RPC_DELAY": 0.2,
+  "SOLSCAN_DELAY": 0.25,
+
+  "RETRY_MAX_ATTEMPTS": 3,
+  "RETRY_BASE_DELAY": 1.0,
+  "RETRY_MAX_DELAY": 30.0,
+
+  "RABBITMQ_HEARTBEAT": 600,
+  "RABBITMQ_BLOCKED_TIMEOUT": 300,
+  "DB_FALLBACK_RETRY_SEC": 5
+
+}

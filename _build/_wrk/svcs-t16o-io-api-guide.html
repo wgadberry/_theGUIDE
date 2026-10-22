@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T16O BubbleMap API Integration Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161d;
+    --surface-2: #1a1e28;
+    --border: #252935;
+    --border-light: #2e3445;
+    --accent: #4f8ef7;
+    --accent-dim: rgba(79,142,247,0.12);
+    --accent-glow: rgba(79,142,247,0.25);
+    --green: #3ecf8e;
+    --green-dim: rgba(62,207,142,0.1);
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.1);
+    --red: #f05252;
+    --red-dim: rgba(240,82,82,0.1);
+    --muted: rgba(255,255,255,0.35);
+    --text: rgba(255,255,255,0.88);
+    --text-dim: rgba(255,255,255,0.55);
+    --code-bg: #0a0c10;
+    --raleway: 'Raleway', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--raleway);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    zoom: 2;
+  }
+
+  /* ── Layout ── */
+  .shell {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 0 0 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+
+  .logo-block {
+    padding: 32px 24px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .logo-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .logo-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .logo-meta {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-dim);
+  }
+
+  .meta-pill .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .nav-section {
+    padding: 0 12px;
+  }
+
+  .nav-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 12px 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+
+  .nav-item:hover {
+    background: var(--accent-dim);
+    color: var(--text);
+  }
+
+  .nav-item .num {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    width: 16px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .nav-sub {
+    padding-left: 38px;
+  }
+
+  .nav-sub .nav-item {
+    font-size: 12px;
+    padding: 5px 12px;
+    color: rgba(255,255,255,0.38);
+  }
+
+  /* ── Main Content ── */
+  .main {
+    padding: 0;
+    max-width: 860px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 64px 64px 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,142,247,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(79,142,247,0.25);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+
+  .hero-badge .pulse {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-dim);
+    max-width: 560px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .hero-stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .hero-stat .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .hero-stat .value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+  }
+
+  /* ── Sections ── */
+  .section {
+    padding: 52px 64px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+
+  .section-num {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(79,142,247,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-top: 3px;
+  }
+
+  .section-header-text h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+
+  .section-header-text .endpoint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+  }
+
+  .method {
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .method-get {
+    background: var(--green-dim);
+    border: 1px solid rgba(62,207,142,0.25);
+    color: var(--green);
+  }
+
+  .method-post {
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,166,35,0.25);
+    color: var(--amber);
+  }
+
+  .endpoint-path {
+    color: var(--text-dim);
+  }
+
+  .prose {
+    color: var(--text-dim);
+    line-height: 1.75;
+    font-size: 14.5px;
+    margin-bottom: 24px;
+  }
+
+  /* ── Sub-sections (examples) ── */
+  .example {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .example-header {
+    padding: 14px 20px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .example-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+
+  .example-tag {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .example-desc {
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.65;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .example-desc strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .code-block {
+    background: var(--code-bg);
+    padding: 20px 24px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.72);
+  }
+
+  .code-block .cmd { color: var(--muted); }
+  .code-block .url { color: #82aaff; }
+  .code-block .flag { color: var(--amber); }
+  .code-block .key { color: var(--green); }
+  .code-block .val { color: rgba(255,255,255,0.65); }
+  .code-block .str { color: #f8c555; }
+  .code-block .punc { color: rgba(255,255,255,0.35); }
+  .code-block .comment { color: rgba(255,255,255,0.25); font-style: italic; }
+
+  /* ── Params Table ── */
+  .params-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    margin-top: 28px;
+  }
+
+  .params-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .params-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .params-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .params-table tr:last-child td { border-bottom: none; }
+
+  .param-name {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .param-type {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--green);
+    white-space: nowrap;
+  }
+
+  .param-required {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .req-yes {
+    background: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  .req-no {
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+  }
+
+  .req-cond {
+    background: var(--amber-dim);
+    color: var(--amber);
+  }
+
+  .param-default {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .param-desc { color: var(--text-dim); font-size: 13px; }
+
+  /* ── Callout ── */
+  .callout {
+    border-radius: 9px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    margin: 20px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .callout-info {
+    background: var(--accent-dim);
+    border: 1px solid rgba(79,142,247,0.2);
+    color: rgba(255,255,255,0.75);
+  }
+
+  .callout-info .icon { color: var(--accent); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  .callout-warning {
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,166,35,0.2);
+    color: rgba(255,255,255,0.75);
+  }
+
+  .callout-warning .icon { color: var(--amber); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── Response block ── */
+  .response-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    margin-top: 32px;
+  }
+
+  .response-header .label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .response-header .badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: var(--green-dim);
+    border: 1px solid rgba(62,207,142,0.2);
+    color: var(--green);
+  }
+
+  /* ── Workflow Steps ── */
+  .workflow {
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0 20px;
+    position: relative;
+  }
+
+  .step-num-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .step-line {
+    width: 2px;
+    flex: 1;
+    background: var(--border);
+    min-height: 24px;
+  }
+
+  .step:last-child .step-line { display: none; }
+
+  .step-content {
+    padding-bottom: 32px;
+  }
+
+  .step-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    padding-top: 6px;
+  }
+
+  .step-content p {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+
+  /* ── Headers table ── */
+  .headers-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 24px;
+    margin-top: 16px;
+  }
+
+  .headers-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .headers-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .headers-table tr:last-child td { border-bottom: none; }
+
+  .header-name {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--amber);
+  }
+
+  .header-val {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--green);
+  }
+
+  /* ── Reference section ── */
+  .ref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .ref-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .ref-card-header {
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .ref-card table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+
+  .ref-card td {
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .ref-card tr:last-child td { border-bottom: none; }
+
+  .http-code {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+  }
+
+  .code-2xx { color: var(--green); }
+  .code-4xx { color: var(--amber); }
+  .code-5xx { color: var(--red); }
+
+  .boundary-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .boundary-block-header {
+    padding: 10px 16px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Rate limit callout ── */
+  .rate-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .rate-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .rate-card p {
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.65;
+  }
+
+  .rate-card .highlight {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  /* scrollbar */
+  .main::-webkit-scrollbar { width: 6px; }
+  .main::-webkit-scrollbar-track { background: transparent; }
+  .main::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 6px; }
+
+  /* ── Copy button ── */
+  .code-wrap {
+    position: relative;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 4px 9px;
+    cursor: pointer;
+    font-family: var(--raleway);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .copy-btn svg {
+    flex-shrink: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .code-wrap:hover .copy-btn { opacity: 1; }
+
+  .copy-btn:hover {
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  .copy-btn.copied {
+    color: var(--green);
+    border-color: var(--green);
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="logo-block">
+      <div class="logo-eyebrow">Integration Guide</div>
+      <div class="logo-title">T16O BubbleMap<br>API Reference</div>
+      <div class="logo-meta">
+        <span class="meta-pill"><span class="dot"></span> Version 2.0</span>
+        <span class="meta-pill"><span class="dot"></span> March 19, 2026</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Endpoints</div>
+      <a class="nav-item active" href="#section-0"><span class="num">0</span> Unified Transaction Query</a>
+      <div class="nav-sub">
+        <a class="nav-item" href="#ex-0a">Wallet History</a>
+        <a class="nav-item" href="#ex-0b">Wallet by Token</a>
+        <a class="nav-item" href="#ex-0c">Bubble Map</a>
+        <a class="nav-item" href="#ex-0d">By Symbol</a>
+        <a class="nav-item" href="#ex-0e">Centered on TX</a>
+        <a class="nav-item" href="#ex-0f">Time Range</a>
+        <a class="nav-item" href="#ex-0g">Edges Only</a>
+        <a class="nav-item" href="#ex-0h">Full Result</a>
+        <a class="nav-item" href="#ex-0i">Derive Token from TX</a>
+        <a class="nav-item" href="#ex-0j">Filter by Type</a>
+      </div>
+      <div class="nav-label" style="margin-top:16px;">Purpose-Built</div>
+      <a class="nav-item" href="#section-wallet">Wallet Endpoints</a>
+      <a class="nav-item" href="#section-token">Token Endpoints</a>
+      <a class="nav-item" href="#section-tx">Transaction Endpoints</a>
+      <a class="nav-item" href="#section-nav">Navigation Endpoints</a>
+      <a class="nav-item" href="#section-filtered">Filtered Endpoints</a>
+      <a class="nav-item" href="#section-rag">RAG Search</a>
+      <div class="nav-label" style="margin-top:16px;">Legacy &amp; Pipeline</div>
+      <a class="nav-item" href="#section-1"><span class="num">1</span> Retrieving BubbleMap Data</a>
+      <div class="nav-sub">
+        <a class="nav-item" href="#ex-1a">By Token Symbol</a>
+        <a class="nav-item" href="#ex-1b">By Mint Address</a>
+        <a class="nav-item" href="#ex-1c">By Transaction Signature</a>
+        <a class="nav-item" href="#ex-1d">Signature + Token Scope</a>
+        <a class="nav-item" href="#ex-1e">Navigate by Block Time</a>
+      </div>
+      <a class="nav-item" href="#section-2"><span class="num">2</span> Wallet Transaction History</a>
+      <a class="nav-item" href="#section-3"><span class="num">3</span> Sourcing via Producer</a>
+      <a class="nav-item" href="#section-4"><span class="num">4</span> Time-Filtered Sourcing</a>
+      <a class="nav-item" href="#section-5"><span class="num">5</span> Pipeline Monitoring</a>
+      <a class="nav-item" href="#section-6"><span class="num">6</span> End-to-End Workflow</a>
+      <a class="nav-item" href="#section-7"><span class="num">7</span> Reference</a>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge">
+        <span class="pulse"></span>
+        Live API
+      </div>
+      <h1>T16O <em>BubbleMap</em><br>Integration Guide</h1>
+      <p class="hero-desc">Build transaction graph applications on Solana. Retrieve token activity, source pipeline data, and monitor processing state — all from a single authenticated API.</p>
+      <div class="hero-grid">
+        <div class="hero-stat">
+          <div class="label">Base URL</div>
+          <div class="value">svcs.the16oracles.io</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Authentication</div>
+          <div class="value">X-API-Key header</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Rate Window</div>
+          <div class="value">60-second sliding</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 0: Unified Transaction Query -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-0">
+      <div class="section-header">
+        <div class="section-num">0</div>
+        <div class="section-header-text">
+          <h2>Unified Transaction Query</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/txs</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">The unified transaction query endpoint. Replaces both BubbleMap and wallet transaction endpoints with a single call. Supports wallet mode (address provided) and graph mode (address omitted) with a <code>result_mask</code> bitmask controlling which data sections are computed and returned.</p>
+
+      <div class="params-label">Query Parameters</div>
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="param-name">address</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">&mdash;</span></td>
+            <td class="param-desc">Wallet address. If provided, filters to this wallet. If omitted, returns full token graph.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">mint</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">&mdash;</span></td>
+            <td class="param-desc">Token mint address. Required in graph mode.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">symbol</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">&mdash;</span></td>
+            <td class="param-desc">Token symbol lookup.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">signature</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">&mdash;</span></td>
+            <td class="param-desc">Anchor transaction signature. Centers results around this tx.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">limit</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">50/10</span></td>
+            <td class="param-desc">Max transactions. Default 50 wallet, 10 graph. Max 200/100.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">after</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">&mdash;</span></td>
+            <td class="param-desc">Only tx with block_time &gt; this Unix timestamp.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">before</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">&mdash;</span></td>
+            <td class="param-desc">Only tx with block_time &lt; this Unix timestamp.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">type_mask</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">&mdash;</span></td>
+            <td class="param-desc">Bitmask filter on edge type indicator.</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">result_mask</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">255</span></td>
+            <td class="param-desc">Bitmask controlling data sections.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="params-label">Result Mask Bits</div>
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>Bit</th>
+            <th>Value</th>
+            <th>Section</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="param-name">0</span></td>
+            <td><span class="param-type">1</span></td>
+            <td class="param-desc">Edges</td>
+            <td class="param-desc">Core edge list</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">1</span></td>
+            <td><span class="param-type">2</span></td>
+            <td class="param-desc">Nodes</td>
+            <td class="param-desc">Address nodes</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">2</span></td>
+            <td><span class="param-type">4</span></td>
+            <td class="param-desc">Balances</td>
+            <td class="param-desc">Token+SOL balance (requires bit 1)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">3</span></td>
+            <td><span class="param-type">8</span></td>
+            <td class="param-desc">Interactions</td>
+            <td class="param-desc">Pool/dex per node (requires bit 1)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">4</span></td>
+            <td><span class="param-type">16</span></td>
+            <td class="param-desc">Wallet</td>
+            <td class="param-desc">direction/party/post_balance</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">5</span></td>
+            <td><span class="param-type">32</span></td>
+            <td class="param-desc">Transactions</td>
+            <td class="param-desc">Flat wallet rows</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">6</span></td>
+            <td><span class="param-type">64</span></td>
+            <td class="param-desc">Navigation</td>
+            <td class="param-desc">Prev/next</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">7</span></td>
+            <td><span class="param-type">128</span></td>
+            <td class="param-desc">Related</td>
+            <td class="param-desc">Other tokens</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="params-label">Presets</div>
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>Mask</th>
+            <th>Name</th>
+            <th>Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="param-name">113</span></td>
+            <td class="param-desc">Wallet Table</td>
+            <td class="param-desc">Wallet history</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">207</span></td>
+            <td class="param-desc">Bubble Map</td>
+            <td class="param-desc">Full graph</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">255</span></td>
+            <td class="param-desc">Full</td>
+            <td class="param-desc">Both views</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">1</span></td>
+            <td class="param-desc">Edges Only</td>
+            <td class="param-desc">Lightweight</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Example 0a -->
+      <div class="example" id="ex-0a">
+        <div class="example-header">
+          <span class="example-title">0a — Wallet History</span>
+          <span class="example-tag">Wallet table preset</span>
+        </div>
+        <div class="example-desc">Fetch the most recent 50 transactions for a wallet address using the wallet table preset (<code>result_mask=113</code>). Returns edges, wallet columns, transactions, and navigation.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;limit=50&amp;result_mask=113"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0b -->
+      <div class="example" id="ex-0b">
+        <div class="example-header">
+          <span class="example-title">0b — Wallet by Token</span>
+          <span class="example-tag">Single-asset history</span>
+        </div>
+        <div class="example-desc">Filter wallet history to a specific token by providing both <code>address</code> and <code>mint</code>. Shows only transactions involving that token for the given wallet.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;mint=Ha4oiA7TJtoE1jPk8m6r5GPYm1ERmT9oKU5CZAGTpump&amp;limit=50&amp;result_mask=113"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0c -->
+      <div class="example" id="ex-0c">
+        <div class="example-header">
+          <span class="example-title">0c — Bubble Map</span>
+          <span class="example-tag">Full graph mode</span>
+        </div>
+        <div class="example-desc">Omitting <code>address</code> enters graph mode. Provide a <code>mint</code> to get the full token activity graph with nodes, edges, balances, interactions, navigation, and related tokens (<code>result_mask=207</code>).</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?mint=Ha4oiA7TJtoE1jPk8m6r5GPYm1ERmT9oKU5CZAGTpump&amp;limit=10&amp;result_mask=207"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0d -->
+      <div class="example" id="ex-0d">
+        <div class="example-header">
+          <span class="example-title">0d — By Symbol</span>
+          <span class="example-tag">Symbol resolution</span>
+        </div>
+        <div class="example-desc">Use <code>symbol</code> instead of <code>mint</code> for a human-friendly lookup. The API resolves the symbol to a mint address internally. If multiple tokens share the symbol, the most active is selected.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?symbol=PUMP&amp;limit=10&amp;result_mask=207"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0e -->
+      <div class="example" id="ex-0e">
+        <div class="example-header">
+          <span class="example-title">0e — Centered on TX</span>
+          <span class="example-tag">Signature anchor</span>
+        </div>
+        <div class="example-desc">Provide a <code>signature</code> to center the result window around a specific transaction. Combined with <code>mint</code>, this shows the graph around that transaction for the given token.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?mint=Ha4oiA7TJtoE1jPk8m6r5GPYm1ERmT9oKU5CZAGTpump&amp;signature=4fXARrfq3prCyfoP354k2dKQaL34eiJt4jQVVbCAD4VDsBqonXuY3XERygrcqaTT5XxdM3grVKJYiu9v1hhB1coC&amp;limit=20&amp;result_mask=207"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0f -->
+      <div class="example" id="ex-0f">
+        <div class="example-header">
+          <span class="example-title">0f — Time Range</span>
+          <span class="example-tag">Bounded query</span>
+        </div>
+        <div class="example-desc">Use <code>after</code> and <code>before</code> with Unix timestamps to restrict results to a specific time window. Combined with wallet + token filtering for precise historical queries.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?address=952zmBcstby9cF1UGPBUwRADSNtrMxC2iJ5PYvGmfs2G&amp;mint=Ha4oiA7TJtoE1jPk8m6r5GPYm1ERmT9oKU5CZAGTpump&amp;after=1771900000&amp;before=1773900000&amp;limit=100&amp;result_mask=113"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0g -->
+      <div class="example" id="ex-0g">
+        <div class="example-header">
+          <span class="example-title">0g — Edges Only</span>
+          <span class="example-tag">Lightweight</span>
+        </div>
+        <div class="example-desc">Set <code>result_mask=1</code> to return only the core edge list — no nodes, balances, or navigation. Ideal for lightweight integrations that only need transfer data.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;limit=20&amp;result_mask=1"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0h -->
+      <div class="example" id="ex-0h">
+        <div class="example-header">
+          <span class="example-title">0h — Full Result</span>
+          <span class="example-tag">All sections</span>
+        </div>
+        <div class="example-desc">Set <code>result_mask=255</code> to return every available data section — edges, nodes, balances, interactions, wallet columns, transactions, navigation, and related tokens.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;mint=Ha4oiA7TJtoE1jPk8m6r5GPYm1ERmT9oKU5CZAGTpump&amp;limit=10&amp;result_mask=255"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0i -->
+      <div class="example" id="ex-0i">
+        <div class="example-header">
+          <span class="example-title">0i — Derive Token from TX</span>
+          <span class="example-tag">Signature-only</span>
+        </div>
+        <div class="example-desc">Provide only a <code>signature</code> — the API derives the token from the transaction and returns the full graph. Useful when investigating a specific on-chain event without knowing which token was involved.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?signature=4fXARrfq3prCyfoP354k2dKQaL34eiJt4jQVVbCAD4VDsBqonXuY3XERygrcqaTT5XxdM3grVKJYiu9v1hhB1coC&amp;limit=1&amp;result_mask=207"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 0j -->
+      <div class="example" id="ex-0j">
+        <div class="example-header">
+          <span class="example-title">0j — Filter by Type</span>
+          <span class="example-tag">Edge type bitmask</span>
+        </div>
+        <div class="example-desc">Use <code>type_mask</code> to filter edges by their type indicator bitmask. Only edges matching the mask are included in the result.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/txs?address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;limit=50&amp;type_mask=412316860416&amp;result_mask=113"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Purpose-Built: Wallet Endpoints -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-wallet">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Wallet Endpoints</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/wallet/{address}/...</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">Purpose-built wallet endpoints that wrap <code>/api/txs</code> with pre-configured <code>result_mask</code> values for common wallet use cases.</p>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Wallet History</span>
+          <span class="example-tag">GET /api/wallet/{address}/history</span>
+        </div>
+        <div class="example-desc">Returns a chronological transaction table for the wallet. Equivalent to <code>/api/txs?address=...&amp;result_mask=113</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/wallet/92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3/history?limit=50"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Wallet Tokens</span>
+          <span class="example-tag">GET /api/wallet/{address}/tokens</span>
+        </div>
+        <div class="example-desc">Returns the list of tokens the wallet has interacted with. Equivalent to <code>/api/txs?address=...&amp;result_mask=129</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/wallet/92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3/tokens"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Wallet Map</span>
+          <span class="example-tag">GET /api/wallet/{address}/map</span>
+        </div>
+        <div class="example-desc">Returns a full bubble map graph for the wallet. Equivalent to <code>/api/txs?address=...&amp;result_mask=207</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/wallet/92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3/map?limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Purpose-Built: Token Endpoints -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-token">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Token Endpoints</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/token/{mint}/...</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">Purpose-built token endpoints that wrap <code>/api/txs</code> with pre-configured <code>result_mask</code> values for common token use cases.</p>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Token Activity</span>
+          <span class="example-tag">GET /api/token/{mint}/activity</span>
+        </div>
+        <div class="example-desc">Returns the full activity graph for a token. Equivalent to <code>/api/txs?mint=...&amp;result_mask=207</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/token/Ha4oiA7TJtoE1jPk8m6r5GPYm1ERmT9oKU5CZAGTpump/activity?limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Token Holders</span>
+          <span class="example-tag">GET /api/token/{mint}/holders</span>
+        </div>
+        <div class="example-desc">Returns active participants (nodes + balances) for a token. Equivalent to <code>/api/txs?mint=...&amp;result_mask=6</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/token/Ha4oiA7TJtoE1jPk8m6r5GPYm1ERmT9oKU5CZAGTpump/holders"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Token Lookup by Symbol</span>
+          <span class="example-tag">GET /api/token/lookup/{symbol}</span>
+        </div>
+        <div class="example-desc">Resolves a token symbol to its mint address and returns the edge list. Equivalent to <code>/api/txs?symbol=...&amp;result_mask=1</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/token/lookup/PUMP"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Purpose-Built: Transaction Endpoints -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-tx">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Transaction Endpoints</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/tx/{signature}/...</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">Purpose-built transaction endpoints that wrap <code>/api/txs</code> for inspecting individual transactions.</p>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Single Transaction Detail</span>
+          <span class="example-tag">GET /api/tx/{signature}</span>
+        </div>
+        <div class="example-desc">Returns the full graph for a single transaction. Equivalent to <code>/api/txs?signature=...&amp;limit=1&amp;result_mask=207</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/tx/4fXARrfq3prCyfoP354k2dKQaL34eiJt4jQVVbCAD4VDsBqonXuY3XERygrcqaTT5XxdM3grVKJYiu9v1hhB1coC"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Transaction in Context</span>
+          <span class="example-tag">GET /api/tx/{signature}/context</span>
+        </div>
+        <div class="example-desc">Returns the transaction centered within a window of surrounding transactions. Equivalent to <code>/api/txs?signature=...&amp;limit=20&amp;result_mask=207</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/tx/4fXARrfq3prCyfoP354k2dKQaL34eiJt4jQVVbCAD4VDsBqonXuY3XERygrcqaTT5XxdM3grVKJYiu9v1hhB1coC/context"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Purpose-Built: Filtered Endpoints -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-filtered">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Filtered Endpoints</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/swaps, /api/transfers</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">Pre-filtered endpoints that apply a <code>type_mask</code> automatically, returning only specific edge types. Accept the same query parameters as <code>/api/txs</code>.</p>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Swap Activity</span>
+          <span class="example-tag">GET /api/swaps</span>
+        </div>
+        <div class="example-desc">Returns only swap edges for the given address or token. Automatically applies the swap type_mask filter.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/swaps?address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;limit=50&amp;result_mask=113"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Transfer Activity</span>
+          <span class="example-tag">GET /api/transfers</span>
+        </div>
+        <div class="example-desc">Returns only transfer edges for the given address or token. Automatically applies the transfer type_mask filter.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/transfers?address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;limit=50&amp;result_mask=113"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Purpose-Built: Navigation Endpoints -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-nav">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>Navigation Endpoints</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/tx/{address}/oldest, /latest, /bridge</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">Endpoints for discovering data coverage boundaries. Use these to find the earliest and latest transactions for an address, or to understand which time ranges have been fetched and where gaps exist.</p>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Oldest Transaction</span>
+          <span class="example-tag">GET /api/tx/{address}/oldest</span>
+        </div>
+        <div class="example-desc">Returns the oldest transaction signature and block_time for a mint or wallet address. Calls <code>sp_tx_boundary</code> with direction <code>oldest</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/tx/6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN/oldest"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Latest Transaction</span>
+          <span class="example-tag">GET /api/tx/{address}/latest</span>
+        </div>
+        <div class="example-desc">Returns the latest (newest) transaction signature and block_time for a mint or wallet address. Calls <code>sp_tx_boundary</code> with direction <code>latest</code>.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/tx/6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN/latest"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Coverage Bridge</span>
+          <span class="example-tag">GET /api/tx/{address}/bridge</span>
+        </div>
+        <div class="example-desc">Returns the contiguous time coverage for an address by merging overlapping <code>tx_boundary</code> sessions. Identifies gaps between fetched ranges and provides the oldest/newest signatures at bridge edges. Use the optional <code>block_time</code> parameter to select which bridge to inspect.</div>
+
+        <div class="params-label" style="margin-top: 16px;">Query Parameters</div>
+        <table>
+          <tr>
+            <td><span class="param-name">block_time</span></td>
+            <td class="param-desc">Optional Unix timestamp. Selects the bridge containing this time. Defaults to the latest bridge if omitted.</td>
+          </tr>
+        </table>
+
+        <div class="code-block" style="margin-top: 16px;"><span class="comment"># Latest bridge (default)</span><br>curl -s <span class="str">"https://svcs.the16oracles.io/api/tx/6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN/bridge"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span><br><br><span class="comment"># Bridge at a specific time</span><br>curl -s <span class="str">"https://svcs.the16oracles.io/api/tx/6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN/bridge?block_time=1773645117"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+
+        <div class="callout" style="margin-top: 16px;">
+          <strong>Response shape:</strong> Returns <code>bridge</code> (oldest/newest time + sigs), <code>gaps</code> (adjacent uncovered ranges with <code>fetch_before_bt</code> hints), <code>total_bridges</code>, <code>has_older_bridge</code>, <code>has_newer_bridge</code>, and <code>canyon_before</code>/<code>canyon_after</code> flags indicating whether more history likely exists beyond the outermost bridges.
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Purpose-Built: RAG Search Endpoints -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-rag">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2>RAG Search</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/graph/rag/search</span>
+            &nbsp;
+            <span class="method method-post">POST</span>
+            <span class="endpoint-path">/api/graph/rag/cluster</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">Semantic search and clustering over transaction graph edges using OpenAI embeddings and Qdrant vector database. These endpoints proxy to the internal RAG search service.</p>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Semantic Edge Search</span>
+          <span class="example-tag">GET /api/graph/rag/search</span>
+        </div>
+        <div class="example-desc">Natural-language search over <code>tx_guide</code> edge embeddings. Returns matching edges ranked by similarity score with human-readable sentence summaries.</div>
+
+        <div class="params-label" style="margin-top: 16px;">Query Parameters</div>
+        <table>
+          <tr>
+            <td><span class="param-name">q</span></td>
+            <td class="param-desc"><strong>Required.</strong> Natural language search query (e.g. "large USDC transfers to Raydium")</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">limit</span></td>
+            <td class="param-desc">Max results (1–100, default 20)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">address</span></td>
+            <td class="param-desc">Filter to edges involving this wallet address (as source or destination)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">token</span></td>
+            <td class="param-desc">Token symbol filter</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">mint</span></td>
+            <td class="param-desc">Token mint address filter</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">dex</span></td>
+            <td class="param-desc">DEX name filter</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">edge_type</span></td>
+            <td class="param-desc">Edge type code filter (e.g. swap_in, spl_transfer)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">source</span></td>
+            <td class="param-desc">Source code filter</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">after</span></td>
+            <td class="param-desc">Unix timestamp — only edges at or after this time</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">before</span></td>
+            <td class="param-desc">Unix timestamp — only edges at or before this time</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">threshold</span></td>
+            <td class="param-desc">Minimum similarity score (default 0.25)</td>
+          </tr>
+        </table>
+
+        <div class="code-block" style="margin-top: 16px;"><span class="comment"># Natural language search</span><br>curl -s <span class="str">"https://svcs.the16oracles.io/api/graph/rag/search?q=large+swaps+on+Raydium&amp;limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span><br><br><span class="comment"># Filtered by wallet and token</span><br>curl -s <span class="str">"https://svcs.the16oracles.io/api/graph/rag/search?q=transfers&amp;address=92e59wnU1rQb2uj92dpiSJWQEvqmuNkxjZQGGRh9rLj3&amp;token=USDC&amp;limit=20"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span><br><br><span class="comment"># Time-bounded search</span><br>curl -s <span class="str">"https://svcs.the16oracles.io/api/graph/rag/search?q=mint+activity&amp;after=1771900000&amp;before=1773900000&amp;limit=20"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+
+        <div class="callout" style="margin-top: 16px;">
+          <strong>Response shape:</strong> <code>{ count, results: [{ score, edge_type, block_time_utc, tx_signature, mint_address, from_address, to_address, sentence, token_symbol, dex, amount, pool_label }] }</code>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="example-header">
+          <span class="example-title">Holder Clustering</span>
+          <span class="example-tag">POST /api/graph/rag/cluster</span>
+        </div>
+        <div class="example-desc">Performs PCA &rarr; UMAP &rarr; HDBSCAN clustering on token holder data. Accepts holder and edge arrays from a BubbleMap response and returns holders annotated with cluster IDs and 2D coordinates for visualization.</div>
+
+        <div class="code-block" style="margin-top: 16px;">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/graph/rag/cluster"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"holders": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "address": "92e59...", "percentage": 5.2 },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "address": "BAoVY...", "percentage": 3.1 }<br>&nbsp;&nbsp;&nbsp;&nbsp;],<br>&nbsp;&nbsp;&nbsp;&nbsp;"edges": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ "from": "92e59...", "to": "BAoVY...", "transfer_count": 12, "total_amount": 50000 }<br>&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;}'</span></div>
+
+        <div class="callout" style="margin-top: 16px;">
+          <strong>Response shape:</strong> <code>{ holders: [...original fields + cluster_id, x, y], clusters: [{ id, size, members }] }</code>. The <code>x</code>/<code>y</code> coordinates are UMAP-projected positions suitable for 2D scatter plots.
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 1: BubbleMap -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-header-text">
+          <h2>Retrieving BubbleMap Data</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/bmap/get</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">The BubbleMap endpoint is the primary data retrieval interface. It returns a transaction graph composed of <strong>nodes</strong> (wallets, pools, mints) and <strong>edges</strong> (token transfers, swaps, burns) for a given token or transaction. The response is designed to be rendered as an interactive force-directed graph.</p>
+
+      <div class="callout callout-info">
+        <span class="icon">ℹ</span>
+        <span>At least one of <code>token_symbol</code>, <code>token_name</code>, <code>mint_address</code>, or <code>signature</code> must be provided to anchor the query.</span>
+      </div>
+
+      <div class="params-label">Query Parameters</div>
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="param-name">token_symbol</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-cond">conditional</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">Token ticker symbol (e.g., <code>TRUMP</code>, <code>SOL</code>, <code>USDC</code>)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">token_name</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-cond">conditional</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">Full token name (e.g., <code>Wrapped SOL</code>)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">mint_address</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-cond">conditional</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">On-chain mint address of the token</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">signature</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-cond">conditional</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">A specific transaction signature to visualize</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">block_time</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">Unix timestamp — navigate to the nearest transaction at this time</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">tx_limit</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">10</span></td>
+            <td class="param-desc">Number of transactions in the window. Accepted values: <code>1</code>, <code>10</code>, <code>20</code>, <code>50</code>, <code>100</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Example 1a -->
+      <div class="example" id="ex-1a">
+        <div class="example-header">
+          <span class="example-title">1a — By Token Symbol</span>
+          <span class="example-tag">Simplest lookup</span>
+        </div>
+        <div class="example-desc">When you know the ticker symbol of a token, this is the simplest way to retrieve its activity graph. The API resolves the symbol to a mint address internally and returns the most recent transactions. <strong>If multiple tokens share the same symbol, the one with the most transaction activity is selected.</strong></div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get?token_symbol=TRUMP&amp;tx_limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 1b -->
+      <div class="example" id="ex-1b">
+        <div class="example-header">
+          <span class="example-title">1b — By Mint Address</span>
+          <span class="example-tag">Recommended for integrations</span>
+        </div>
+        <div class="example-desc">Using the mint address is the most precise way to retrieve data. Unlike symbol-based lookups, there is no ambiguity — every SPL token on Solana has a unique mint address. <strong>This is the recommended approach when integrating programmatically.</strong></div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get?mint_address=6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN&amp;tx_limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 1c -->
+      <div class="example" id="ex-1c">
+        <div class="example-header">
+          <span class="example-title">1c — By Transaction Signature</span>
+          <span class="example-tag">Signature-only mode</span>
+        </div>
+        <div class="example-desc">Passing a transaction signature retrieves the graph centered on that specific transaction. The API enters <strong>signature-only mode</strong>, displaying all token activity within the transaction — not just a single token. Useful for investigating a specific on-chain event without knowing which token was involved.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get?signature=2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv&amp;tx_limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 1d -->
+      <div class="example" id="ex-1d">
+        <div class="example-header">
+          <span class="example-title">1d — Signature Scoped to a Token</span>
+          <span class="example-tag">Filtered graph</span>
+        </div>
+        <div class="example-desc">When both a signature and a mint address are provided, the API returns the graph for that specific transaction but <strong>filters edges to only show activity involving the specified token.</strong> Useful when a transaction involves multiple tokens and you want to focus on one.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get?signature=2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv&amp;mint_address=6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN&amp;tx_limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Example 1e -->
+      <div class="example" id="ex-1e">
+        <div class="example-header">
+          <span class="example-title">1e — Navigate by Block Time</span>
+          <span class="example-tag">Timeline scrubbing</span>
+        </div>
+        <div class="example-desc">Provide a Unix timestamp and the API will find the nearest transaction to that point. Commonly used for timeline navigation — scrubbing through a token's history to a specific date.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get?mint_address=6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN&amp;block_time=1773645117&amp;tx_limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <!-- Response -->
+      <div class="response-header">
+        <span class="label">Success Response</span>
+        <span class="badge">HTTP 200</span>
+      </div>
+      <div class="code-block" style="border: 1px solid var(--border); border-radius: 10px;">
+<span class="punc">{</span>
+  <span class="key">"result"</span><span class="punc">: {</span>
+    <span class="key">"token"</span><span class="punc">:</span>          <span class="punc">{</span> symbol, mint, decimals, token_type <span class="punc">},</span>
+    <span class="key">"txs"</span><span class="punc">:</span>            <span class="punc">{</span> signature, block_time_utc, signer, prev/next navigation <span class="punc">},</span>
+    <span class="key">"nodes"</span><span class="punc">:</span>          <span class="punc">[</span> <span class="punc">{</span> address, label, address_type, balance, ... <span class="punc">}</span> <span class="punc">],</span>
+    <span class="key">"edges"</span><span class="punc">:</span>          <span class="punc">[</span> <span class="punc">{</span> source, target, amount, type, token_symbol, dex, pool_label, ... <span class="punc">}</span> <span class="punc">],</span>
+    <span class="key">"related_tokens"</span><span class="punc">:</span> <span class="punc">[</span> <span class="punc">{</span> symbol, mint, tx_count <span class="punc">}</span> <span class="punc">]</span>
+  <span class="punc">}</span>
+<span class="punc">}</span></div>
+
+      <div class="callout callout-warning" style="margin-top: 16px;">
+        <span class="icon">⚠</span>
+        <span>If no data exists, the API returns <strong>HTTP 404</strong> with <code>{"result": {"error": "Token not found"}}</code>. Trigger the producer (Section 3) to source the data, then retry.</span>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 2: Wallet Txs -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-header-text">
+          <h2>Wallet Transaction History</h2>
+          <div class="endpoint">
+            <span class="method method-get">GET</span>
+            <span class="endpoint-path">/api/bmap/get-wallet-txs</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">Returns a chronological list of transactions for a specific wallet or entity address. Unlike the BubbleMap endpoint which returns a graph, this returns a <strong>flat table of transactions</strong> with direction (in/out), amounts, counterparties, and balance information. Supports optional token filtering and can center results around a specific transaction for contextual browsing.</p>
+
+      <div class="callout callout-info">
+        <span class="icon">ℹ</span>
+        <span>This endpoint also accepts <strong>POST</strong> with a JSON body using the same field names.</span>
+      </div>
+
+      <div class="params-label">Query Parameters</div>
+      <table class="params-table">
+        <thead>
+          <tr><th>Parameter</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="param-name">address</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-yes">required</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">The wallet, pool, or entity address to query</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">mint</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">Filter results to a specific token's activity</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">signature</span></td>
+            <td><span class="param-type">string</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">—</span></td>
+            <td class="param-desc">Center results around this transaction (half before, half after)</td>
+          </tr>
+          <tr>
+            <td><span class="param-name">limit</span></td>
+            <td><span class="param-type">integer</span></td>
+            <td><span class="param-required req-no">optional</span></td>
+            <td><span class="param-default">50</span></td>
+            <td class="param-desc">Maximum rows to return (max 200)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">2a — All Activity for a Wallet</span><span class="example-tag">Most recent across all tokens</span></div>
+        <div class="example-desc">Returns the most recent transactions across all tokens for the given address — transfers, swaps, burns, and mints.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get-wallet-txs?address=BAoVYrCEjFk7bgP2fRp2ahLcH6ktYUVSgXWHT88jYymy&amp;limit=50"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">2b — Activity Filtered by Token</span><span class="example-tag">Single-asset history</span></div>
+        <div class="example-desc">Providing a mint address filters results to only show transactions involving that specific token. <strong>Useful for tracking a wallet's buy/sell history for a particular asset.</strong></div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get-wallet-txs?address=BAoVYrCEjFk7bgP2fRp2ahLcH6ktYUVSgXWHT88jYymy&amp;mint=6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN&amp;limit=50"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">2c — Centered Around a Transaction</span><span class="example-tag">Context window</span></div>
+        <div class="example-desc">When a signature is provided, results are split — half are transactions that occurred before the anchor, and half after. The anchor transaction itself is included. <strong>Ideal for showing what a wallet did immediately before and after a large swap.</strong></div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get-wallet-txs?address=BAoVYrCEjFk7bgP2fRp2ahLcH6ktYUVSgXWHT88jYymy&amp;mint=6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN&amp;signature=2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv&amp;limit=50"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 3: Producer -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-header-text">
+          <h2>Sourcing Transaction Data via the Producer</h2>
+          <div class="endpoint">
+            <span class="method method-post">POST</span>
+            <span class="endpoint-path">/api/trigger/producer</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">When the BubbleMap endpoint returns no data, the pipeline has not yet ingested transactions for that token or address. The producer fetches transaction signatures from the Solana blockchain via RPC, then cascades them to the decoder and detailer workers for processing. Once complete (typically 5–30 seconds), BubbleMap data becomes available.</p>
+
+      <div class="callout callout-warning">
+        <span class="icon">⚠</span>
+        <span>All producer requests are <strong>asynchronous</strong> — the endpoint returns immediately with a confirmation, and processing happens in the background via RabbitMQ worker queues.</span>
+      </div>
+
+      <div class="params-label">Standard Request Headers</div>
+      <table class="headers-table">
+        <thead>
+          <tr><th>Header</th><th>Value</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="header-name">Content-Type</span></td>
+            <td><span class="header-val">application/json</span></td>
+            <td class="param-desc">Required for JSON body</td>
+          </tr>
+          <tr>
+            <td><span class="header-name">X-API-Key</span></td>
+            <td><span class="header-val">BMFer</span></td>
+            <td class="param-desc">API key for authentication and billing</td>
+          </tr>
+          <tr>
+            <td><span class="header-name">X-Priority</span></td>
+            <td><span class="header-val">8</span></td>
+            <td class="param-desc">Queue priority (1–10). User-initiated calls should use 8.</td>
+          </tr>
+          <tr>
+            <td><span class="header-name">X-Request-Id</span></td>
+            <td><span class="header-val">&lt;UUID&gt;</span></td>
+            <td class="param-desc">Unique identifier for this request. Auto-generate per call.</td>
+          </tr>
+          <tr>
+            <td><span class="header-name">X-Correlation-Id</span></td>
+            <td><span class="header-val">&lt;UUID&gt;</span></td>
+            <td class="param-desc">Groups related requests together. Use the same value across a logical workflow.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">3a — Source by Mint Address</span><span class="example-tag">Most common</span></div>
+        <div class="example-desc">The most common producer call. Given a token's mint address, the producer fetches transaction signatures from the Solana RPC and sends them through the pipeline. <code>address_sig_cnt</code> controls how many qualifying signatures to retrieve — not a page size.</div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">3b — Source by Entity Address</span><span class="example-tag">Any Solana address</span></div>
+        <div class="example-desc">Works identically to mint-based sourcing, but targets any Solana address — wallets, pools, ATAs, markets, or programs. The producer does not distinguish between address types; downstream workers determine the nature of each transaction.</div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": ["BAoVYrCEjFk7bgP2fRp2ahLcH6ktYUVSgXWHT88jYymy"]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">3c — Source by Signature (Context Mode)</span><span class="example-tag">Double-click equivalent</span></div>
+        <div class="example-desc">When a single signature string is provided, the producer enters context mode. It resolves the address associated with the transaction, then fetches surrounding signatures. <code>sig_adjacent_cnt</code> controls how many signatures to fetch on each side. <strong>This is the programmatic equivalent of the BubbleMap viewer's double-click behavior.</strong></div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"signature": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sig_adjacent_cnt": 10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">3d — Source Multiple Addresses</span><span class="example-tag">Parallel processing</span></div>
+        <div class="example-desc">Multiple addresses can be submitted in a single request. The producer processes them in parallel using a configurable thread pool. <strong>Use the same <code>X-Correlation-Id</code> to track all results as a single logical operation.</strong></div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BAoVYrCEjFk7bgP2fRp2ahLcH6ktYUVSgXWHT88jYymy"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">3e — Reprocess Known Signatures (Array Mode)</span><span class="example-tag">Direct reprocessing</span></div>
+        <div class="example-desc">When <code>signature</code> is provided as an array instead of a string, the producer cascades the signatures directly to the decoder and detailer queues. <strong>Used for reprocessing transactions that previously failed or were orphaned.</strong></div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"signature": [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"5yvYJM3LHEYbHvt7b7vUyXA3osRpxNPitKRCdyC44hawg",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tVUjmc6tRe9kwAnfU9hZvqf2uq7GVzHqaFPoXJiQTG7"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">3f — Signature Context + Address</span><span class="example-tag">Combined</span></div>
+        <div class="example-desc">Both a signature and an address can be provided together. The producer first fetches context around the signature, cascades those immediately, then separately fetches signatures for the address. Both sets share the same correlation ID.</div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"signature": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sig_adjacent_cnt": 10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 4: Time-Filtered -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-header-text">
+          <h2>Time-Filtered Sourcing</h2>
+          <div class="endpoint">
+            <span class="method method-post">POST</span>
+            <span class="endpoint-path">/api/trigger/producer</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="prose">The producer supports boundary-based filtering using <code>before</code> and <code>until</code> parameters. These accept either a legacy signature string or a structured object with <code>block_time</code>, <code>block_id</code>, or <code>signature</code>. When time boundaries are used, the producer pages through RPC results and only counts transactions that fall within the specified window toward the <code>address_sig_cnt</code> limit.</p>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">4a — Most Recent (No Filter)</span><span class="example-tag">Default behavior</span></div>
+        <div class="example-desc">Without any time boundaries, the producer fetches the N most recent transaction signatures for the address.</div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": { "addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"] },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">4b — After a Cutoff Date (Until)</span><span class="example-tag">Lower boundary</span></div>
+        <div class="example-desc">The <code>until</code> boundary tells the producer to stop fetching when it reaches transactions older than the specified time. The RPC returns signatures newest-first, so this effectively means <strong>"fetch the most recent N signatures, but don't go earlier than this date."</strong> Transactions older than the cutoff are not counted toward <code>address_sig_cnt</code>.</div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"until": { "block_time": "2025-01-01T00:00:00Z" }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">4c — Before a Starting Point</span><span class="example-tag">Upper boundary</span></div>
+        <div class="example-desc">The <code>before</code> boundary tells the producer to begin fetching from a specific point in time rather than from the most recent transaction. Useful for historical analysis — <em>"show me the 50 most recent transactions before June 2026."</em> The producer resolves the time to an RPC-compatible signature cursor internally.</div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"before": { "block_time": "2026-06-01T00:00:00Z" }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">4d — Within a Date Range (Before + Until)</span><span class="example-tag">Time window</span></div>
+        <div class="example-desc">Combining both boundaries creates a precise time window. The producer starts from the <code>before</code> point and walks backwards, only counting transactions whose <code>block_time</code> falls within the window. It stops when it reaches the <code>until</code> boundary or has collected enough qualifying signatures. <strong>This is the most precise form of time-filtered fetching.</strong></div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"before": { "block_time": "2027-01-20T00:00:00Z" },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"until": { "block_time": "2025-01-01T00:00:00Z" }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">4e — Context Around a Signature</span><span class="example-tag">Symmetric window</span></div>
+        <div class="example-desc">The producer locates the target transaction, then fetches N transactions before it and N after it — providing a symmetric window of activity centered on the event. <code>sig_adjacent_cnt</code> controls the window size on each side.</div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"signature": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sig_adjacent_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">4f — Full Combination: Address + Signature + Date Range</span><span class="example-tag">Complete picture</span></div>
+        <div class="example-desc">The most comprehensive form of a producer request. The producer first fetches context around the signature (adjacent transactions), then independently fetches signatures for the address within the specified time window. Both result sets are cascaded to the pipeline under the same correlation ID. <strong>Useful for: "show me what happened around this transaction, plus the broader activity for this token during Q1 2026."</strong></div>
+        <div class="code-block">curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"signature": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sig_adjacent_cnt": 10,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"before": { "block_time": "2026-03-31T00:00:00Z" },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"until": { "block_time": "2026-01-01T00:00:00Z" }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 5: Monitoring -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div class="section-header-text">
+          <h2>Pipeline Monitoring</h2>
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">5a — Pipeline Statistics</span><span class="example-tag">GET /api/bmap/stats</span></div>
+        <div class="example-desc">Returns real-time metrics on pipeline throughput, transaction state distribution, worker health, data volumes, and token/pool coverage. Optionally filter by the <code>created_utc</code> date range of transactions.</div>
+        <div class="code-block"><span class="comment"># All stats</span><br>curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/stats"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span><br><br><span class="comment"># With date filter</span><br>curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/stats?start=2026-03-15%2000:00:00&amp;end=2026-03-15%2023:59:59"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">5b — Request Status</span><span class="example-tag">GET /api/status/&lt;request_id&gt;</span></div>
+        <div class="example-desc">Track the status of a specific request by its ID. Returns processing state, counts of items processed, and any errors encountered.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/status/&lt;request_id&gt;"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">5c — Pipeline Progress by Correlation ID</span><span class="example-tag">GET /api/pipeline/&lt;correlation_id&gt;</span></div>
+        <div class="example-desc">When multiple requests share a correlation ID, this endpoint aggregates their collective progress. Shows how many requests have completed, failed, or are still pending across all workers in the pipeline.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/pipeline/&lt;correlation_id&gt;"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+
+      <div class="example">
+        <div class="example-header"><span class="example-title">5d — Worker Status</span><span class="example-tag">GET /api/workers</span></div>
+        <div class="example-desc">Lists all registered workers with their current thread counts, queue depths, consumer counts, and configuration. Useful for operational visibility into the pipeline's processing capacity.</div>
+        <div class="code-block">curl -s <span class="str">"https://svcs.the16oracles.io/api/workers"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 6: Workflow -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-6">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div class="section-header-text">
+          <h2>End-to-End Workflow</h2>
+        </div>
+      </div>
+
+      <p class="prose" style="margin-bottom: 32px;">A typical integration follows this four-step pattern. Use the correlation ID to link the producer call to pipeline monitoring, so you can know exactly when data is ready.</p>
+
+      <div class="workflow">
+        <div class="step">
+          <div class="step-num-col">
+            <div class="step-circle">1</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h4>Attempt to retrieve BubbleMap data</h4>
+            <p>Try the <code>/api/bmap/get</code> endpoint first. If data exists, you're done. If you receive <code>"error": "Token not found"</code>, proceed to Step 2.</p>
+            <div class="code-block" style="border-radius: 8px; border: 1px solid var(--border);">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get?mint_address=6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN&amp;tx_limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num-col">
+            <div class="step-circle">2</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h4>Trigger the producer to source data</h4>
+            <p>Store a correlation ID to link this request to pipeline monitoring in Step 3.</p>
+            <div class="code-block" style="border-radius: 8px; border: 1px solid var(--border);">CORR_ID=$(uuidgen)<br><br>curl -s -X POST <span class="str">"https://svcs.the16oracles.io/api/trigger/producer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Priority: 8"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Request-Id: $(uuidgen)"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-Correlation-Id: $CORR_ID"</span> \<br>&nbsp;&nbsp;<span class="flag">-d</span> <span class="str">'{<br>&nbsp;&nbsp;&nbsp;&nbsp;"batch": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": { "addresses": ["6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN"] },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"address_sig_cnt": 20<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}'</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num-col">
+            <div class="step-circle">3</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h4>Monitor progress (optional)</h4>
+            <p>Poll the pipeline endpoint using the correlation ID to track completion across all workers.</p>
+            <div class="code-block" style="border-radius: 8px; border: 1px solid var(--border);">curl -s <span class="str">"https://svcs.the16oracles.io/api/pipeline/$CORR_ID"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num-col">
+            <div class="step-circle">4</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-content">
+            <h4>Retry the BubbleMap call</h4>
+            <p>Allow 5–30 seconds for processing, then retry the original call. Data should now be available.</p>
+            <div class="code-block" style="border-radius: 8px; border: 1px solid var(--border);">curl -s <span class="str">"https://svcs.the16oracles.io/api/bmap/get?mint_address=6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN&amp;tx_limit=10"</span> \<br>&nbsp;&nbsp;<span class="flag">-H</span> <span class="str">"X-API-Key: BMFer"</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ────────────────────────────────────────────────────── -->
+    <!-- Section 7: Reference -->
+    <!-- ────────────────────────────────────────────────────── -->
+    <section class="section" id="section-7" style="border-bottom: none;">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div class="section-header-text">
+          <h2>Reference</h2>
+        </div>
+      </div>
+
+      <div class="params-label">Boundary Formats</div>
+      <p class="prose" style="margin-bottom: 16px;">The <code>before</code> and <code>until</code> fields accept multiple formats:</p>
+
+      <div class="boundary-block">
+        <div class="boundary-block-header">Supported Boundary Formats</div>
+        <div class="code-block">
+<span class="comment">// ISO 8601 datetime (resolved to nearest RPC signature via binary search)</span><br>
+<span class="str">"before"</span><span class="punc">: {</span> <span class="key">"block_time"</span><span class="punc">:</span> <span class="str">"2026-06-15T00:00:00Z"</span> <span class="punc">}</span><br><br>
+<span class="comment">// Slot number</span><br>
+<span class="str">"before"</span><span class="punc">: {</span> <span class="key">"block_id"</span><span class="punc">:</span> <span class="val">350000000</span> <span class="punc">}</span><br><br>
+<span class="comment">// Specific transaction signature</span><br>
+<span class="str">"before"</span><span class="punc">: {</span> <span class="key">"signature"</span><span class="punc">:</span> <span class="str">"2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv"</span> <span class="punc">}</span><br><br>
+<span class="comment">// Legacy format: plain signature string</span><br>
+<span class="str">"before"</span><span class="punc">:</span> <span class="str">"2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv"</span></div>
+      </div>
+
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-card-header">Priority Levels</div>
+          <table>
+            <tr>
+              <td><span class="param-name">10</span></td>
+              <td class="param-desc">Critical real-time operations</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">8</span></td>
+              <td class="param-desc">User-initiated requests <em style="color: var(--accent)">(recommended)</em></td>
+            </tr>
+            <tr>
+              <td><span class="param-name">5</span></td>
+              <td class="param-desc">Normal background processing</td>
+            </tr>
+            <tr>
+              <td><span class="param-name">1</span></td>
+              <td class="param-desc">Bulk batch operations</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="ref-card">
+          <div class="ref-card-header">HTTP Status Codes</div>
+          <table>
+            <tr>
+              <td><span class="http-code code-2xx">200</span></td>
+              <td class="param-desc">Success — data returned</td>
+            </tr>
+            <tr>
+              <td><span class="http-code code-2xx">202</span></td>
+              <td class="param-desc">Accepted — async processing started</td>
+            </tr>
+            <tr>
+              <td><span class="http-code code-4xx">400</span></td>
+              <td class="param-desc">Bad request — missing or invalid parameters</td>
+            </tr>
+            <tr>
+              <td><span class="http-code code-4xx">401</span></td>
+              <td class="param-desc">Unauthorized — missing or invalid API key</td>
+            </tr>
+            <tr>
+              <td><span class="http-code code-4xx">403</span></td>
+              <td class="param-desc">Forbidden — feature not enabled for this key</td>
+            </tr>
+            <tr>
+              <td><span class="http-code code-4xx">404</span></td>
+              <td class="param-desc">Not found — no data exists for the query</td>
+            </tr>
+            <tr>
+              <td><span class="http-code code-4xx">429</span></td>
+              <td class="param-desc">Rate limit exceeded</td>
+            </tr>
+            <tr>
+              <td><span class="http-code code-5xx">500</span></td>
+              <td class="param-desc">Internal server error</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="rate-card">
+        <h4>Rate Limiting</h4>
+        <p>Rate limits are enforced per API key using a <span class="highlight">sliding 60-second window</span>. When the limit is exceeded, the API returns <span class="highlight">HTTP 429</span> with a <code>Retry-After</code> header indicating the number of seconds to wait before retrying.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const COPY_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+  const CHECK_ICON = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+  document.querySelectorAll('.code-block').forEach(block => {
+    // Wrap in relative container
+    const wrap = document.createElement('div');
+    wrap.className = 'code-wrap';
+    // Carry over any inline styles on the block itself
+    if (block.style.cssText) {
+      wrap.style.cssText = block.style.cssText;
+      block.style.cssText = '';
+    }
+    block.parentNode.insertBefore(wrap, block);
+    wrap.appendChild(block);
+
+    // Create button
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.innerHTML = COPY_ICON + '<span>Copy</span>';
+    btn.title = 'Copy to clipboard';
+    wrap.appendChild(btn);
+
+    btn.addEventListener('click', () => {
+      // Extract plain text from the code block (strip HTML tags)
+      const text = block.innerText || block.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = CHECK_ICON + '<span>Copied!</span>';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = COPY_ICON + '<span>Copy</span>';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(() => {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.innerHTML = CHECK_ICON + '<span>Copied!</span>';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = COPY_ICON + '<span>Copy</span>';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  });
+</script>
+</body>
+</html>

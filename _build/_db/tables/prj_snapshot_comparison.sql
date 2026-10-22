@@ -1,0 +1,20 @@
+CREATE TABLE `prj_snapshot_comparison` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
+  `project_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `snapshot_a_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `snapshot_b_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comparison_type` varchar(48) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'structural | wallet_overlap | activity_delta | sybil_diff',
+  `diff_summary` json DEFAULT NULL COMMENT 'Computed diff payload',
+  `similarity_score` decimal(5,4) DEFAULT NULL COMMENT '0.0000–1.0000',
+  `created_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `prj_sc_uq_pair` (`project_id`,`snapshot_a_id`,`snapshot_b_id`,`comparison_type`),
+  KEY `prj_sc_idx_project_id` (`project_id`),
+  KEY `prj_sc_idx_snapshot_a` (`snapshot_a_id`),
+  KEY `prj_sc_idx_snapshot_b` (`snapshot_b_id`),
+  KEY `prj_sc_idx_similarity` (`similarity_score`),
+  KEY `prj_sc_idx_comparison_type` (`comparison_type`),
+  CONSTRAINT `prj_sc_fk_project` FOREIGN KEY (`project_id`) REFERENCES `prj` (`id`),
+  CONSTRAINT `prj_sc_fk_snapshot_a` FOREIGN KEY (`snapshot_a_id`) REFERENCES `prj_result_snapshot` (`id`),
+  CONSTRAINT `prj_sc_fk_snapshot_b` FOREIGN KEY (`snapshot_b_id`) REFERENCES `prj_result_snapshot` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Computed comparisons between two snapshots — hard delete, recomputable';

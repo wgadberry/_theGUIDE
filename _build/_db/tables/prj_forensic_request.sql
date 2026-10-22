@@ -1,0 +1,22 @@
+CREATE TABLE `prj_forensic_request` (
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
+  `project_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `snapshot_id` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Optional — may reference a specific snapshot',
+  `requester_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `request_type` varchar(48) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'internal | legal | compliance | external',
+  `status` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'open' COMMENT 'open | in_progress | resolved | closed',
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `params` json DEFAULT NULL COMMENT 'Request-type-specific structured parameters',
+  `requested_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `resolved_at` datetime(3) DEFAULT NULL,
+  `archived_at` datetime(3) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `prj_fr_idx_project_id` (`project_id`),
+  KEY `prj_fr_idx_snapshot_id` (`snapshot_id`),
+  KEY `prj_fr_idx_requester_id` (`requester_id`),
+  KEY `prj_fr_idx_status` (`status`),
+  KEY `prj_fr_idx_request_type` (`request_type`),
+  KEY `prj_fr_idx_archived_at` (`archived_at`),
+  CONSTRAINT `prj_fr_fk_project` FOREIGN KEY (`project_id`) REFERENCES `prj` (`id`),
+  CONSTRAINT `prj_fr_fk_snapshot` FOREIGN KEY (`snapshot_id`) REFERENCES `prj_result_snapshot` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Formal forensic and compliance requests at project or snapshot level';

@@ -1,0 +1,48 @@
+Plan: Update svcs.the16oracles.io/api/token/{mint}/holders codebase
+
+IMPORTANT:  All activities within this api call MUST be submitted using the same X-Correlation_id derived header value.
+
+Intent: Call Solscan apia to get latest in/out spl_transfers for each of top X holders of a token mint (LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump), creating an array of "trans_id" to send to https://svcs.the16oracles.io/api/trigger/producer
+
+For call solscan api calls use header: headers = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOjE3NTg0MzQzODI5MTEsImVtYWlsIjoid2dhZGJlcnJ5QGdtYWlsLmNvbSIsImFjdGlvbiI6InRva2VuLWFwaSIsImFwaVZlcnNpb24iOiJ2MiIsImlhdCI6MTc1ODQzNDM4Mn0.d_ZYyfZGaFdLfYXsuB_M2rT_Q6WkwpxVp0ZqNE_zUAk"}
+
+
+1. Get Top X (40 in this case, but upwards of 100 could be asked for, so iterate page=x if needed)
+
+https://pro-api.solscan.io/v2.0/token/holders?address=LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump&page=1&page_size=40
+
+Response Sample:
+{"success":true,"data":{"total":298,"items":[{"address":"J3vQorQvZK4Th2KEEobQreAjtt3CAYEK2qAFJs4q6CHQ","amount":298577215960553,"decimals":6,"owner":"FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze","rank":1,"value":5504.523922435671,"percentage":29.88777594191462},{"address":"7EahxBk1RfWP3iRSNNnVs9J9Ke7DvQTuLYSTzPZV4gVG","amount":28148083041369,"decimals":6,"owner":"LCJ2bM8gHxFkcepShNUMovsEKVf3b14RiAuMbnUJptC","rank":2,"value":518.9337571303225,"percentage":2.8176416490064358},{"address":"5KiSsZPvWgqzbukbt8kKpr9ANiTmpk93MxiTpK8v4r28","amount":24834956609230,"decimals":6,"owner":"6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM","rank":3,"value":457.8534645664971,"percentage":2.4859955113316583},........]},"metadata":{}}
+
+
+2. After Top X Holders response has been gathered (holder response note:address=wallet address, owner=funder address), 
+make call to the token transfer endpoint below, gathering distinct array of trans_id by filtering the /token/transfer response by "from_address" = holder address or "to_address" = holder address
+after iterating and filtering /token/transfer reponse for each page, send array of gathered trans_ids to producer with
+
+{
+  "batch": {
+    "filters": {
+      "signature": ["<sig1>","<sig2>", "..."]
+    }
+  }
+}
+
+token transfer api: https://pro-api.solscan.io/v2.0/token/transfer?address=LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump&activity_type[]=ACTIVITY_SPL_TRANSFER&page=1&page_size=100&sort_by=block_time&sort_order=desc
+reponse sample:
+
+{"success":true,"data":[{"block_id":356594134,"trans_id":"VGUAvTkck5TWLupWB2nASLVKGWb9qDtiNhGS6pQXp687CQdoeShwnJbxX9zPDYb2bJ8SHtVGi4p9y2QGNLCkQHY","block_time":1753825339,"activity_type":"ACTIVITY_SPL_TRANSFER","from_address":"22P6HZ65tMhSdVEcZCrXi1B18nBvm5LhTsmYdueVAshx","from_token_account":"HLnHS3YkCoRh96QT1vpGJhSZhKfvvCvNcmPmn3iCPVus","to_address":"vXC5tEuTEbVuyJptgJVtGDXuP9cPZVq4NMtM2o5BMXV","to_token_account":"EANMh99k57g1HGAD58heBgjtbTyJN12W8bymMQHZvvfj","token_address":"LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump","token_decimals":6,"amount":277477000000,"flow":"out","value":48.29356999923999,"time":"2025-07-29T21:42:19.000Z"},{"block_id":356294245,"trans_id":"2FbbYvoSSsYZjhPffCNvDc5ExdPhP85DRdJVC7Fmvc3JU3BPqyhHKKpRBBbk8R17Q3xhhUu35LcFe12x4rKwH4bD","block_time":1753705473,"activity_type":"ACTIVITY_SPL_TRANSFER","from_address":"22P6HZ65tMhSdVEcZCrXi1B18nBvm5LhTsmYdueVAshx","from_token_account":"HLnHS3YkCoRh96QT1vpGJhSZhKfvvCvNcmPmn3iCPVus","to_address":"FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze","to_token_account":"J3vQorQvZK4Th2KEEobQreAjtt3CAYEK2qAFJs4q6CHQ","token_address":"LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump","token_decimals":6,"amount":899799000000,"flow":"out","value":131.20330154252684,"time":"2025-07-28T12:24:33.000Z"},.....}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

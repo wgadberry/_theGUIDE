@@ -1,0 +1,6 @@
+-- vw_tx_flow_concentration view
+-- Generated from t16o_db instance
+
+DROP VIEW IF EXISTS `vw_tx_flow_concentration`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_tx_flow_concentration` AS select `a`.`address` AS `address`,`tk`.`token_symbol` AS `token_symbol`,count(distinct `g_in`.`from_address_id`) AS `unique_senders`,count(distinct `g_out`.`to_address_id`) AS `unique_receivers`,(sum(`g_in`.`amount`) / pow(10,max(`g_in`.`decimals`))) AS `total_inflow`,(sum(`g_out`.`amount`) / pow(10,max(`g_out`.`decimals`))) AS `total_outflow`,(count(distinct `g_in`.`from_address_id`) / nullif(count(distinct `g_out`.`to_address_id`),0)) AS `sender_receiver_ratio` from (((`tx_address` `a` left join `tx_guide` `g_in` on((`a`.`id` = `g_in`.`to_address_id`))) left join `tx_guide` `g_out` on(((`a`.`id` = `g_out`.`from_address_id`) and (`g_in`.`token_id` = `g_out`.`token_id`)))) left join `tx_token` `tk` on((`g_in`.`token_id` = `tk`.`id`))) where `g_in`.`edge_type_id` in (select `tx_guide_type`.`id` from `tx_guide_type` where (`tx_guide_type`.`type_code` = 'spl_transfer')) group by `a`.`id`,`a`.`address`,`tk`.`token_symbol` having ((count(distinct `g_in`.`from_address_id`) >= 3) and (count(distinct `g_out`.`to_address_id`) >= 1));

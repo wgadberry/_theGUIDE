@@ -1,0 +1,72 @@
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: t16o_neo4j
+    restart: unless-stopped
+    ports:
+      - "7474:7474"   # Browser UI
+      - "7687:7687"   # Bolt protocol
+    environment:
+      NEO4J_AUTH: neo4j/neo4jpassword
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_server_memory_heap_initial__size: 1G
+      NEO4J_server_memory_heap_max__size: 2G
+      NEO4J_server_memory_pagecache_size: 1G
+    volumes:
+      - t16o_neo4j_data:/data
+      - t16o_neo4j_logs:/logs
+      - t16o_neo4j_import:/var/lib/neo4j/import
+
+  kafka:
+    image: confluentinc/cp-kafka:7.7.1
+    container_name: t16o_kafka
+    restart: unless-stopped
+    ports:
+      - "9092:9092"   # External (host) listener
+    environment:
+      # KRaft mode (no Zookeeper)
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      CLUSTER_ID: t16o-neo4j-kafka-01
+      # Listeners
+      KAFKA_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      # Topic defaults
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_LOG_RETENTION_HOURS: 168
+    volumes:
+      - t16o_kafka_data:/var/lib/kafka/data
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: t16o_kafka_ui
+    restart: unless-stopped
+    ports:
+      - "8085:8080"   # Kafka UI
+    environment:
+      KAFKA_CLUSTERS_0_NAME: t16o-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+    depends_on:
+      - kafka
+
+  networkx:
+    build:
+      context: .
+      dockerfile: Dockerfile.networkx
+    container_name: t16o_networkx
+    restart: unless-stopped
+    ports:
+      - "8090:8090"   # FastAPI
+    depends_on:
+      - kafka
+
+volumes:
+  t16o_neo4j_data:
+  t16o_neo4j_logs:
+  t16o_neo4j_import:
+  t16o_kafka_data:

@@ -1,0 +1,46 @@
+{
+  "RPC_URL": "https://solana-mainnet.core.chainstack.com/d0eda0bf942f17f68a75b67030395ceb",
+  "RPC_URLs": [
+    "https://solana-mainnet.core.chainstack.com/d0eda0bf942f17f68a75b67030395ceb",
+    "https://solana-mainnet.core.chainstack.com/a55ec61005dfe81bef1ba193b6b40b4d",
+    "https://solana-mainnet.core.chainstack.com/819af7598582a18c3491b8267c6190bd",
+    "https://solana-mainnet.core.chainstack.com/ec34505ba1b015c3be9f0a2c2b3ad46c",
+    "https://solana-mainnet.core.chainstack.com/3c7c13b1be71ffa0ca9d6d37214b8ddd",
+    "https://solana-mainnet.core.chainstack.com/fe74b91513ac6ee1558a3521297617db",
+    "https://solana-mainnet.core.chainstack.com/c2b3db02badde122e024725b293fbcd2",
+    "https://solana-mainnet.core.chainstack.com/dfa88c6d7e1f8be4185f847738a4871e",
+    "https://solana-mainnet.core.chainstack.com/9e6a293b6d8acedbe4b90a5a3a21a2be",
+    "https://solana-mainnet.core.chainstack.com/9dbf0a13e8aa4b52c80d43e70f3a546b"
+  ],
+  "RPC_API_KEYS": [
+    ""
+  ],
+  "SOLSCAN_API": "https://pro-api.solscan.io/v2.0",
+  "SOLSCAN_TOKEN": "",
+  "QDRANT_API" : "",
+
+  "DB_HOST": "xx.xxx.xx.xxx",
+  "DB_PORT": 3397,
+  "DB_USER": "root",
+  "DB_PASSWORD": "rootpassword",
+  "DB_NAME": "t16o_db",
+
+  "RABBITMQ_HOST": "localhost",
+  "RABBITMQ_PORT": 5692,
+  "RABBITMQ_USER": "admin",
+  "RABBITMQ_PASSWORD": "admin123",
+  "RABBITMQ_VHOST": "t16o_mq",
+
+  "RPC_BATCH_SIZE": 100,
+  "RPC_DELAY": 0.2,
+  "SOLSCAN_DELAY": 0.25,
+
+  "RETRY_MAX_ATTEMPTS": 3,
+  "RETRY_BASE_DELAY": 1.0,
+  "RETRY_MAX_DELAY": 30.0,
+
+  "RABBITMQ_HEARTBEAT": 600,
+  "RABBITMQ_BLOCKED_TIMEOUT": 300,
+  "DB_FALLBACK_RETRY_SEC": 5
+
+}

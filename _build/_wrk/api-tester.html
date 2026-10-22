@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Gateway API Tester</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .panel {
+            background: #16213e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .col {
+            flex: 1;
+        }
+        .col-small {
+            flex: 0 0 120px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00d4ff;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #0f0f23;
+            color: #eee;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #00d4ff;
+            color: #1a1a2e;
+        }
+        .btn-primary:hover {
+            background: #00a8cc;
+        }
+        .btn-secondary {
+            background: #333;
+            color: #eee;
+        }
+        .btn-secondary:hover {
+            background: #444;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .response-panel {
+            background: #0f0f23;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 200px;
+        }
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .status {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .status-success { background: #00c853; color: #000; }
+        .status-error { background: #ff5252; color: #fff; }
+        .status-warning { background: #ffc107; color: #000; }
+        .status-info { background: #2196f3; color: #fff; }
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .json-key { color: #00d4ff; }
+        .json-string { color: #98c379; }
+        .json-number { color: #d19a66; }
+        .json-boolean { color: #c678dd; }
+        .json-null { color: #888; }
+        .timing {
+            color: #888;
+            font-size: 12px;
+        }
+        .headers-display {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+        .preset-label {
+            color: #888;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guide Gateway API Tester</h1>
+        <p class="subtitle">Test REST API endpoints for theGuide Pipeline</p>
+
+        <div class="panel">
+            <div class="preset-label">QUICK PRESETS</div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="loadPreset('health')">Health Check</button>
+                <button class="btn btn-secondary" onclick="loadPreset('workers')">List Workers</button>
+                <button class="btn btn-secondary" onclick="loadPreset('funder')">Funder Request</button>
+                <button class="btn btn-secondary" onclick="loadPreset('funder-priority')">Funder (Priority 10)</button>
+                <button class="btn btn-secondary" onclick="loadPreset('producer')">Producer Request</button>
+                <button class="btn btn-secondary" onclick="loadPreset('producer-time')">Producer (Time Range)</button>
+                <button class="btn btn-secondary" onclick="loadPreset('producer-slot')">Producer (Slot Range)</button>
+                <button class="btn btn-secondary" onclick="loadPreset('reprocess')">Reprocess TX</button>
+                <button class="btn btn-secondary" onclick="loadPreset('status')">Check Status</button>
+            </div>
+
+            <div class="row">
+                <div class="col-small">
+                    <label>Method</label>
+                    <select id="method">
+                        <option value="GET">GET</option>
+                        <option value="POST" selected>POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label>URL</label>
+                    <input type="text" id="url" value="http://localhost:5100/api/trigger/funder">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>API Key</label>
+                    <input type="text" id="apiKey" value="cfuck-api-key">
+                </div>
+                <div class="col">
+                    <label>Correlation ID (required)</label>
+                    <input type="text" id="correlationId" value="" placeholder="cfuck-session-00001">
+                </div>
+                <div class="col">
+                    <label>Request ID (required)</label>
+                    <input type="text" id="requestId" value="" placeholder="req-00001">
+                </div>
+                <button class="btn btn-secondary" style="align-self: flex-end; margin-bottom: 0;" onclick="generateIds()">Generate IDs</button>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>Request Body (JSON)</label>
+                    <textarea id="body">{
+  "batch": {
+    "addresses": [""]
+  }
+}</textarea>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="sendRequest()">Send Request</button>
+                <button class="btn btn-secondary" onclick="clearResponse()">Clear Response</button>
+                <button class="btn btn-secondary" onclick="formatBody()">Format JSON</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <label>Response</label>
+            <div class="response-panel">
+                <div class="response-header">
+                    <span id="statusBadge" class="status status-info">Ready</span>
+                    <span id="timing" class="timing"></span>
+                </div>
+                <pre id="response">Click "Send Request" to make an API call...</pre>
+                <div id="responseHeaders" class="headers-display"></div>
+            </div>
+        </div>
+
+        <!-- TX Count by Address Panel -->
+        <div class="panel">
+            <h2 style="color: #00d4ff; margin-top: 0; margin-bottom: 15px;">TX Count by Address (Chainstack)</h2>
+            <div class="row">
+                <div class="col">
+                    <label>Chainstack RPC URL</label>
+                    <input type="text" id="chainstackUrl" value="https://solana-mainnet.core.chainstack.com/d0eda0bf942f17f68a75b67030395ceb" placeholder="https://solana-mainnet.core.chainstack.com/...">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Solana Address</label>
+                    <input type="text" id="txCountAddress" value="" placeholder="Enter Solana address...">
+                </div>
+                <button class="btn btn-primary" style="align-self: flex-end; margin-bottom: 0;" onclick="getTxCount()">Get TX Count</button>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Result</label>
+                    <div class="response-panel" style="min-height: 100px;">
+                        <div class="response-header">
+                            <span id="txCountStatus" class="status status-info">Ready</span>
+                            <span id="txCountTiming" class="timing"></span>
+                        </div>
+                        <pre id="txCountResponse">Enter an address and click "Get TX Count"...</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const presets = {
+            health: {
+                method: 'GET',
+                url: 'http://localhost:5100/api/health',
+                body: ''
+            },
+            workers: {
+                method: 'GET',
+                url: 'http://localhost:5100/api/workers',
+                body: ''
+            },
+            funder: {
+                method: 'POST',
+                url: 'http://localhost:5100/api/trigger/funder',
+                body: JSON.stringify({
+                    batch: {
+                        addresses: [""]
+                    }
+                }, null, 2)
+            },
+            'funder-priority': {
+                method: 'POST',
+                url: 'http://localhost:5100/api/trigger/funder',
+                body: JSON.stringify({
+                    priority: 10,
+                    batch: {
+                        addresses: [""]
+                    }
+                }, null, 2)
+            },
+            producer: {
+                method: 'POST',
+                url: 'http://localhost:5100/api/trigger/producer',
+                body: JSON.stringify({
+                    batch: {
+                        filters: {
+                            addresses: [""]
+                        },
+                        size: 10
+                    }
+                }, null, 2)
+            },
+            'producer-time': {
+                method: 'POST',
+                url: 'http://localhost:5100/api/trigger/producer',
+                body: JSON.stringify({
+                    batch: {
+                        filters: {
+                            addresses: [""],
+                            before: { block_time: "2025-01-31T00:00:00Z" },
+                            until: { block_time: "2025-01-01T00:00:00Z" }
+                        },
+                        size: 100000
+                    }
+                }, null, 2)
+            },
+            'producer-slot': {
+                method: 'POST',
+                url: 'http://localhost:5100/api/trigger/producer',
+                body: JSON.stringify({
+                    batch: {
+                        filters: {
+                            addresses: [""],
+                            before: { block_id: 285000000 },
+                            until: { block_id: 280000000 }
+                        },
+                        size: 100000
+                    }
+                }, null, 2)
+            },
+            reprocess: {
+                method: 'POST',
+                url: 'http://localhost:5100/api/trigger/producer',
+                body: JSON.stringify({
+                    priority: 8,
+                    batch: {
+                        signatures: [""]
+                    }
+                }, null, 2)
+            },
+            status: {
+                method: 'GET',
+                url: 'http://localhost:5100/api/status/REQUEST_ID_HERE',
+                body: ''
+            }
+        };
+
+        function loadPreset(name) {
+            const preset = presets[name];
+            if (preset) {
+                document.getElementById('method').value = preset.method;
+                document.getElementById('url').value = preset.url;
+                document.getElementById('body').value = preset.body;
+            }
+        }
+
+        function formatBody() {
+            const bodyEl = document.getElementById('body');
+            try {
+                const parsed = JSON.parse(bodyEl.value);
+                bodyEl.value = JSON.stringify(parsed, null, 2);
+            } catch (e) {
+                alert('Invalid JSON: ' + e.message);
+            }
+        }
+
+        function syntaxHighlight(json) {
+            if (typeof json !== 'string') {
+                json = JSON.stringify(json, null, 2);
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                let cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        function setStatus(code, text) {
+            const badge = document.getElementById('statusBadge');
+            badge.textContent = `${code} ${text}`;
+            badge.className = 'status ';
+            if (code >= 200 && code < 300) {
+                badge.className += 'status-success';
+            } else if (code >= 400 && code < 500) {
+                badge.className += 'status-warning';
+            } else if (code >= 500) {
+                badge.className += 'status-error';
+            } else {
+                badge.className += 'status-info';
+            }
+        }
+
+        function clearResponse() {
+            document.getElementById('response').innerHTML = 'Click "Send Request" to make an API call...';
+            document.getElementById('statusBadge').textContent = 'Ready';
+            document.getElementById('statusBadge').className = 'status status-info';
+            document.getElementById('timing').textContent = '';
+            document.getElementById('responseHeaders').innerHTML = '';
+        }
+
+        let requestCounter = 1;
+
+        function generateIds() {
+            const timestamp = Date.now();
+            const rand = Math.random().toString(36).substr(2, 6);
+            document.getElementById('correlationId').value = 'session-' + timestamp + '-' + rand;
+            document.getElementById('requestId').value = 'req-' + timestamp + '-' + (requestCounter++);
+        }
+
+        async function sendRequest() {
+            const method = document.getElementById('method').value;
+            const url = document.getElementById('url').value;
+            const apiKey = document.getElementById('apiKey').value;
+            const correlationId = document.getElementById('correlationId').value;
+            const requestId = document.getElementById('requestId').value;
+            const body = document.getElementById('body').value;
+
+            const responseEl = document.getElementById('response');
+            const headersEl = document.getElementById('responseHeaders');
+            const timingEl = document.getElementById('timing');
+
+            responseEl.innerHTML = 'Sending request...';
+            headersEl.innerHTML = '';
+            setStatus(0, 'Sending...');
+
+            const startTime = performance.now();
+
+            try {
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                if (apiKey) {
+                    headers['X-API-Key'] = apiKey;
+                }
+                if (correlationId) {
+                    headers['X-Correlation-Id'] = correlationId;
+                }
+                if (requestId) {
+                    headers['X-Request-Id'] = requestId;
+                }
+
+                const options = {
+                    method: method,
+                    headers: headers
+                };
+
+                if (method !== 'GET' && body.trim()) {
+                    options.body = body;
+                }
+
+                const response = await fetch(url, options);
+                const endTime = performance.now();
+                const duration = Math.round(endTime - startTime);
+
+                timingEl.textContent = `${duration}ms`;
+                setStatus(response.status, response.statusText);
+
+                // Display response headers
+                const rateLimitHeaders = [];
+                response.headers.forEach((value, key) => {
+                    if (key.toLowerCase().startsWith('x-ratelimit') || key.toLowerCase() === 'retry-after') {
+                        rateLimitHeaders.push(`${key}: ${value}`);
+                    }
+                });
+                if (rateLimitHeaders.length > 0) {
+                    headersEl.innerHTML = '<strong>Rate Limit Headers:</strong><br>' + rateLimitHeaders.join('<br>');
+                }
+
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    responseEl.innerHTML = syntaxHighlight(data);
+
+                    // Auto-update status URL if we got a request_id
+                    if (data.request_id) {
+                        presets.status.url = `http://localhost:5100/api/status/${data.request_id}`;
+                    }
+                } else {
+                    const text = await response.text();
+                    responseEl.textContent = text || '(empty response)';
+                }
+            } catch (error) {
+                const endTime = performance.now();
+                const duration = Math.round(endTime - startTime);
+                timingEl.textContent = `${duration}ms`;
+                setStatus(0, 'Error');
+                responseEl.innerHTML = `<span style="color: #ff5252;">Error: ${error.message}</span>\n\nMake sure the gateway is running:\n  python guide-gateway.py`;
+            }
+        }
+
+        // Allow Ctrl+Enter to send request
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                sendRequest();
+            }
+        });
+
+        // TX Count by Address functionality
+        async function getTxCount() {
+            const chainstackUrl = document.getElementById('chainstackUrl').value.trim();
+            const address = document.getElementById('txCountAddress').value.trim();
+            const responseEl = document.getElementById('txCountResponse');
+            const statusEl = document.getElementById('txCountStatus');
+            const timingEl = document.getElementById('txCountTiming');
+
+            if (!chainstackUrl || chainstackUrl.includes('YOUR_API_KEY')) {
+                responseEl.innerHTML = '<span style="color: #ff5252;">Please enter a valid Chainstack RPC URL</span>';
+                return;
+            }
+
+            if (!address) {
+                responseEl.innerHTML = '<span style="color: #ff5252;">Please enter a Solana address</span>';
+                return;
+            }
+
+            responseEl.innerHTML = 'Fetching signatures...';
+            statusEl.textContent = 'Fetching...';
+            statusEl.className = 'status status-info';
+            timingEl.textContent = '';
+
+            const startTime = performance.now();
+            let allSignatures = [];
+            let beforeSignature = null;
+            let batchCount = 0;
+
+            try {
+                // Paginate through all signatures (max 1000 per call)
+                while (true) {
+                    batchCount++;
+                    responseEl.innerHTML = `Fetching batch ${batchCount}... (${allSignatures.length} signatures so far)`;
+
+                    const params = [address, { limit: 1000 }];
+                    if (beforeSignature) {
+                        params[1].before = beforeSignature;
+                    }
+
+                    const response = await fetch(chainstackUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            jsonrpc: '2.0',
+                            id: 1,
+                            method: 'getSignaturesForAddress',
+                            params: params
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.error) {
+                        throw new Error(data.error.message || 'RPC Error');
+                    }
+
+                    const signatures = data.result || [];
+                    if (signatures.length === 0) {
+                        break;
+                    }
+
+                    allSignatures = allSignatures.concat(signatures);
+
+                    // Get the last signature for pagination
+                    beforeSignature = signatures[signatures.length - 1].signature;
+
+                    // If we got less than 1000, we've reached the end
+                    if (signatures.length < 1000) {
+                        break;
+                    }
+
+                    // Safety limit to prevent infinite loops
+                    if (batchCount >= 1000) {
+                        responseEl.innerHTML += '\n<span style="color: #ffc107;">Warning: Reached 1M signature limit</span>';
+                        break;
+                    }
+                }
+
+                const endTime = performance.now();
+                const duration = Math.round(endTime - startTime);
+                timingEl.textContent = `${duration}ms`;
+
+                if (allSignatures.length === 0) {
+                    statusEl.textContent = 'No Results';
+                    statusEl.className = 'status status-warning';
+                    responseEl.innerHTML = 'No signatures found for this address.';
+                    return;
+                }
+
+                // Find oldest and newest block times
+                // Signatures are returned newest first
+                const newestSig = allSignatures[0];
+                const oldestSig = allSignatures[allSignatures.length - 1];
+
+                const formatBlockTime = (unixTime) => {
+                    if (!unixTime) return 'N/A';
+                    const date = new Date(unixTime * 1000);
+                    return date.toISOString().replace('T', ' ').replace('.000Z', ' UTC');
+                };
+
+                statusEl.textContent = 'Success';
+                statusEl.className = 'status status-success';
+
+                const result = {
+                    address: address,
+                    total_signatures: allSignatures.length,
+                    batches_fetched: batchCount,
+                    newest: {
+                        signature: newestSig.signature,
+                        block_time_utc: formatBlockTime(newestSig.blockTime),
+                        block_time_unix: newestSig.blockTime,
+                        slot: newestSig.slot
+                    },
+                    oldest: {
+                        signature: oldestSig.signature,
+                        block_time_utc: formatBlockTime(oldestSig.blockTime),
+                        block_time_unix: oldestSig.blockTime,
+                        slot: oldestSig.slot
+                    }
+                };
+
+                responseEl.innerHTML = syntaxHighlight(result);
+
+            } catch (error) {
+                const endTime = performance.now();
+                const duration = Math.round(endTime - startTime);
+                timingEl.textContent = `${duration}ms`;
+                statusEl.textContent = 'Error';
+                statusEl.className = 'status status-error';
+                responseEl.innerHTML = `<span style="color: #ff5252;">Error: ${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

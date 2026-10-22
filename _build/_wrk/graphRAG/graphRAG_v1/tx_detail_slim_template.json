@@ -1,0 +1,51 @@
+{
+  "tx_hash": "",
+  "block_time": 0,
+  "signers": [],
+  "edges": [
+    {
+      "from": "",
+      "to": "",
+      "transfer_type": "",
+      "token": "",
+      "amount": 0,
+      "ins_index": 0
+    }
+  ],
+  "token_changes": [
+    {
+      "ata": "",
+      "owner": "",
+      "token": "",
+      "decimals": 0,
+      "pre_balance": 0,
+      "post_balance": 0,
+      "change_amount": 0,
+      "event_type": ""
+    }
+  ],
+  "sol_changes": [
+    {
+      "address": "",
+      "pre_balance": 0,
+      "post_balance": 0,
+      "change_amount": 0
+    }
+  ],
+  "nodes": {
+    "ADDRESS": {
+      "label": null,
+      "type": "",
+      "is_signer": false,
+      "is_program": false,
+      "sol_change": 0
+    }
+  },
+  "tokens": {
+    "MINT_ADDRESS": {
+      "symbol": "",
+      "name": "",
+      "icon": ""
+    }
+  }
+}

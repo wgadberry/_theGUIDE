@@ -1,0 +1,22 @@
+CREATE TABLE `tx_token` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `mint_address_id` int unsigned NOT NULL COMMENT 'FK to tx_address - token mint',
+  `token_name` varchar(256) DEFAULT NULL,
+  `token_symbol` varchar(256) DEFAULT NULL,
+  `token_icon` text,
+  `decimals` tinyint unsigned DEFAULT NULL,
+  `supply` bigint unsigned DEFAULT NULL COMMENT 'Total supply from Solscan API',
+  `token_type` enum('fungible','semi_fungible','nft','unknown') DEFAULT NULL COMMENT 'Derived: fungible (dec>=1), semi_fungible (dec=0 supply>1), nft (dec=0 supply=1 no mint auth)',
+  `primed` tinyint(1) NOT NULL DEFAULT '0',
+  `updated_utc` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `attempt_cnt` int unsigned NOT NULL DEFAULT '0',
+  `in_guide` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Set to 1 when token has tx_guide edges ÔÇö avoids expensive semijoin in enricher',
+  `token_json` json DEFAULT NULL,
+  `created_utc` datetime NOT NULL DEFAULT (utc_timestamp()),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_address` (`mint_address_id`),
+  KEY `idx_symbol` (`token_symbol`),
+  KEY `idx_token_enrich` (`attempt_cnt`,`id`),
+  KEY `idx_enrich_guide` (`attempt_cnt`,`in_guide`,`id`),
+  CONSTRAINT `tx_token_ibfk_address` FOREIGN KEY (`mint_address_id`) REFERENCES `tx_address` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1024 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

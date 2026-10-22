@@ -1,0 +1,22 @@
+CREATE TABLE `tx_boundary` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `address_id` int unsigned NOT NULL COMMENT 'The address (mint/wallet) that was queried',
+  `latest_fetched_sig` varchar(88) DEFAULT NULL COMMENT 'First (newest) signature in the fetch session',
+  `latest_fetched_block_time` bigint unsigned DEFAULT NULL,
+  `oldest_fetched_sig` varchar(88) NOT NULL COMMENT 'Last signature in the fetched batch',
+  `oldest_fetched_block_time` bigint unsigned DEFAULT NULL,
+  `boundary_sig` varchar(88) DEFAULT NULL,
+  `boundary_block_time` bigint unsigned DEFAULT NULL,
+  `fetched_count` int unsigned DEFAULT '0' COMMENT 'How many sigs were in this fetch batch',
+  `boundary_loaded` tinyint unsigned DEFAULT '0' COMMENT '1 if boundary_sig was later fetched/processed',
+  `request_log_id` bigint unsigned DEFAULT NULL COMMENT 'Links to tx_request_log for traceability',
+  `request_before_block_time` bigint unsigned DEFAULT NULL COMMENT 'Upper bound of the requested fetch range (before this time)',
+  `request_until_block_time` bigint unsigned DEFAULT NULL COMMENT 'Lower bound of the requested fetch range (until/stop at this time)',
+  `created_utc` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_address` (`address_id`),
+  KEY `idx_boundary_sig` (`boundary_sig`),
+  KEY `idx_address_loaded` (`address_id`,`boundary_loaded`),
+  KEY `idx_address_latest` (`address_id`,`latest_fetched_sig`),
+  CONSTRAINT `fk_boundary_address` FOREIGN KEY (`address_id`) REFERENCES `tx_address` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

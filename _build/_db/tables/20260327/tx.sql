@@ -1,0 +1,45 @@
+-- tx table
+-- Generated from t16o_db instance
+
+DROP TABLE IF EXISTS ;
+
+CREATE TABLE `tx` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `signature` varchar(88) NOT NULL,
+  `block_id` bigint unsigned DEFAULT NULL,
+  `block_time` bigint unsigned DEFAULT NULL,
+  `block_time_utc` datetime DEFAULT NULL,
+  `fee` bigint unsigned DEFAULT NULL,
+  `priority_fee` bigint unsigned DEFAULT NULL,
+  `signer_address_id` int unsigned DEFAULT NULL COMMENT 'FK to tx_address - primary signer',
+  `agg_program_id` bigint unsigned DEFAULT NULL COMMENT 'FK to tx_program - aggregator program',
+  `agg_account_address_id` int unsigned DEFAULT NULL COMMENT 'FK to tx_address - trader account',
+  `agg_token_in_id` bigint DEFAULT NULL COMMENT 'FK to tx_token - input token',
+  `agg_token_out_id` bigint DEFAULT NULL COMMENT 'FK to tx_token - output token',
+  `agg_amount_in` bigint unsigned DEFAULT NULL,
+  `agg_amount_out` bigint unsigned DEFAULT NULL,
+  `agg_decimals_in` tinyint unsigned DEFAULT NULL,
+  `agg_decimals_out` tinyint unsigned DEFAULT NULL,
+  `agg_fee_amount` bigint unsigned DEFAULT NULL,
+  `agg_fee_token_id` bigint DEFAULT NULL COMMENT 'FK to tx_token - fee token',
+  `tx_json` json DEFAULT NULL,
+  `tx_state` bigint unsigned DEFAULT '0' COMMENT 'Bitmask: 1=SHREDDED,2=DECODED,4=GUIDE_EDGES,8=ADDRESSES_QUEUED,16=SWAPS,32=GUIDE_LOADED,64=DETAILED,128=TOKENS,256=POOLS,512=FUNDING,1024=CLASSIFIED',
+  `tx_origin` tinyint unsigned DEFAULT '0' COMMENT '0=system, 1=user, 2=sync',
+  `created_utc` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_signature` (`signature`),
+  KEY `idx_signer` (`signer_address_id`),
+  KEY `idx_agg_account` (`agg_account_address_id`),
+  KEY `idx_agg_token_in` (`agg_token_in_id`),
+  KEY `idx_agg_token_out` (`agg_token_out_id`),
+  KEY `tx_ibfk_agg_program` (`agg_program_id`),
+  KEY `tx_ibfk_agg_fee_token` (`agg_fee_token_id`) /*!80000 INVISIBLE */,
+  KEY `idx_block_time` (`block_time` DESC,`id`),
+  KEY `idx_tx_state` (`tx_state`),
+  CONSTRAINT `tx_ibfk_agg_account` FOREIGN KEY (`agg_account_address_id`) REFERENCES `tx_address` (`id`),
+  CONSTRAINT `tx_ibfk_agg_fee_token` FOREIGN KEY (`agg_fee_token_id`) REFERENCES `tx_token` (`id`),
+  CONSTRAINT `tx_ibfk_agg_program` FOREIGN KEY (`agg_program_id`) REFERENCES `tx_program` (`id`),
+  CONSTRAINT `tx_ibfk_agg_token_in` FOREIGN KEY (`agg_token_in_id`) REFERENCES `tx_token` (`id`),
+  CONSTRAINT `tx_ibfk_agg_token_out` FOREIGN KEY (`agg_token_out_id`) REFERENCES `tx_token` (`id`),
+  CONSTRAINT `tx_ibfk_signer` FOREIGN KEY (`signer_address_id`) REFERENCES `tx_address` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29632 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

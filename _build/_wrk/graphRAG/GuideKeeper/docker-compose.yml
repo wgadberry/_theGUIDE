@@ -1,0 +1,223 @@
+version: "3.9"
+
+# =============================================================================
+# T16O / theGuide — GraphRAG Stack
+# ArangoDB | Redis Stack | Qdrant (optional) | C# Gateway (planned) | Pipeline
+#
+# Default profile starts:  arangodb, redis
+# Optional:                qdrant (--profile qdrant)
+#                          pipeline (--profile pipeline)
+#
+# Deploy to AWS:
+#   scp docker-compose.yml ec2-user@54.175.44.146:~/graphRAG/
+#   ssh ec2-user@54.175.44.146 "cd ~/graphRAG && docker compose up -d"
+#
+# Include Qdrant (local dev only — AWS already runs one on :5400):
+#   docker compose --profile qdrant up -d
+#
+# Include pipeline workers:
+#   docker compose --profile pipeline up -d
+# =============================================================================
+
+networks:
+  t16o-net:
+    driver: bridge
+
+volumes:
+  arangodb-data:
+  arangodb-apps:
+  qdrant-data:
+  redis-data:
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # ARANGODB 3.11
+  # Web UI:  http://localhost:8529  (user: root / pass: see .env)
+  # ---------------------------------------------------------------------------
+  arangodb:
+    image: arangodb:3.11
+    container_name: t16o-arangodb
+    restart: unless-stopped
+    networks:
+      - t16o-net
+    ports:
+      - "8529:8529"
+    environment:
+      ARANGO_ROOT_PASSWORD: ${ARANGO_ROOT_PASSWORD:-localdev}
+    command: ["arangod", "--server.endpoint", "tcp://0.0.0.0:8529", "--rocksdb.compression-type", "lz4hc"]
+    volumes:
+      - arangodb-data:/var/lib/arangodb3
+      - arangodb-apps:/var/lib/arangodb3-apps
+    healthcheck:
+      test: ["CMD", "arangosh", "--server.password", "${ARANGO_ROOT_PASSWORD:-localdev}", "--javascript.execute-string", "db._version()"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # REDIS STACK (includes RediSearch VSS — replaces Qdrant for vector search)
+  # Redis:        localhost:6379
+  # RedisInsight: http://localhost:8001
+  # Modules: JSON | Search (VSS) | Bloom | TimeSeries | Streams
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis/redis-stack:latest
+    container_name: t16o-redis
+    restart: unless-stopped
+    networks:
+      - t16o-net
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    environment:
+      REDIS_ARGS: "--appendonly yes --appendfsync everysec --save 300 1 --save 60 1000"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ---------------------------------------------------------------------------
+  # QDRANT (optional — local dev only)
+  # REST API:  http://localhost:6333
+  # gRPC:      localhost:6334
+  # Dashboard: http://localhost:6333/dashboard
+  #
+  # NOTE: AWS already runs Qdrant on :5400. Do NOT deploy this there.
+  #       Use --profile qdrant to start locally:
+  #         docker compose --profile qdrant up -d
+  # ---------------------------------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: t16o-qdrant
+    restart: unless-stopped
+    profiles:
+      - qdrant
+    networks:
+      - t16o-net
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:6333/healthz"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  # ---------------------------------------------------------------------------
+  # GATEWAY — C# ASP.NET Core + SignalR
+  # HTTP:  http://localhost:5000
+  # Build: ./gateway/Dockerfile
+  # ---------------------------------------------------------------------------
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: t16o-gateway
+    restart: unless-stopped
+    networks:
+      - t16o-net
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: "http://+:5000"
+      Redis__ConnectionString: "redis:6379,abortConnect=false"
+      ArangoDB__Endpoint: "http://arangodb:8529"
+      ArangoDB__Database: ${ARANGO_DATABASE:-t16o}
+      ArangoDB__Username: root
+      ArangoDB__Password: ${ARANGO_ROOT_PASSWORD:-localdev}
+    depends_on:
+      arangodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # GUIDEKEEPER — Python ArangoDB graph persistence worker
+  # Consumes: t16o:stream:guide-keeper
+  # Publishes: t16o:progress:{connection_id}
+  # DLQ:       t16o:stream:guide-keeper:dlq
+  #
+  # Scale horizontally with --scale guide-keeper=3
+  # Note: remove container_name when scaling beyond 1 instance
+  #
+  # Start:
+  #   docker compose --profile pipeline up -d guide-keeper
+  # ---------------------------------------------------------------------------
+  guide-keeper:
+    build:
+      context: ./pipeline
+      dockerfile: Dockerfile
+    image: t16o-pipeline:latest
+    container_name: t16o-guide-keeper
+    restart: unless-stopped
+    profiles:
+      - pipeline
+    networks:
+      - t16o-net
+    environment:
+      ARANGO_HOST:    arangodb
+      ARANGO_PORT:    "8529"
+      ARANGO_USER:    root
+      ARANGO_PASS:    ${ARANGO_ROOT_PASSWORD:-localdev}
+      ARANGO_DB:      ${ARANGO_DATABASE:-t16o}
+      REDIS_HOST:     redis
+      REDIS_PORT:     "6379"
+      INSTANCE_NAME:  ${GUIDE_KEEPER_NAME:-gk-1}
+      SOLANA_RPC_URL: ${SOLANA_RPC_URL:-https://api.mainnet-beta.solana.com}
+    command: ["GuideKeeper.py", "--name", "${GUIDE_KEEPER_NAME:-gk-1}"]
+    depends_on:
+      arangodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import redis; r=redis.Redis(host='redis',port=6379); r.ping()"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  # ---------------------------------------------------------------------------
+  # PIPELINE — additional Python microservices (planned)
+  # Add Shredder, ChainWalker, Bloodhound workers here as they containerize
+  # ---------------------------------------------------------------------------
+  # shredder:
+  #   build:
+  #     context: ./pipeline
+  #     dockerfile: Dockerfile
+  #   container_name: t16o-shredder
+  #   restart: unless-stopped
+  #   profiles:
+  #     - pipeline
+  #   networks:
+  #     - t16o-net
+  #   environment:
+  #     ARANGO_HOST:    arangodb
+  #     ARANGO_PORT:    "8529"
+  #     ARANGO_USER:    root
+  #     ARANGO_PASS:    ${ARANGO_ROOT_PASSWORD:-localdev}
+  #     ARANGO_DB:      ${ARANGO_DATABASE:-t16o}
+  #     REDIS_HOST:     redis
+  #     REDIS_PORT:     "6379"
+  #   command: ["Shredder.py", "--name", "shredder-1"]
+  #   depends_on:
+  #     arangodb:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy

@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphRAG Viewer v5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+    <style>
+        :root { --bg-body:#0d0d1a; --bg-surface:#18181b; --bg-hover:#27272a; --border:#3f3f46; --accent:#3b82f6; --text-primary:#e0e0e0; --text-secondary:#a1a1aa; --sidebar-w:clamp(400px, 40vw, 800px); }
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Raleway',sans-serif;background:var(--bg-body);color:var(--text-primary);height:100vh;overflow:hidden}
+        .header{height:48px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--border);background:var(--bg-surface);flex-shrink:0;flex-wrap:wrap;min-height:48px}
+        .header .title{font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-secondary);white-space:nowrap}
+        .header .token-badge{background:var(--accent);color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700}
+        .header .stats{font-size:11px;color:var(--text-secondary);display:flex;gap:12px;margin-left:auto}
+        .header .stats b{color:var(--text-primary)}
+        .header select{background:var(--bg-body);color:var(--text-primary);border:1px solid var(--border);padding:4px 8px;border-radius:4px;font-size:12px;font-family:inherit;cursor:pointer}
+        .app{display:flex;height:calc(100vh - 48px);min-height:0}
+        .sidebar{width:var(--sidebar-w);flex-shrink:0;border-right:1px solid var(--border);overflow-y:auto;overflow-x:hidden;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:320px}
+        .main{flex:1;position:relative;overflow:hidden;min-width:200px}
+        .card{background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;flex-shrink:0}
+        .card.flex-fill{flex:1 1 auto;min-height:120px;display:flex;flex-direction:column}
+        .card.flex-fill .card-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+        .card-hdr{padding:10px 14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-secondary);border-bottom:1px solid var(--border);cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between}
+        .card-hdr::after{content:'\25B2';font-size:8px;color:var(--text-secondary);transition:transform .2s}
+        .card.collapsed .card-hdr::after{transform:rotate(180deg)}
+        .card.collapsed .card-body{display:none}
+        .card-body{padding:12px 14px;font-size:13px}
+        .card-body .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px}
+        .card-body .label{font-size:11px;text-transform:uppercase;color:var(--text-secondary)}
+        .card-body .value{font-size:13px;word-break:break-all}
+        .card-body .full{grid-column:1/-1}
+        .input-row{display:flex;gap:8px}
+        .input-row input{flex:1;background:var(--bg-body);border:1px solid var(--border);color:var(--text-primary);padding:8px 12px;border-radius:4px;font-size:13px;font-family:monospace}
+        .input-row input:focus{border-color:var(--accent);outline:none}
+        .btn{background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:4px;cursor:pointer;font-size:13px;font-weight:600}
+        .btn:hover{opacity:.9}
+        .btn-sm{padding:4px 10px;font-size:11px;background:var(--bg-hover);color:var(--text-secondary);border:1px solid var(--border)}
+        .layout-desc{font-size:12px;color:var(--text-secondary);line-height:1.5;padding:6px 0}
+        .node-search{width:100%;background:var(--bg-body);border:1px solid var(--border);color:var(--text-primary);padding:7px 10px;border-radius:4px;font-size:12px;margin-bottom:8px;flex-shrink:0}
+        .node-search:focus{border-color:var(--accent);outline:none}
+        .node-list{flex:1;overflow-y:auto;min-height:0}
+        .node-item{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:4px;cursor:pointer;font-size:12px}
+        .node-item:hover,.node-item.active{background:var(--bg-hover)}
+        .node-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+        .node-addr{font-family:monospace;font-size:11px;color:var(--text-secondary);min-width:90px}
+        .node-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-primary)}
+        .node-count{font-size:11px;color:var(--text-secondary);min-width:36px;text-align:right}
+        .legend{min-height:32px;display:flex;align-items:center;justify-content:center;gap:16px;border-top:1px solid var(--border);background:var(--bg-surface);flex-shrink:0;font-size:10px;flex-wrap:wrap;padding:4px 12px}
+        .legend-item{display:flex;align-items:center;gap:4px}
+        .legend-dot{width:8px;height:8px;border-radius:50%}
+        .toolbar{position:absolute;top:10px;right:10px;display:flex;gap:4px;z-index:5}
+        #tooltip{position:absolute;background:#1a1a2e;border:1px solid var(--border);border-radius:8px;padding:14px 18px;pointer-events:none;z-index:10;display:none;font-size:14px;max-width:520px;line-height:1.5}
+        #tooltip.visible{display:block}
+        .tt-addr{font-family:monospace;font-size:13px;color:var(--text-secondary);margin-bottom:6px;word-break:break-all}
+        .tt-type{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600}
+        .tt-label{margin-top:5px;color:var(--text-primary);font-size:13px}
+        .tt-stats{margin-top:6px;display:flex;gap:14px;font-size:13px}
+        .tt-stats .sent{color:#f87171}.tt-stats .recv{color:#4ade80}
+        .filter-section{margin-bottom:10px}.filter-section:last-child{margin-bottom:0}
+        .filter-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-secondary);display:block;margin-bottom:5px}
+        .filter-cb-row{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:3px 0}
+        .filter-cb-row input{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;margin:0}
+        .filter-cb-row:hover{color:#fff}
+        .cb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        #loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--text-secondary);display:none}
+        #loading.show{display:block}
+        #error{color:#f87171;font-size:12px;padding:4px 0;display:none}
+        #error.show{display:block}
+        #progress{font-size:12px;padding:6px 0;display:none}
+        #progress.show{display:block}
+        .progress-phase{color:var(--accent);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+        .progress-msg{color:var(--text-secondary);margin-top:2px}
+        .progress-bar{height:3px;background:var(--bg-hover);border-radius:2px;margin-top:4px;overflow:hidden}
+        .progress-bar-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s ease;width:0}
+        .signalr-status{font-size:9px;padding:2px 6px;border-radius:8px;margin-left:8px}
+        .signalr-status.connected{background:#4ade8033;color:#4ade80}
+        .signalr-status.disconnected{background:#f8717133;color:#f87171}
+        .signalr-status.connecting{background:#fbbf2433;color:#fbbf24}
+        svg{width:100%;height:100%}
+    </style>
+</head>
+<body>
+<div class="header">
+    <span class="title">GraphRAG v5</span>
+    <span class="signalr-status disconnected" id="signalr-status">disconnected</span>
+    <span class="token-badge" id="h-token">---</span>
+    <select id="layout-select">
+        <option value="force">Force-Directed</option>
+        <option value="radial">Radial</option>
+        <option value="hierarchy">Hierarchical</option>
+        <option value="circular">Circular</option>
+        <option value="matrix">Adjacency Matrix</option>
+        <option value="pack">Cluster Pack</option>
+        <option value="sankey">Sankey Flow</option>
+        <option value="arc">Arc Diagram</option>
+        <option value="bubble" selected>Bubble Map</option>
+        <option value="chord">Chord Diagram</option>
+    </select>
+    <div class="stats" id="h-stats"></div>
+</div>
+<div class="app">
+    <div class="sidebar">
+        <div class="card"><div class="card-hdr">Query</div><div class="card-body">
+            <div class="input-row"><input id="mint-input" placeholder="Token mint address..."><button class="btn" id="load-btn">Load</button></div>
+            <div id="error"></div>
+            <div id="progress"><div class="progress-phase" id="progress-phase"></div><div class="progress-msg" id="progress-msg"></div><div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div></div>
+        </div></div>
+        <div class="card"><div class="card-hdr">Layout</div><div class="card-body"><div class="layout-desc" id="layout-desc"></div></div></div>
+        <div class="card"><div class="card-hdr">Filters</div><div class="card-body">
+            <div class="filter-section"><span class="filter-label">Edge Types</span>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="spl_transfer" checked><span class="cb-dot" style="background:#3b82f6"></span>spl_transfer</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="swap_in" checked><span class="cb-dot" style="background:#a855f7"></span>swap_in</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="swap_out" checked><span class="cb-dot" style="background:#a855f7"></span>swap_out</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="sol_transfer"><span class="cb-dot" style="background:#fbbf24"></span>sol_transfer</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="add_liquidity"><span class="cb-dot" style="background:#06b6d4"></span>add_liquidity</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="remove_liquidity"><span class="cb-dot" style="background:#06b6d4"></span>remove_liquidity</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="burn"><span class="cb-dot" style="background:#f87171"></span>burn</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="mint"><span class="cb-dot" style="background:#4ade80"></span>mint</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="create_ata"><span class="cb-dot" style="background:#666"></span>create_ata</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="edge" data-val="funded_by" checked><span class="cb-dot" style="background:#f97316"></span>funded_by</label>
+            </div>
+            <div class="filter-section"><span class="filter-label">Node Types</span>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="node" data-val="wallet" checked><span class="cb-dot" style="background:#3b82f6"></span>wallet</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="node" data-val="pool"><span class="cb-dot" style="background:#a855f7"></span>pool</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="node" data-val="program"><span class="cb-dot" style="background:#06b6d4"></span>program</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="node" data-val="vault"><span class="cb-dot" style="background:#f87171"></span>vault</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="node" data-val="mint"><span class="cb-dot" style="background:#fbbf24"></span>mint</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="node" data-val="ata"><span class="cb-dot" style="background:#4ade80"></span>ata</label>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" data-filter="node" data-val="unknown"><span class="cb-dot" style="background:#666"></span>unknown</label>
+            </div>
+            <div class="filter-section"><span class="filter-label">Bubble Map</span>
+                <label class="filter-cb-row"><input type="checkbox" class="fcb" id="cb-no-rel" data-filter="bubble" data-val="no_relationships" checked><span class="cb-dot" style="background:#666"></span>Show unconnected nodes</label>
+            </div>
+        </div></div>
+        <div class="card" id="token-card" style="display:none"><div class="card-hdr">Token</div><div class="card-body"><div class="info-grid" id="token-info"></div></div></div>
+        <div class="card flex-fill"><div class="card-hdr">Nodes</div><div class="card-body">
+            <input class="node-search" id="node-search" placeholder="Filter nodes...">
+            <div class="node-list" id="node-list"></div>
+        </div></div>
+    </div>
+    <div class="main" id="graph-container">
+        <div class="toolbar">
+            <button class="btn-sm" id="btn-fit">Fit</button>
+            <button class="btn-sm" id="btn-reset">Reset</button>
+        </div>
+        <div id="tooltip"></div>
+        <div id="loading">Loading...</div>
+    </div>
+</div>
+<div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>wallet</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>pool</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>mint</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>program</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>vault</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>ata</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#666"></div>unknown</div>
+    <div class="legend-item" style="margin-left:16px;border-left:1px solid var(--border);padding-left:16px"><div style="width:16px;height:2px;border-top:2px dashed #f97316;margin-right:4px"></div>funded_by</div>
+</div>
+<script>
+const TC={wallet:'#3b82f6',pool:'#a855f7',mint:'#fbbf24',program:'#06b6d4',vault:'#f87171',ata:'#4ade80',unknown:'#666'};
+const typeColor=t=>TC[t]||TC.unknown;
+const DESCS={force:'Force-directed simulation with charge repulsion, link attraction, and collision detection. Best for exploring organic cluster structure.',radial:'Concentric rings radiating from the most-connected node. Distance from center = hop count. Reveals the layers of interaction.',hierarchy:'Tree layout rooted at the most-connected node. Shows the flow hierarchy from key addresses outward.',circular:'Nodes arranged on a circle sorted by type and activity. Curved edges reveal cross-group connections.',matrix:'Adjacency matrix heatmap. Cell brightness = transaction count between two addresses. Reveals dense connection patterns.',pack:'Packed circles grouped by address type. Size = interaction volume. Shows which types dominate the token ecosystem.',sankey:'Left-to-right flow diagram. Senders on left, pools/programs in middle, receivers on right. Width = flow volume.',arc:'Nodes on a horizontal line with semicircular arcs connecting them. Arc height = transaction count. Compact overview.',bubble:'Classic bubble map. Circle size = interaction volume. Packed layout with glow effects. The Bubblemaps.io style.',chord:'Aggregate flows between address types as chord ribbons. Shows which types interact most at the macro level.'};
+
+let graphData=null,holderData=null,simulation=null,selectedNode=null,initialRenderDone=false;
+
+// Collapsible cards — click header to toggle
+document.querySelectorAll('.card-hdr').forEach(hdr=>{
+    hdr.addEventListener('click',()=>{
+        const card=hdr.parentElement;
+        card.classList.toggle('collapsed');
+    });
+});
+// GATEWAY_URL hoisted here — must precede all function definitions that reference it.
+const GATEWAY_URL=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'http://localhost:5000':'http://'+location.hostname+':5000';
+const SOLSCAN_API='https://pro-api.solscan.io/v2.0';
+// SOLSCAN_TOKEN is NOT hardcoded — fetched from gateway at startup so it never
+// appears in client-side source or version control.
+let SOLSCAN_TOKEN='';
+(async function(){
+    try{
+        const r=await fetch(GATEWAY_URL+'/api/config/solscan-token');
+        if(r.ok){const d=await r.json();SOLSCAN_TOKEN=d.token||'';}
+    }catch(e){console.warn('Could not fetch Solscan token:',e.message);}
+})();
+
+// Filter state — read from checkboxes
+function getFilters(){
+    const edgeTypes=new Set(),nodeTypes=new Set();
+    document.querySelectorAll('.fcb[data-filter="edge"]:checked').forEach(cb=>edgeTypes.add(cb.dataset.val));
+    document.querySelectorAll('.fcb[data-filter="node"]:checked').forEach(cb=>nodeTypes.add(cb.dataset.val));
+    return{edgeTypes,nodeTypes};
+}
+function filterData(){
+    if(!graphData)return{nodes:[],edges:[],links:[]};
+    const{edgeTypes,nodeTypes}=getFilters();
+    // Filter edges by type
+    const edges=graphData.edges.filter(e=>edgeTypes.has(e.type));
+    // Get addresses referenced by filtered edges
+    const edgeAddrs=new Set();
+    edges.forEach(e=>{edgeAddrs.add(e.source);edgeAddrs.add(e.target)});
+    // Filter nodes by type AND must be in filtered edges
+    const nodes=graphData.nodes.filter(n=>nodeTypes.has(n.address_type)&&edgeAddrs.has(n.address));
+    // Re-filter edges to only include nodes that passed
+    const nodeAddrs=new Set(nodes.map(n=>n.address));
+    const filteredEdges=edges.filter(e=>nodeAddrs.has(e.source)&&nodeAddrs.has(e.target));
+    return{nodes,edges:filteredEdges};
+}
+function updateFilteredStats(){
+    if(!graphData)return;
+    const f=filterData();
+    const n=graphData.nodes.length,e=graphData.edges.length;
+    const fn=f.nodes.length,fe=f.edges.length;
+    const filtered=(fn<n||fe<e)?` (showing ${fn}/${fe})` :'';
+    $('h-stats').innerHTML=`<span>Nodes:<b>${n}</b></span><span>Edges:<b>${e}</b></span>${filtered?`<span style="color:var(--amber)">${filtered}</span>`:''}`;
+}
+// Re-render on filter change
+document.addEventListener('change',e=>{if(e.target.classList.contains('fcb')&&graphData){updateFilteredStats();renderGraph()}});
+const $=id=>document.getElementById(id);
+const mintInput=$('mint-input'),layoutSel=$('layout-select');
+
+const ARANGO_URL=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'http://localhost:8529':'http://'+location.hostname+':8529';
+// API_URL kept as alias; primary var is GATEWAY_URL declared above.
+const API_URL=GATEWAY_URL;
+async function queryArango(aql,bindVars={}){
+    const r=await fetch(ARANGO_URL+'/_db/t16o/_api/cursor',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Basic '+btoa('root:localdev')},body:JSON.stringify({query:aql,bindVars})});
+    const d=await r.json();if(d.error)throw new Error(d.errorMessage);return d.result;
+}
+
+const AQL=`LET token_ref=CONCAT("tokens/",@mint) LET raw_edges=(FOR e IN edges FILTER e.token==token_ref FILTER e.edge_type NOT IN["funded_by"] COLLECT from_addr=e._from,to_addr=e._to,edge_type=e.edge_type WITH COUNT INTO tx_count SORT tx_count DESC LIMIT 500 LET from_doc=DOCUMENT(from_addr) LET to_doc=DOCUMENT(to_addr) RETURN{source:from_doc._key,target:to_doc._key,type:edge_type,source_type:from_doc.type,target_type:to_doc.type,source_label:from_doc.label,target_label:to_doc.label,tx_count:tx_count}) LET all_addresses=UNION_DISTINCT((FOR e IN raw_edges RETURN e.source),(FOR e IN raw_edges RETURN e.target)) LET nodes=(FOR addr IN all_addresses LET doc=DOCUMENT(CONCAT("addresses/",addr)) LET out_count=SUM(FOR e IN raw_edges FILTER e.source==addr RETURN e.tx_count) LET in_count=SUM(FOR e IN raw_edges FILTER e.target==addr RETURN e.tx_count) RETURN{address:addr,address_type:doc.type||"unknown",label:doc.label,balance:in_count-out_count,interactions:{sent:out_count,received:in_count}}) LET token_doc=DOCUMENT(CONCAT("tokens/",@mint)) RETURN{token:{mint:@mint,symbol:token_doc.symbol||token_doc.token_symbol,name:token_doc.name||token_doc.token_name,decimals:token_doc.decimals},nodes:nodes,edges:raw_edges}`;
+
+async function fetchHolders(mint, limit=80){
+    // Try cached holders from gateway first (instant)
+    try{
+        const r=await fetch(`${GATEWAY_URL}/api/holders/${mint}`);
+        if(r.ok){
+            const cached=await r.json();
+            if(Array.isArray(cached)&&cached.length){
+                console.log(`Holders from cache: ${cached.length}`);
+                return cached.slice(0,limit);
+            }
+        }
+    }catch(e){console.warn('Holder cache miss, falling back to Solscan')}
+
+    // Fallback: fetch from Solscan directly
+    const holders=[];
+    for(let page=1;holders.length<limit;page++){
+        const r=await fetch(`${SOLSCAN_API}/token/holders?address=${mint}&page=${page}&page_size=40`,
+            {headers:{'token':SOLSCAN_TOKEN}});
+        const d=await r.json();
+        const items=(d.data||{}).items||[];
+        if(!items.length)break;
+        holders.push(...items);
+        if(holders.length>=(d.data||{}).total||0)break;
+    }
+    return holders.slice(0,limit);
+}
+
+async function fetchHolderEdges(mint, holderAddrs){
+    // Query ArangoDB for transfers between holders for this token
+    // Uses addresses/ prefix so ArangoDB can use the [token, _from] index
+    const holderRefs=holderAddrs.map(a=>'addresses/'+a);
+    const aql=`
+        LET holder_refs=@holderRefs
+        LET token_ref=CONCAT("tokens/",@mint)
+        FOR e IN edges
+            FILTER e.token==token_ref
+            FILTER e._from IN holder_refs AND e._to IN holder_refs AND e._from!=e._to
+            COLLECT from_addr=SUBSTRING(e._from,10),to_addr=SUBSTRING(e._to,10)
+            WITH COUNT INTO tx_count
+            SORT tx_count DESC
+            LIMIT 500
+            RETURN{source:from_addr,target:to_addr,tx_count:tx_count}
+    `;
+    return await queryArango(aql,{mint,holderRefs});
+}
+
+async function fetchHolderFunding(holderAddrs){
+    // Query ArangoDB for funded_by data on holder addresses + funded_by edges
+    const holderRefs=holderAddrs.map(a=>'addresses/'+a);
+    const aql=`
+        LET holder_set=@holders
+        LET holder_refs=@holderRefs
+        LET funding_info=(
+            FOR addr IN holder_set
+                LET doc=DOCUMENT(CONCAT("addresses/",addr))
+                FILTER doc!=null AND doc.funded_by!=null AND doc.funded_by!="none"
+                RETURN{address:addr,funded_by:doc.funded_by,funded_by_tx:doc.funded_by_tx,funded_by_time:doc.funded_by_time}
+        )
+        LET funded_by_edges=(
+            FOR e IN edges
+                FILTER e.edge_type=="funded_by"
+                FILTER e._to IN holder_refs
+                RETURN{funder:SUBSTRING(e._from,10),funded:SUBSTRING(e._to,10),signature:e.signature,block_time:e.block_time}
+        )
+        RETURN{funding_info,funded_by_edges}
+    `;
+    const r=await queryArango(aql,{holders:holderAddrs,holderRefs});
+    return r&&r.length?r[0]:{funding_info:[],funded_by_edges:[]};
+}
+
+async function loadToken(){
+    const mint=mintInput.value.trim();if(!mint)return;
+    $('error').classList.remove('show');$('loading').classList.add('show');
+    try{
+        const t0=performance.now();
+
+        // Parallel fetch: graph data + holder bundle in ONE round trip each
+        const [graphResult, bundleResult] = await Promise.all([
+            queryArango(AQL,{mint}).catch(()=>null),
+            fetch(GATEWAY_URL+'/api/token-bundle/'+mint).then(r=>r.ok?r.json():null).catch(()=>null),
+        ]);
+        console.log(`[timing] Step 1 (graph+bundle): ${Math.round(performance.now()-t0)}ms`);
+
+        if(graphResult&&graphResult.length&&graphResult[0].nodes.length){
+            graphData=graphResult[0];
+        }else{
+            graphData={token:{mint,symbol:null,name:null,decimals:null},nodes:[],edges:[]};
+        }
+
+        // Get holders from bundle cache or fall back to Solscan
+        try{
+            const t1=performance.now();
+            let holders=[];
+            if(bundleResult&&bundleResult.holders){
+                holders=bundleResult.holders;
+                console.log(`[timing] Holders from cache: ${holders.length}`);
+            }else{
+                holders=await fetchHolders(mint,80);
+                console.log(`[timing] Holders from Solscan: ${holders.length} (${Math.round(performance.now()-t1)}ms)`);
+            }
+            if(holders.length){
+                const holderAddrs=holders.map(h=>h.owner);
+                const totalSupply=holders.reduce((s,h)=>s+parseFloat(h.amount||0),0);
+
+                // Parallel: address types + holder edges + funding — all at once
+                const t2=performance.now();
+                const [typeResults, holderEdges, fundingData] = await Promise.all([
+                    queryArango(`
+                        FOR addr IN @addrs
+                            LET doc=DOCUMENT(CONCAT("addresses/",addr))
+                            RETURN {address:addr, type:doc.type||"unknown", label:doc.label}
+                    `,{addrs:holderAddrs}),
+                    fetchHolderEdges(mint,holderAddrs),
+                    fetchHolderFunding(holderAddrs),
+                ]);
+                console.log(`[timing] Step 2 (types+edges+funding): ${Math.round(performance.now()-t2)}ms`);
+                const typeMap=new Map(typeResults.map(r=>[r.address,r]));
+
+                // Build funding lookup: address -> {funded_by, funded_by_tx, funded_by_time}
+                const fundingMap=new Map();
+                (fundingData.funding_info||[]).forEach(f=>fundingMap.set(f.address,f));
+
+                // Build funding cluster map: funder -> [funded addresses]
+                const clusterMap=new Map();
+                fundingMap.forEach((info,addr)=>{
+                    if(!clusterMap.has(info.funded_by))clusterMap.set(info.funded_by,[]);
+                    clusterMap.get(info.funded_by).push(addr);
+                });
+                // Only keep clusters with 2+ members (shared funder = interesting)
+                const fundingClusters=new Map();
+                let clusterIdx=0;
+                clusterMap.forEach((members,funder)=>{
+                    if(members.length>=2){
+                        fundingClusters.set(funder,{members,index:clusterIdx++});
+                        members.forEach(m=>fundingMap.get(m).cluster_index=fundingClusters.get(funder).index);
+                    }
+                });
+
+                holderData={
+                    holders:holders.map(h=>{
+                        const info=typeMap.get(h.owner)||{};
+                        const funding=fundingMap.get(h.owner);
+                        return{
+                            address:h.owner,
+                            amount:h.amount,
+                            percentage:h.percentage||((parseFloat(h.amount)/totalSupply)*100),
+                            rank:h.rank,
+                            address_type:info.type||'unknown',
+                            label:info.label||null,
+                            funded_by:funding?.funded_by||null,
+                            funded_by_tx:funding?.funded_by_tx||null,
+                            funded_by_time:funding?.funded_by_time||null,
+                            cluster_index:funding?.cluster_index??null,
+                        };
+                    }),
+                    edges:holderEdges,
+                    funded_by_edges:fundingData.funded_by_edges||[],
+                    fundingClusters,
+                    totalSupply,
+                };
+            }else{holderData=null}
+        }catch(e){console.warn('Holder fetch failed:',e);holderData=null}
+
+        // Phase 1: Render immediately with existing ArangoDB data
+        initialRenderDone=false;
+        updateUI();renderGraph();
+        initialRenderDone=true;
+
+        // Phase 2: Trigger processing via REST, use SignalR connection ID for progress routing
+        const connId=(hubConnection&&hubConnection.connectionId)||null;
+        showProgress('loading','Processing holder signatures...');
+        fetch(GATEWAY_URL+'/api/load-token',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({Mint:mint,ConnectionId:connId}),
+        }).then(r=>r.json()).then(d=>{
+            console.log('Load-token accepted:',d);
+        }).catch(e=>console.warn('Load-token failed:',e));
+    }
+    catch(e){$('error').textContent=e.message;$('error').classList.add('show');}
+    finally{$('loading').classList.remove('show');}
+}
+$('load-btn').onclick=loadToken;mintInput.onkeydown=e=>{if(e.key==='Enter')loadToken()};
+layoutSel.onchange=()=>{$('layout-desc').textContent=DESCS[layoutSel.value]||'';if(graphData)renderGraph()};
+$('layout-desc').textContent=DESCS.bubble;
+
+function updateUI(){
+    const{token:t,nodes:n,edges:e}=graphData;
+    $('h-token').textContent=t.symbol||'???';
+    updateFilteredStats();
+    $('token-card').style.display='';
+    $('token-info').innerHTML=`<div class="full"><span class="label">Mint</span><div class="value" style="font-family:monospace;font-size:10px">${t.mint}</div></div><div><span class="label">Symbol</span><div class="value">${t.symbol||'-'}</div></div><div><span class="label">Name</span><div class="value">${t.name||'-'}</div></div><div><span class="label">Decimals</span><div class="value">${t.decimals??'-'}</div></div>`;
+    buildNodeList();
+}
+
+function buildNodeList(filter=''){
+    if(!graphData)return;const ns=[...graphData.nodes].sort((a,b)=>(b.interactions.sent+b.interactions.received)-(a.interactions.sent+a.interactions.received));
+    const lf=filter.toLowerCase(),fl=lf?ns.filter(n=>n.address.toLowerCase().includes(lf)||(n.label||'').toLowerCase().includes(lf)||(n.pool_label||'').toLowerCase().includes(lf)||n.address_type.toLowerCase().includes(lf)):ns;
+    $('node-list').innerHTML=fl.map(n=>{if(!n.address)return'';const t=n.interactions.sent+n.interactions.received,l=n.label||n.pool_label||'',s=n.address.slice(0,6)+'...'+n.address.slice(-4),a=selectedNode&&selectedNode.address===n.address?' active':'';
+    return`<div class="node-item${a}" data-addr="${n.address}"><div class="node-dot" style="background:${typeColor(n.address_type)}"></div><span class="node-addr">${s}</span><span class="node-label" title="${l}">${l}</span><span class="node-count">${t}</span></div>`}).join('');
+    $('node-list').querySelectorAll('.node-item').forEach(el=>el.onclick=()=>{const n=graphData.nodes.find(x=>x.address===el.dataset.addr);if(n)selectNode(n)});
+}
+$('node-search').oninput=()=>buildNodeList($('node-search').value);
+
+// Shared helpers
+function prepData(){
+    const{nodes,edges}=filterData(),nm=new Map(nodes.map(n=>[n.address,n]));
+    const lk=new Map();edges.forEach(e=>{if(!nm.has(e.source)||!nm.has(e.target))return;const k=e.source+'|'+e.target;if(lk.has(k)){const x=lk.get(k);x.tx_count+=e.tx_count;if(!x.types.includes(e.type))x.types.push(e.type)}else lk.set(k,{source:e.source,target:e.target,tx_count:e.tx_count,types:[e.type],dex:e.dex,pool_label:e.pool_label})});
+    const links=Array.from(lk.values()),maxTx=d3.max(links,d=>d.tx_count)||1,maxI=d3.max(nodes,n=>n.interactions.sent+n.interactions.received)||1;
+    return{nodes,edges,links,nm,maxTx,maxI,rScale:d3.scaleSqrt().domain([0,maxI]).range([4,28]),oScale:d3.scaleLinear().domain([1,maxTx]).range([.15,.8]),wScale:d3.scaleLinear().domain([1,maxTx]).range([.8,3.5])};
+}
+function getWH(){const c=$('graph-container');return[c.clientWidth,c.clientHeight]}
+function mkSvg(w,h){const svg=d3.select('#graph-container').append('svg').attr('width',w).attr('height',h);const g=svg.append('g');const zoom=d3.zoom().scaleExtent([.05,8]).on('zoom',e=>g.attr('transform',e.transform));svg.call(zoom);
+    $('btn-fit').onclick=()=>{const ns=g.selectAll('circle').data();if(!ns.length)return;let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;ns.forEach(n=>{const r=n.r||5;if((n.x||0)-r<x0)x0=n.x-r;if((n.y||0)-r<y0)y0=n.y-r;if((n.x||0)+r>x1)x1=n.x+r;if((n.y||0)+r>y1)y1=n.y+r});const bw=x1-x0||1,bh=y1-y0||1,s=Math.min((w-80)/bw,(h-80)/bh,2);svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity.translate(w/2,h/2).scale(s).translate(-(x0+x1)/2,-(y0+y1)/2))};
+    $('btn-reset').onclick=()=>svg.transition().duration(300).call(zoom.transform,d3.zoomIdentity);return{svg,g,zoom}}
+function showTip(ev,d){const t=$('tooltip'),a=d.address||d.id||'';t.innerHTML=`<div class="tt-addr">${a}</div><span class="tt-type" style="background:${typeColor(d.address_type)}33;color:${typeColor(d.address_type)}">${d.address_type||'unknown'}</span>${d.dex?`<span class="tt-type" style="background:#a855f733;color:#a855f7;margin-left:4px">${d.dex}</span>`:''} ${(d.label||d.pool_label)?`<div class="tt-label">${d.label||d.pool_label}</div>`:''}<div class="tt-stats"><span class="sent">Out:${d.interactions?.sent||0}</span><span class="recv">In:${d.interactions?.received||0}</span></div>`;t.classList.add('visible');moveTip(ev)}
+function moveTip(ev){const t=$('tooltip'),r=$('graph-container').getBoundingClientRect();let x=ev.clientX-r.left+18,y=ev.clientY-r.top+18;if(x+t.offsetWidth>r.width-16)x-=t.offsetWidth+36;if(y+t.offsetHeight>r.height-16)y-=t.offsetHeight+36;t.style.left=x+'px';t.style.top=y+'px'}
+function hideTip(){$('tooltip').classList.remove('visible')}
+function selectNode(d){selectedNode=d;buildNodeList($('node-search').value)}
+function clearSel(){selectedNode=null;buildNodeList($('node-search').value)}
+
+function renderGraph(){
+    if(simulation){simulation.stop();simulation=null}
+    d3.select('#graph-container').selectAll('svg,canvas').remove();
+    const layout=layoutSel.value;
+    ({force:renderForce,radial:renderRadial,hierarchy:renderHierarchy,circular:renderCircular,matrix:renderMatrix,pack:renderPack,sankey:renderSankey,arc:renderArc,bubble:renderBubble,chord:renderChord})[layout]();
+}
+
+// ================================================================
+// 1. FORCE-DIRECTED
+// ================================================================
+function renderForce(){
+    const[w,h]=getWH(),{nodes,links,rScale,oScale,wScale,maxTx}=prepData(),{svg,g,zoom}=mkSvg(w,h);
+    const sn=nodes.map(n=>({...n,id:n.address,r:rScale(n.interactions.sent+n.interactions.received)}));
+    const sl=links.map(l=>({...l}));
+    simulation=d3.forceSimulation(sn).force('link',d3.forceLink(sl).id(d=>d.id).distance(80)).force('charge',d3.forceManyBody().strength(-200)).force('center',d3.forceCenter(w/2,h/2)).force('collision',d3.forceCollide().radius(d=>d.r+3)).alphaDecay(.02);
+    const le=g.append('g').selectAll('line').data(sl).join('line').attr('stroke',d=>typeColor(d.source?.address_type||'unknown')).attr('stroke-opacity',d=>oScale(d.tx_count)).attr('stroke-width',d=>wScale(d.tx_count));
+    const ne=g.append('g').selectAll('g').data(sn).join('g').attr('cursor','pointer').call(d3.drag().on('start',(e,d)=>{if(!e.active)simulation.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y}).on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y}).on('end',(e,d)=>{if(!e.active)simulation.alphaTarget(0);d.fx=null;d.fy=null}));
+    ne.append('circle').attr('r',d=>d.r).attr('fill',d=>typeColor(d.address_type)).attr('stroke',d=>d3.color(typeColor(d.address_type)).brighter(.8)).attr('stroke-width',1.5).attr('opacity',.9);
+    ne.filter(d=>d.r>10).append('text').text(d=>(d.label||d.pool_label||d.address.slice(0,4)).slice(0,12)).attr('text-anchor','middle').attr('dy',d=>d.r+12).attr('font-size','9px').attr('fill','var(--text-secondary)').attr('pointer-events','none');
+    ne.on('mouseover',(e,d)=>showTip(e,d)).on('mousemove',moveTip).on('mouseout',hideTip).on('click',(e,d)=>{e.stopPropagation();selectNode(d)});
+    svg.on('click',clearSel);
+    simulation.on('tick',()=>{le.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);ne.attr('transform',d=>`translate(${d.x},${d.y})`)});
+}
+
+// ================================================================
+// 2. RADIAL
+// ================================================================
+function renderRadial(){
+    const[w,h]=getWH(),{nodes,links,rScale}=prepData(),{svg,g}=mkSvg(w,h);
+    const root=nodes.reduce((a,b)=>(a.interactions.sent+a.interactions.received)>(b.interactions.sent+b.interactions.received)?a:b);
+    // BFS for hop distance
+    const adj=new Map();nodes.forEach(n=>adj.set(n.address,[]));links.forEach(l=>{adj.get(l.source)?.push(l.target);adj.get(l.target)?.push(l.source)});
+    const dist=new Map();dist.set(root.address,0);const q=[root.address];while(q.length){const c=q.shift();for(const nb of(adj.get(c)||[])){if(!dist.has(nb)){dist.set(nb,dist.get(c)+1);q.push(nb)}}}
+    const maxDist=Math.max(...dist.values(),1);const ringR=Math.min(w,h)/2*.8/maxDist;
+    const sn=nodes.map(n=>({...n,id:n.address,r:rScale(n.interactions.sent+n.interactions.received),hopDist:dist.get(n.address)||maxDist}));
+    const sl=links.map(l=>({...l}));
+    simulation=d3.forceSimulation(sn).force('link',d3.forceLink(sl).id(d=>d.id).distance(40)).force('charge',d3.forceManyBody().strength(-60)).force('radial',d3.forceRadial(d=>d.hopDist*ringR,w/2,h/2).strength(.8)).force('collision',d3.forceCollide().radius(d=>d.r+2)).alphaDecay(.03);
+    // Draw rings
+    for(let i=1;i<=maxDist;i++)g.append('circle').attr('cx',w/2).attr('cy',h/2).attr('r',i*ringR).attr('fill','none').attr('stroke','var(--border)').attr('stroke-dasharray','4,4').attr('opacity',.3);
+    const le=g.append('g').selectAll('line').data(sl).join('line').attr('stroke','#444').attr('stroke-opacity',.2).attr('stroke-width',.8);
+    const ne=g.append('g').selectAll('circle').data(sn).join('circle').attr('r',d=>d.r).attr('fill',d=>typeColor(d.address_type)).attr('opacity',.85).attr('cursor','pointer').on('mouseover',(e,d)=>showTip(e,d)).on('mousemove',moveTip).on('mouseout',hideTip).on('click',(e,d)=>{e.stopPropagation();selectNode(d)});
+    svg.on('click',clearSel);
+    simulation.on('tick',()=>{le.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);ne.attr('cx',d=>d.x).attr('cy',d=>d.y)});
+}
+
+// ================================================================
+// 3. HIERARCHICAL
+// ================================================================
+function renderHierarchy(){
+    const[w,h]=getWH(),{nodes,links}=prepData(),{svg,g}=mkSvg(w,h);
+    const root=nodes.reduce((a,b)=>(a.interactions.sent+a.interactions.received)>(b.interactions.sent+b.interactions.received)?a:b);
+    const adj=new Map();nodes.forEach(n=>adj.set(n.address,[]));links.forEach(l=>{adj.get(l.source)?.push(l.target);adj.get(l.target)?.push(l.source)});
+    // BFS tree
+    const treeData={name:root.address,data:root,children:[]};const visited=new Set([root.address]);
+    function buildTree(node,depth){if(depth>4)return;for(const nb of(adj.get(node.name)||[])){if(!visited.has(nb)){visited.add(nb);const child={name:nb,data:nodes.find(n=>n.address===nb)||{address:nb,address_type:'unknown',interactions:{sent:0,received:0}},children:[]};node.children.push(child);buildTree(child,depth+1)}}}
+    buildTree(treeData,0);
+    const hier=d3.hierarchy(treeData);const treeLayout=d3.tree().size([w-100,h-100]);treeLayout(hier);
+    g.attr('transform','translate(50,50)');
+    g.selectAll('path.link').data(hier.links()).join('path').attr('class','link').attr('d',d3.linkVertical().x(d=>d.x).y(d=>d.y)).attr('fill','none').attr('stroke','#444').attr('stroke-opacity',.4).attr('stroke-width',1);
+    const ne=g.selectAll('g.node').data(hier.descendants()).join('g').attr('class','node').attr('transform',d=>`translate(${d.x},${d.y})`).attr('cursor','pointer');
+    ne.append('circle').attr('r',d=>Math.max(4,Math.min(16,Math.sqrt((d.data.data?.interactions?.sent||0)+(d.data.data?.interactions?.received||0))))).attr('fill',d=>typeColor(d.data.data?.address_type||'unknown')).attr('opacity',.85);
+    ne.filter(d=>d.depth<3).append('text').text(d=>(d.data.data?.label||d.data.data?.pool_label||d.data.name.slice(0,6)).slice(0,10)).attr('dy',d=>Math.max(4,Math.sqrt((d.data.data?.interactions?.sent||0)+(d.data.data?.interactions?.received||0)))+12).attr('text-anchor','middle').attr('font-size','8px').attr('fill','var(--text-secondary)');
+    ne.on('mouseover',(e,d)=>showTip(e,d.data.data||d.data)).on('mousemove',moveTip).on('mouseout',hideTip);
+}
+
+// ================================================================
+// 4. CIRCULAR
+// ================================================================
+function renderCircular(){
+    const[w,h]=getWH(),{nodes,links,oScale,wScale}=prepData(),{svg,g}=mkSvg(w,h);
+    const sorted=[...nodes].sort((a,b)=>a.address_type.localeCompare(b.address_type)||(b.interactions.sent+b.interactions.received)-(a.interactions.sent+a.interactions.received));
+    const r=Math.min(w,h)/2-60,cx=w/2,cy=h/2;
+    const posMap=new Map();sorted.forEach((n,i)=>{const angle=(2*Math.PI*i)/sorted.length-Math.PI/2;const x=cx+r*Math.cos(angle),y=cy+r*Math.sin(angle);posMap.set(n.address,{x,y,angle});n.x=x;n.y=y});
+    // Curved edges
+    const le=g.append('g').selectAll('path').data(links).join('path').attr('d',l=>{const s=posMap.get(l.source),t=posMap.get(l.target);if(!s||!t)return'';return`M${s.x},${s.y}Q${cx},${cy} ${t.x},${t.y}`}).attr('fill','none').attr('stroke',l=>typeColor(nodes.find(n=>n.address===l.source)?.address_type||'unknown')).attr('stroke-opacity',l=>oScale(l.tx_count)*.6).attr('stroke-width',l=>wScale(l.tx_count));
+    const ne=g.append('g').selectAll('circle').data(sorted).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>Math.max(3,Math.min(12,Math.sqrt((d.interactions.sent+d.interactions.received)/2)))).attr('fill',d=>typeColor(d.address_type)).attr('opacity',.85).attr('cursor','pointer').on('mouseover',(e,d)=>showTip(e,d)).on('mousemove',moveTip).on('mouseout',hideTip).on('click',(e,d)=>{e.stopPropagation();selectNode(d)});
+    svg.on('click',clearSel);
+}
+
+// ================================================================
+// 5. ADJACENCY MATRIX
+// ================================================================
+function renderMatrix(){
+    const[w,h]=getWH(),{nodes,links}=prepData(),{svg,g}=mkSvg(w,h);
+    const sorted=[...nodes].sort((a,b)=>a.address_type.localeCompare(b.address_type));
+    const n=sorted.length,pad=120,cellW=Math.min(12,Math.max(2,(Math.min(w,h)-pad*2)/n));
+    const idxMap=new Map(sorted.map((nd,i)=>[nd.address,i]));
+    const matrix=Array.from({length:n},()=>new Array(n).fill(0));
+    links.forEach(l=>{const si=idxMap.get(l.source),ti=idxMap.get(l.target);if(si!=null&&ti!=null)matrix[si][ti]+=l.tx_count});
+    const maxV=d3.max(matrix.flat())||1;const colorScale=d3.scaleSequentialLog(d3.interpolateViridis).domain([1,maxV]);
+    g.attr('transform',`translate(${pad},${pad})`);
+    // Cells
+    for(let i=0;i<n;i++)for(let j=0;j<n;j++)if(matrix[i][j]>0)g.append('rect').attr('x',j*cellW).attr('y',i*cellW).attr('width',cellW-.5).attr('height',cellW-.5).attr('fill',colorScale(matrix[i][j])).attr('opacity',.9).append('title').text(`${sorted[i].address.slice(0,8)}→${sorted[j].address.slice(0,8)}: ${matrix[i][j]} txs`);
+    // Labels (only if cells are big enough)
+    if(cellW>5){sorted.forEach((nd,i)=>{g.append('text').attr('x',-4).attr('y',i*cellW+cellW/2).attr('text-anchor','end').attr('font-size',Math.min(8,cellW-1)+'px').attr('fill',typeColor(nd.address_type)).attr('dominant-baseline','middle').text(nd.address.slice(0,6));
+    g.append('text').attr('x',i*cellW+cellW/2).attr('y',-4).attr('text-anchor','start').attr('font-size',Math.min(8,cellW-1)+'px').attr('fill',typeColor(nd.address_type)).attr('dominant-baseline','middle').attr('transform',`rotate(-90,${i*cellW+cellW/2},-4)`).text(nd.address.slice(0,6))})}
+}
+
+// ================================================================
+// 6. CLUSTER PACK
+// ================================================================
+function renderPack(){
+    const[w,h]=getWH(),{nodes}=prepData(),{svg,g}=mkSvg(w,h);
+    const grouped={};nodes.forEach(n=>{const t=n.address_type||'unknown';if(!grouped[t])grouped[t]=[];grouped[t].push(n)});
+    const hierData={name:'root',children:Object.entries(grouped).map(([type,members])=>({name:type,children:members.map(m=>({name:m.address,data:m,value:Math.max(1,m.interactions.sent+m.interactions.received)}))}))};
+    const root=d3.hierarchy(hierData).sum(d=>d.value||0).sort((a,b)=>b.value-a.value);
+    d3.pack().size([Math.min(w,h)-40,Math.min(w,h)-40]).padding(3)(root);
+    const ox=(w-Math.min(w,h)+40)/2,oy=(h-Math.min(w,h)+40)/2;g.attr('transform',`translate(${ox},${oy})`);
+    // Group circles
+    g.selectAll('circle.group').data(root.children||[]).join('circle').attr('class','group').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>d.r).attr('fill',d=>typeColor(d.data.name)).attr('opacity',.08).attr('stroke',d=>typeColor(d.data.name)).attr('stroke-width',1).attr('stroke-opacity',.3);
+    // Group labels
+    g.selectAll('text.group-label').data(root.children||[]).join('text').attr('class','group-label').attr('x',d=>d.x).attr('y',d=>d.y-d.r-4).attr('text-anchor','middle').attr('font-size','10px').attr('fill',d=>typeColor(d.data.name)).attr('font-weight','700').text(d=>d.data.name);
+    // Leaf circles
+    const leaves=root.leaves();
+    g.selectAll('circle.leaf').data(leaves).join('circle').attr('class','leaf').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>d.r).attr('fill',d=>typeColor(d.parent?.data?.name||'unknown')).attr('opacity',.7).attr('cursor','pointer').on('mouseover',(e,d)=>showTip(e,d.data.data||d.data)).on('mousemove',moveTip).on('mouseout',hideTip);
+    leaves.filter(d=>d.r>12).forEach(d=>g.append('text').attr('x',d.x).attr('y',d.y).attr('text-anchor','middle').attr('dominant-baseline','middle').attr('font-size',Math.min(9,d.r*.7)+'px').attr('fill','#fff').attr('pointer-events','none').text((d.data.data?.label||d.data.name.slice(0,6)).slice(0,8)));
+}
+
+// ================================================================
+// 7. SANKEY FLOW
+// ================================================================
+function renderSankey(){
+    const[w,h]=getWH(),{nodes,links}=prepData(),{svg,g}=mkSvg(w,h);
+    const pad=60,colW=(w-pad*2)/3;
+    // Classify: senders(left), pools/programs(mid), receivers(right)
+    const senders=new Set(),receivers=new Set(),middle=new Set();
+    links.forEach(l=>{const sn=nodes.find(n=>n.address===l.source),tn=nodes.find(n=>n.address===l.target);if(!sn||!tn)return;if(tn.address_type==='pool'||tn.address_type==='program')middle.add(l.target);else receivers.add(l.target);senders.add(l.source)});
+    // Remove overlaps: if in middle, remove from senders/receivers
+    middle.forEach(m=>{senders.delete(m);receivers.delete(m)});
+    const cols=[
+        [...senders].map(a=>nodes.find(n=>n.address===a)).filter(Boolean).sort((a,b)=>(b.interactions.sent)-(a.interactions.sent)).slice(0,30),
+        [...middle].map(a=>nodes.find(n=>n.address===a)).filter(Boolean).sort((a,b)=>(b.interactions.sent+b.interactions.received)-(a.interactions.sent+a.interactions.received)).slice(0,15),
+        [...receivers].map(a=>nodes.find(n=>n.address===a)).filter(Boolean).sort((a,b)=>(b.interactions.received)-(a.interactions.received)).slice(0,30)
+    ];
+    const posMap=new Map();
+    cols.forEach((col,ci)=>{const x=pad+ci*colW+colW/2;const totalH=h-pad*2;col.forEach((n,i)=>{const y=pad+(i+.5)*totalH/Math.max(col.length,1);posMap.set(n.address,{x,y})})});
+    // Draw flows
+    const maxTx=d3.max(links,l=>l.tx_count)||1;
+    links.forEach(l=>{const s=posMap.get(l.source),t=posMap.get(l.target);if(!s||!t)return;const thick=Math.max(1,Math.min(8,l.tx_count/maxTx*8));g.append('path').attr('d',`M${s.x},${s.y}C${(s.x+t.x)/2},${s.y} ${(s.x+t.x)/2},${t.y} ${t.x},${t.y}`).attr('fill','none').attr('stroke',typeColor(nodes.find(n=>n.address===l.source)?.address_type||'unknown')).attr('stroke-opacity',.25).attr('stroke-width',thick)});
+    // Draw nodes
+    cols.flat().forEach(n=>{const p=posMap.get(n.address);if(!p)return;const r=Math.max(4,Math.min(14,Math.sqrt((n.interactions.sent+n.interactions.received)/2)));
+    g.append('circle').attr('cx',p.x).attr('cy',p.y).attr('r',r).attr('fill',typeColor(n.address_type)).attr('opacity',.85).attr('cursor','pointer').on('mouseover',e=>showTip(e,n)).on('mousemove',moveTip).on('mouseout',hideTip)});
+    // Column labels
+    ['Senders','Pools / Programs','Receivers'].forEach((lbl,i)=>g.append('text').attr('x',pad+i*colW+colW/2).attr('y',pad-20).attr('text-anchor','middle').attr('font-size','11px').attr('fill','var(--text-secondary)').attr('font-weight','700').text(lbl));
+}
+
+// ================================================================
+// 8. ARC DIAGRAM
+// ================================================================
+function renderArc(){
+    const[w,h]=getWH(),{nodes,links,oScale}=prepData(),{svg,g}=mkSvg(w,h);
+    const sorted=[...nodes].sort((a,b)=>(b.interactions.sent+b.interactions.received)-(a.interactions.sent+a.interactions.received));
+    const pad=60,lineY=h/2,spacing=Math.min(20,(w-pad*2)/sorted.length);
+    const posMap=new Map();sorted.forEach((n,i)=>{const x=pad+i*spacing;posMap.set(n.address,{x,y:lineY})});
+    // Arcs
+    const maxTx=d3.max(links,l=>l.tx_count)||1;
+    links.forEach(l=>{const s=posMap.get(l.source),t=posMap.get(l.target);if(!s||!t)return;const dx=Math.abs(s.x-t.x),arcH=Math.min(dx*.6,h/2-40);const mid=(s.x+t.x)/2;
+    g.append('path').attr('d',`M${s.x},${lineY}Q${mid},${lineY-arcH} ${t.x},${lineY}`).attr('fill','none').attr('stroke',typeColor(nodes.find(n=>n.address===l.source)?.address_type||'unknown')).attr('stroke-opacity',oScale(l.tx_count)*.6).attr('stroke-width',Math.max(.5,l.tx_count/maxTx*3))});
+    // Nodes on line
+    sorted.forEach(n=>{const p=posMap.get(n.address);if(!p)return;g.append('circle').attr('cx',p.x).attr('cy',lineY).attr('r',Math.max(3,Math.min(10,Math.sqrt((n.interactions.sent+n.interactions.received)/2)))).attr('fill',typeColor(n.address_type)).attr('opacity',.85).attr('cursor','pointer').on('mouseover',e=>showTip(e,n)).on('mousemove',moveTip).on('mouseout',hideTip)});
+    // Base line
+    g.append('line').attr('x1',pad).attr('y1',lineY).attr('x2',pad+sorted.length*spacing).attr('y2',lineY).attr('stroke','var(--border)').attr('stroke-width',.5);
+}
+
+// ================================================================
+// 9. BUBBLE MAP
+// ================================================================
+function renderBubble(){
+    const[w,h]=getWH(),{svg,g,zoom}=mkSvg(w,h);
+
+    // Use holder data if available, fall back to graph data
+    if(!holderData||!holderData.holders.length){
+        // Fallback: use filtered graph nodes
+        const{nodes}=filterData();
+        const hierData={name:'root',children:nodes.map(n=>({name:n.address,data:n,value:Math.max(1,n.interactions.sent+n.interactions.received)}))};
+        const root=d3.hierarchy(hierData).sum(d=>d.value||0).sort((a,b)=>b.value-a.value);
+        d3.pack().size([Math.min(w,h)-20,Math.min(w,h)-20]).padding(2)(root);
+        const ox=(w-Math.min(w,h)+20)/2,oy=(h-Math.min(w,h)+20)/2;g.attr('transform',`translate(${ox},${oy})`);
+        const leaves=root.leaves();
+        g.selectAll('circle').data(leaves).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>d.r).attr('fill','#3b82f6').attr('opacity',.7);
+        return;
+    }
+
+    // Apply node type filters from checkboxes
+    const{nodeTypes,edgeTypes}=getFilters();
+    const holders=holderData.holders.filter(h=>nodeTypes.has(h.address_type));
+    const edges=holderData.edges||[];
+    const fundedByEdges=holderData.funded_by_edges||[];
+    const fundingClusters=holderData.fundingClusters||new Map();
+    const holderMap=new Map(holders.map(h=>[h.address,h]));
+    const showFundedBy=edgeTypes.has('funded_by');
+
+    // Glow filter
+    const defs=svg.append('defs');
+    const glow=defs.append('filter').attr('id','glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+    glow.append('feGaussianBlur').attr('stdDeviation','4').attr('result','blur');
+    glow.append('feMerge').call(fm=>{fm.append('feMergeNode').attr('in','blur');fm.append('feMergeNode').attr('in','SourceGraphic')});
+
+    // Size by holding percentage — sqrt scale
+    const maxPct=d3.max(holders,h=>h.percentage)||1;
+    const rScale=d3.scaleSqrt().domain([0,maxPct]).range([3,55]);
+
+    // Cluster colors for shared funders (distinct palette)
+    const CLUSTER_COLORS=['#f97316','#ef4444','#eab308','#ec4899','#8b5cf6','#14b8a6','#f43f5e','#84cc16','#06b6d4','#d946ef'];
+    const clusterColor=idx=>CLUSTER_COLORS[idx%CLUSTER_COLORS.length];
+
+    // Color: rank-based with cluster override for shared-funder groups
+    const holderColor=h=>{
+        if(h.cluster_index!=null)return clusterColor(h.cluster_index);
+        if(h.rank===1)return'#a855f7'; // #1 holder (usually pool/contract) = purple
+        if(h.rank<=5)return'#06b6d4';  // top 5 = cyan
+        if(h.rank<=20)return'#4ade80'; // top 20 = green
+        return'#3b82f6';               // rest = blue
+    };
+
+    // Build transfer links
+    const holderSet=new Set(holders.map(h=>h.address));
+    const rawLinks=edges.filter(e=>holderSet.has(e.source)&&holderSet.has(e.target));
+
+    // Build funded_by links (funder->funded, both in holder set)
+    const fundingLinks=[];
+    if(showFundedBy){
+        // From funded_by_edges (funder may not be a holder but funded addresses are)
+        const seen=new Set();
+        fundedByEdges.forEach(fe=>{
+            if(holderSet.has(fe.funded)){
+                const key=fe.funder+'|'+fe.funded;
+                if(!seen.has(key)){
+                    seen.add(key);
+                    fundingLinks.push({source:fe.funder,target:fe.funded,type:'funded_by',
+                                       signature:fe.signature,block_time:fe.block_time});
+                }
+            }
+        });
+        // Also check holder.funded_by field for holders whose funder is also a holder
+        holders.forEach(h=>{
+            if(h.funded_by&&holderSet.has(h.funded_by)){
+                const key=h.funded_by+'|'+h.address;
+                if(!seen.has(key)){
+                    seen.add(key);
+                    fundingLinks.push({source:h.funded_by,target:h.address,type:'funded_by'});
+                }
+            }
+        });
+    }
+
+    // Track which addresses have transfer edges (real relationships)
+    const transferAddrs=new Set();
+    rawLinks.forEach(e=>{transferAddrs.add(e.source);transferAddrs.add(e.target)});
+
+    // Track all connected addresses (transfer + funding)
+    const connectedAddrs=new Set(transferAddrs);
+    fundingLinks.forEach(e=>{connectedAddrs.add(e.source);connectedAddrs.add(e.target)});
+
+    // Filter: "Show unconnected nodes" controls whether funding-only nodes appear
+    const showUnconnected=document.getElementById('cb-no-rel')?.checked||false;
+
+    // Keep holders that have transfer edges, OR (if showUnconnected) ALL holders
+    const connectedHolders=showUnconnected?holders:holders.filter(h=>
+        transferAddrs.has(h.address));
+
+    // Prune funding links to only include nodes that survived the filter
+    const survivorSet=new Set(connectedHolders.map(h=>h.address));
+
+    // Inject funder pseudo-nodes only if they funded 2+ surviving holders (cluster connectors)
+    const fundersNeeded=new Set();
+    if(showFundedBy){
+        const funderCounts=new Map();
+        fundingLinks.forEach(fl=>{
+            if(!survivorSet.has(fl.source)&&survivorSet.has(fl.target)){
+                funderCounts.set(fl.source,(funderCounts.get(fl.source)||0)+1);
+            }
+        });
+        funderCounts.forEach((count,funder)=>{
+            if(count>=2)fundersNeeded.add(funder);
+        });
+    }
+
+    const simNodes=[
+        ...connectedHolders.map(h=>({...h,id:h.address,r:rScale(h.percentage),isFunder:false})),
+        ...[...fundersNeeded].map(addr=>({
+            id:addr,address:addr,address_type:'wallet',label:null,
+            percentage:0,rank:null,amount:'0',funded_by:null,cluster_index:null,
+            r:6,isFunder:true,
+        })),
+    ];
+    const simNodeMap=new Map(simNodes.map(n=>[n.id,n]));
+
+    const simLinks=rawLinks
+        .filter(e=>simNodeMap.has(e.source)&&simNodeMap.has(e.target))
+        .map(e=>({...e,type:'transfer'}));
+    const simFundLinks=fundingLinks
+        .filter(e=>simNodeMap.has(e.source)&&simNodeMap.has(e.target))
+        .map(e=>({...e}));
+    const allSimLinks=[...simLinks,...simFundLinks];
+    const maxTx=d3.max(simLinks,l=>l.tx_count)||1;
+
+    // Force simulation — holders cluster by their transfer + funding relationships
+    simulation=d3.forceSimulation(simNodes)
+        .force('link',d3.forceLink(allSimLinks).id(d=>d.id).distance(d=>{
+            if(d.type==='funded_by')return 30; // tight pull for funding chains
+            const sr=simNodeMap.get(typeof d.source==='object'?d.source.id:d.source);
+            const tr=simNodeMap.get(typeof d.target==='object'?d.target.id:d.target);
+            return(sr?.r||10)+(tr?.r||10)+8;
+        }).strength(d=>d.type==='funded_by'?1.2:0.6))
+        .force('charge',d3.forceManyBody().strength(d=>-d.r*3))
+        .force('center',d3.forceCenter(w/2,h/2))
+        .force('collision',d3.forceCollide().radius(d=>d.r+2).strength(0.9))
+        .force('x',d3.forceX(w/2).strength(.02))
+        .force('y',d3.forceY(h/2).strength(.02))
+        .alphaDecay(.015);
+
+    // Draw transfer edges (thin white lines like bubblemaps.io)
+    const linkEls=g.append('g').selectAll('line').data(simLinks).join('line')
+        .attr('stroke','rgba(255,255,255,0.15)')
+        .attr('stroke-width',d=>Math.max(0.5,Math.min(2,d.tx_count/maxTx*2)));
+
+    // Draw funded_by edges (dashed orange)
+    const fundLinkEls=g.append('g').selectAll('line').data(simFundLinks).join('line')
+        .attr('stroke','#f97316')
+        .attr('stroke-width',1.5)
+        .attr('stroke-dasharray','6,3')
+        .attr('stroke-opacity',0.6);
+
+    // Draw nodes
+    const nodeEls=g.append('g').selectAll('g').data(simNodes).join('g')
+        .attr('cursor','pointer')
+        .call(d3.drag()
+            .on('start',(e,d)=>{if(!e.active)simulation.alphaTarget(.3).restart();d.fx=d.x;d.fy=d.y})
+            .on('drag',(e,d)=>{d.fx=e.x;d.fy=e.y})
+            .on('end',(e,d)=>{if(!e.active)simulation.alphaTarget(0);d.fx=null;d.fy=null}));
+
+    // Cluster ring for nodes in a funding cluster
+    nodeEls.filter(d=>d.cluster_index!=null).append('circle')
+        .attr('r',d=>d.r+5)
+        .attr('fill','none')
+        .attr('stroke',d=>clusterColor(d.cluster_index))
+        .attr('stroke-width',2)
+        .attr('stroke-dasharray','4,2')
+        .attr('opacity',0.5);
+
+    // Outer glow circle
+    nodeEls.append('circle')
+        .attr('r',d=>d.r+2)
+        .attr('fill','none')
+        .attr('stroke',d=>holderColor(d))
+        .attr('stroke-width',1.5)
+        .attr('opacity',0.3);
+
+    // Main circle — funder pseudo-nodes get diamond shape via smaller + brighter
+    nodeEls.append('circle')
+        .attr('r',d=>d.r)
+        .attr('fill',d=>d.isFunder?'#f97316':holderColor(d))
+        .attr('opacity',d=>d.isFunder?0.9:0.75)
+        .attr('stroke',d=>d.isFunder?'#fb923c':d3.color(holderColor(d)).brighter(0.5))
+        .attr('stroke-width',d=>d.isFunder?2:0.5);
+
+    // Labels inside larger bubbles
+    nodeEls.filter(d=>d.r>16).append('text')
+        .text(d=>{
+            const addr=d.address;
+            const pct=d.percentage?.toFixed(1)+'%';
+            return d.r>30?addr.slice(0,4)+'..'+addr.slice(-3)+'\n'+pct:addr.slice(0,4)+'..';
+        })
+        .attr('text-anchor','middle')
+        .attr('dominant-baseline','middle')
+        .attr('font-size',d=>Math.min(10,d.r*.35)+'px')
+        .attr('fill','#fff')
+        .attr('pointer-events','none');
+
+    // Percentage label below for medium bubbles
+    nodeEls.filter(d=>d.r>20&&!d.isFunder).append('text')
+        .text(d=>(d.percentage||0).toFixed(1)+'%')
+        .attr('text-anchor','middle')
+        .attr('dy',d=>d.r*.35+2)
+        .attr('font-size',d=>Math.min(8,d.r*.25)+'px')
+        .attr('fill','rgba(255,255,255,0.6)')
+        .attr('pointer-events','none');
+
+    // Funder label
+    nodeEls.filter(d=>d.isFunder).append('text')
+        .text(d=>'Funder')
+        .attr('text-anchor','middle')
+        .attr('dy',d=>d.r+10)
+        .attr('font-size','8px')
+        .attr('fill','#f97316')
+        .attr('pointer-events','none');
+
+    // Tooltip — enhanced with funded_by info
+    nodeEls
+        .on('mouseover',function(e,d){
+            d3.select(this).select('circle:nth-child(2),circle:nth-child(3)').attr('filter','url(#glow)').attr('opacity',1);
+            const tt=$('tooltip');
+            const tc=typeColor(d.address_type);
+            const funderShort=d.funded_by?d.funded_by.slice(0,8)+'...'+d.funded_by.slice(-4):'';
+            // Count how many other holders share the same funder
+            const clusterSize=d.cluster_index!=null?
+                holders.filter(h=>h.cluster_index===d.cluster_index).length:0;
+            tt.innerHTML=`<div class="tt-addr">${d.address}</div>
+                <span class="tt-type" style="background:${tc}33;color:${tc}">${d.address_type||'unknown'}</span>
+                ${d.rank?`<span class="tt-type" style="background:#3b82f633;color:#3b82f6;margin-left:4px">Rank #${d.rank}</span>`:''}
+                ${d.isFunder?`<span class="tt-type" style="background:#f9731633;color:#f97316;margin-left:4px">Funder</span>`:''}
+                ${d.label?`<div class="tt-label">${d.label}</div>`:''}
+                ${!d.isFunder?`<div class="tt-label" style="margin-top:4px">Holding: ${(d.percentage||0).toFixed(2)}%</div>`:''}
+                ${!d.isFunder?`<div class="tt-stats"><span style="color:#4ade80">Amount: ${BigInt(d.amount||0).toLocaleString()}</span></div>`:''}
+                ${d.funded_by?`<div style="margin-top:4px;font-size:10px;color:#f97316">Funded by: <span style="font-family:monospace">${funderShort}</span></div>`:''}
+                ${clusterSize>=2?`<div style="font-size:10px;color:${clusterColor(d.cluster_index)}">Funding cluster: ${clusterSize} holders share this funder</div>`:''}`;
+            tt.classList.add('visible');
+            moveTip(e);
+        })
+        .on('mousemove',moveTip)
+        .on('mouseout',function(){
+            d3.select(this).selectAll('circle').attr('filter',null);
+            d3.select(this).select('circle:nth-child(2),circle:nth-child(3)').attr('opacity',d=>d.isFunder?0.9:.75);
+            hideTip();
+        })
+        .on('click',(e,d)=>{
+            e.stopPropagation();
+            // Highlight connected holders (transfer + funding)
+            const connected=new Set([d.id]);
+            allSimLinks.forEach(l=>{
+                const sid=typeof l.source==='object'?l.source.id:l.source;
+                const tid=typeof l.target==='object'?l.target.id:l.target;
+                if(sid===d.id)connected.add(tid);
+                if(tid===d.id)connected.add(sid);
+            });
+            // Also highlight entire funding cluster
+            if(d.cluster_index!=null){
+                simNodes.filter(n=>n.cluster_index===d.cluster_index).forEach(n=>connected.add(n.id));
+            }
+            nodeEls.selectAll('circle').attr('opacity',function(){
+                const nd=d3.select(this.parentNode).datum();
+                return connected.has(nd.id)?1:.12;
+            });
+            linkEls.attr('stroke-opacity',l=>{
+                const sid=typeof l.source==='object'?l.source.id:l.source;
+                const tid=typeof l.target==='object'?l.target.id:l.target;
+                return(connected.has(sid)&&connected.has(tid))?.4:.02;
+            });
+            fundLinkEls.attr('stroke-opacity',l=>{
+                const sid=typeof l.source==='object'?l.source.id:l.source;
+                const tid=typeof l.target==='object'?l.target.id:l.target;
+                return(connected.has(sid)&&connected.has(tid))?1:.05;
+            });
+        });
+
+    svg.on('click',()=>{
+        nodeEls.selectAll('circle').attr('opacity',d=>d.isFunder?0.9:.75);
+        linkEls.attr('stroke-opacity',1);
+        fundLinkEls.attr('stroke-opacity',0.6);
+        clearSel();
+    });
+
+    // Tick
+    simulation.on('tick',()=>{
+        linkEls.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+        fundLinkEls.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+        nodeEls.attr('transform',d=>`translate(${d.x},${d.y})`);
+    });
+
+    // Zoom to fit after settling
+    simulation.on('end',()=>$('btn-fit').click());
+}
+
+// ================================================================
+// 10. CHORD DIAGRAM
+// ================================================================
+function renderChord(){
+    const[w,h]=getWH(),{nodes,links}=prepData(),{svg,g}=mkSvg(w,h);
+    const types=[...new Set(nodes.map(n=>n.address_type))].sort();const ti=new Map(types.map((t,i)=>[t,i]));const n=types.length;
+    const matrix=Array.from({length:n},()=>new Array(n).fill(0));
+    links.forEach(l=>{const sn=nodes.find(nd=>nd.address===l.source),tn=nodes.find(nd=>nd.address===l.target);if(!sn||!tn)return;const si=ti.get(sn.address_type),tii=ti.get(tn.address_type);if(si!=null&&tii!=null)matrix[si][tii]+=l.tx_count});
+    const chord=d3.chord().padAngle(.04).sortSubgroups(d3.descending)(matrix);
+    const r=Math.min(w,h)/2-60,innerR=r-20;
+    g.attr('transform',`translate(${w/2},${h/2})`);
+    const arc=d3.arc().innerRadius(innerR).outerRadius(r);
+    const ribbon=d3.ribbon().radius(innerR);
+    // Groups
+    g.selectAll('g.group').data(chord.groups).join('g').attr('class','group').append('path').attr('d',arc).attr('fill',d=>typeColor(types[d.index])).attr('opacity',.7);
+    // Group labels
+    g.selectAll('text.chord-label').data(chord.groups).join('text').attr('class','chord-label').each(function(d){const angle=(d.startAngle+d.endAngle)/2;const flip=angle>Math.PI;d3.select(this).attr('transform',`rotate(${angle*180/Math.PI-90})translate(${r+8})${flip?'rotate(180)':''}`).attr('text-anchor',flip?'end':'start')}).attr('font-size','10px').attr('fill',d=>typeColor(types[d.index])).attr('font-weight','600').text(d=>types[d.index]);
+    // Ribbons
+    g.selectAll('path.ribbon').data(chord).join('path').attr('class','ribbon').attr('d',ribbon).attr('fill',d=>typeColor(types[d.source.index])).attr('opacity',.3).on('mouseover',function(){d3.select(this).attr('opacity',.6)}).on('mouseout',function(){d3.select(this).attr('opacity',.3)}).append('title').text(d=>`${types[d.source.index]}→${types[d.target.index]}: ${matrix[d.source.index][d.target.index]} txs`);
+}
+
+// ================================================================
+// SIGNALR CONNECTION + PROGRESS
+// ================================================================
+
+// GATEWAY_URL declared at top of script.
+let hubConnection=null;
+
+function showProgress(phase,msg,pct){
+    const el=$('progress');
+    $('progress-phase').textContent=phase;
+    $('progress-msg').textContent=msg;
+    if(pct!=null)$('progress-fill').style.width=pct+'%';
+    el.classList.add('show');
+}
+function hideProgress(){$('progress').classList.remove('show');$('progress-fill').style.width='0';}
+
+function updateSignalRStatus(state){
+    const el=$('signalr-status');
+    el.textContent=state;
+    el.className='signalr-status '+state;
+}
+
+function triggerLoadTokenREST(mint){
+    showProgress('loading','Triggering analysis via REST...');
+    fetch(GATEWAY_URL+'/api/load-token',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({Mint:mint}),
+    }).then(r=>r.json()).then(d=>{
+        showProgress('accepted','Request accepted — processing in background');
+    }).catch(e=>{
+        console.warn('REST fallback failed:',e);
+        hideProgress();
+    });
+}
+
+function initSignalR(){
+    if(typeof signalR==='undefined'){
+        console.warn('SignalR library not loaded');
+        return;
+    }
+
+    hubConnection=new signalR.HubConnectionBuilder()
+        .withUrl(GATEWAY_URL+'/hub/graph')
+        .withAutomaticReconnect([0,2000,5000,10000,30000])
+        .configureLogging(signalR.LogLevel.Warning)
+        .build();
+
+    let lastRefresh=0;
+    const REFRESH_INTERVAL=3000;
+    let expectingCacheComplete=false; // prevent refresh loop
+
+    hubConnection.on('OnProgress',function(phase,message,data){
+        console.log('SignalR progress:',phase,message,data);
+        let pct=null;
+        const m=message.match(/(\d+)\/(\d+)\s*holders/);
+        if(m)pct=Math.round((parseInt(m[1])/parseInt(m[2]))*100);
+        showProgress(phase,message,pct);
+
+        // No mid-processing refresh — bubble map force sim reset looks bad.
+        // Full refresh happens on OnComplete.
+    });
+
+    hubConnection.on('OnComplete',function(data){
+        console.log('SignalR complete:',data);
+        const src=data?.source||'processed';
+        const elapsed=data?.elapsed_ms?` in ${(data.elapsed_ms/1000).toFixed(1)}s`:'';
+        if(src==='cache'||expectingCacheComplete){
+            showProgress('complete','Data is current'+elapsed,100);
+            expectingCacheComplete=false;
+        }else{
+            // Field names mirror what get-top-holders-v5.py publishes in publish_progress()
+            const newTransfers=data?.new_transfers||0;
+            const newDefi=data?.new_defi||0;
+            const holdersProcessed=data?.holders_processed||0;
+            showProgress('complete',`Done: ${holdersProcessed} holders — ${newTransfers} transfers, ${newDefi} defi${elapsed}. Refreshing...`,100);
+            // Full reload — re-fetch everything including holder edges
+            expectingCacheComplete=true;
+            const mint=mintInput.value.trim();
+            if(mint){
+                setTimeout(()=>loadToken(),500);
+            }
+        }
+        setTimeout(hideProgress,12000);
+    });
+
+    hubConnection.on('OnError',function(message){
+        console.error('SignalR error:',message);
+        showProgress('error',message);
+        setTimeout(hideProgress,10000);
+    });
+
+    hubConnection.onreconnecting(()=>updateSignalRStatus('connecting'));
+    hubConnection.onreconnected(()=>updateSignalRStatus('connected'));
+    hubConnection.onclose(()=>updateSignalRStatus('disconnected'));
+
+    // Connect
+    updateSignalRStatus('connecting');
+    hubConnection.start().then(()=>{
+        updateSignalRStatus('connected');
+        console.log('SignalR connected');
+    }).catch(e=>{
+        updateSignalRStatus('disconnected');
+        console.warn('SignalR connect failed (will use REST fallback):',e.message);
+    });
+}
+
+async function reloadGraphData(mint){
+    // Incrementally refresh graph + holder edges from ArangoDB as processing runs
+    try{
+        const [r, newEdges, newFunding] = await Promise.all([
+            queryArango(AQL,{mint}).catch(()=>null),
+            holderData&&holderData.holders.length?
+                fetchHolderEdges(mint,holderData.holders.map(h=>h.address)).catch(()=>[]):
+                Promise.resolve([]),
+            holderData&&holderData.holders.length?
+                fetchHolderFunding(holderData.holders.map(h=>h.address)).catch(()=>({funding_info:[],funded_by_edges:[]})):
+                Promise.resolve({funding_info:[],funded_by_edges:[]}),
+        ]);
+
+        if(r&&r.length) graphData=r[0];
+
+        // Update holder edges + funding without losing holder positions
+        if(holderData){
+            holderData.edges=newEdges||holderData.edges;
+            holderData.funded_by_edges=newFunding.funded_by_edges||holderData.funded_by_edges;
+        }
+
+        updateUI();renderGraph();
+        console.log('Graph data refreshed');
+    }catch(e){console.warn('Graph refresh failed:',e)}
+}
+
+// Initialize SignalR on page load
+initSignalR();
+
+// URL param
+(function(){const p=new URLSearchParams(location.search).get('mint');if(p){mintInput.value=p;loadToken()}})();
+</script>
+</body>
+</html>

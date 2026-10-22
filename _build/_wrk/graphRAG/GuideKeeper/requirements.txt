@@ -1,0 +1,32 @@
+# =============================================================================
+# T16O Pipeline — Python Dependencies
+# GuideKeeper phase — lean core only
+# Uncomment as additional workers come online
+# =============================================================================
+
+# ── ARANGODB ──────────────────────────────────────────────────
+python-arango==8.2.5
+
+# ── REDIS ─────────────────────────────────────────────────────
+redis==7.0.1
+
+# ── HTTP ──────────────────────────────────────────────────────
+requests==2.31.0
+urllib3==2.2.1
+
+# ── DATA / UTILITIES ──────────────────────────────────────────
+python-dotenv==1.0.1
+ujson==5.9.0
+
+# ── SOLANA / BLOCKCHAIN ───────────────────────────────────────
+# Uncomment when Shredder comes online (raw tx binary parsing)
+# solders==0.21.0
+# solana==0.34.3
+# base58==2.1.1
+
+# ── QDRANT (forensic RAG workloads) ───────────────────────────
+# Uncomment when RAG pipeline worker comes online
+# qdrant-client==1.9.1
+
+# ── LOGGING (future enhancement) ──────────────────────────────
+# structlog==24.1.0

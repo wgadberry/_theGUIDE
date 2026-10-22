@@ -1,0 +1,328 @@
+{
+  "rabbit_version": "3.13.7",
+  "description": "theGuide RabbitMQ Configuration - Gateway Architecture",
+  "users": [
+    {
+      "name": "admin",
+      "password_hash": "admin123",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ["administrator"]
+    }
+  ],
+  "vhosts": [
+    { "name": "/" },
+    { "name": "t16o_mq" }
+  ],
+  "permissions": [
+    {
+      "user": "admin",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "admin",
+      "vhost": "t16o_mq",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "queues": [
+    {
+      "name": "mq.guide.gateway.request",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.gateway.response",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.producer.request",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.producer.response",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.producer.dlq",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10, "x-message-ttl": 86400000 }
+    },
+    {
+      "name": "mq.guide.decoder.request",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.decoder.response",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.decoder.dlq",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10, "x-message-ttl": 86400000 }
+    },
+    {
+      "name": "mq.guide.detailer.request",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.detailer.response",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.detailer.dlq",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10, "x-message-ttl": 86400000 }
+    },
+    {
+      "name": "mq.guide.funder.request",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.funder.response",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.funder.dlq",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10, "x-message-ttl": 86400000 }
+    },
+    {
+      "name": "mq.guide.aggregator.request",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.aggregator.response",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.aggregator.dlq",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10, "x-message-ttl": 86400000 }
+    },
+    {
+      "name": "mq.guide.enricher.request",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.enricher.response",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    },
+    {
+      "name": "mq.guide.enricher.dlq",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10, "x-message-ttl": 86400000 }
+    },
+    {
+      "name": "mq.guide.audit.log",
+      "vhost": "t16o_mq",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": { "x-max-priority": 10 }
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "dlx",
+      "vhost": "t16o_mq",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "dlx",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.producer.dlq",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.producer.request",
+      "arguments": {}
+    },
+    {
+      "source": "dlx",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.decoder.dlq",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.decoder.request",
+      "arguments": {}
+    },
+    {
+      "source": "dlx",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.detailer.dlq",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.detailer.request",
+      "arguments": {}
+    },
+    {
+      "source": "dlx",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.funder.dlq",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.funder.request",
+      "arguments": {}
+    },
+    {
+      "source": "dlx",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.aggregator.dlq",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.aggregator.request",
+      "arguments": {}
+    },
+    {
+      "source": "dlx",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.enricher.dlq",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.enricher.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.gateway.request",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.gateway.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.producer.request",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.producer.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.decoder.request",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.decoder.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.detailer.request",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.detailer.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.funder.request",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.funder.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.aggregator.request",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.aggregator.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.enricher.request",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.enricher.request",
+      "arguments": {}
+    },
+    {
+      "source": "t16o_exchange",
+      "vhost": "t16o_mq",
+      "destination": "mq.guide.audit.log",
+      "destination_type": "queue",
+      "routing_key": "mq.guide.#",
+      "arguments": {}
+    }
+  ],
+  "parameters": [],
+  "policies": [
+    {
+      "name": "link-request-to-dlx",
+      "vhost": "t16o_mq",
+      "pattern": "mq.guide.*.request",
+      "apply-to": "queues",
+      "definition": {
+        "dead-letter-exchange": "dlx"
+      },
+      "priority": 0
+    }
+  ]
+}

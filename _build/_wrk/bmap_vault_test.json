@@ -1,0 +1,2 @@
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1318 (42000) at line 1: Incorrect number of arguments for PROCEDURE t16o_db.sp_tx_bmap_get; expected 6, got 2

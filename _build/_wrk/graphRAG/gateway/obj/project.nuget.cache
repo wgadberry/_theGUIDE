@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "EDK4jZbR9Rk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\wgadb\\source\\repos\\T16O\\sql\\shred\\_theGuide\\_build_all\\_wrk\\graphRAG\\gateway\\T16O.GraphRAG.Gateway.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wgadb\\.nuget\\packages\\messagepack\\2.5.187\\messagepack.2.5.187.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\messagepack.annotations\\2.5.187\\messagepack.annotations.2.5.187.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\microsoft.aspnetcore.signalr.stackexchangeredis\\9.0.14\\microsoft.aspnetcore.signalr.stackexchangeredis.9.0.14.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.14\\microsoft.extensions.dependencyinjection.abstractions.9.0.14.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\microsoft.extensions.options\\9.0.14\\microsoft.extensions.options.9.0.14.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.14\\microsoft.extensions.primitives.9.0.14.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\microsoft.net.stringtools\\17.6.3\\microsoft.net.stringtools.17.6.3.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\pipelines.sockets.unofficial\\2.2.8\\pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\stackexchange.redis\\2.12.14\\stackexchange.redis.2.12.14.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\system.io.hashing\\10.0.2\\system.io.hashing.10.0.2.nupkg.sha512",
+    "C:\\Users\\wgadb\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

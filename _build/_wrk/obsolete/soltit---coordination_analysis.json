@@ -1,0 +1,1072 @@
+{
+  "distributor_groups": {
+    "5LMtwSn45ttbcUfqnEbyT9PwEuTYbQ3LgHEHSTD4oUWY": [
+      {
+        "receiver": "BjuEs4JtdZiAHzCqbHDtFkxd3LKCJHjKSpnj8ivexaPF",
+        "amount": 12000000.0,
+        "first": "2025-10-27 23:12:48",
+        "last": "2025-10-27 23:12:48"
+      },
+      {
+        "receiver": "9gsJ6f1B5XRxBoD2wkdCv4LBPGJh62pwr1KUEx8TTdCA",
+        "amount": 9040000.0,
+        "first": "2025-10-16 03:55:55",
+        "last": "2025-12-01 00:11:26"
+      },
+      {
+        "receiver": "CmmAmcF9bBo97HEKDrSHYbC367nZ2qbXycGcTJzTRVvY",
+        "amount": 7150000.0,
+        "first": "2025-10-20 15:14:34",
+        "last": "2025-10-23 15:58:34"
+      },
+      {
+        "receiver": "LCJ2bM8gHxFkcepShNUMovsEKVf3b14RiAuMbnUJptC",
+        "amount": 5000000.0,
+        "first": "2025-10-23 16:22:35",
+        "last": "2025-10-23 16:22:35"
+      },
+      {
+        "receiver": "GJDzNW1m3qEdKtUXYLoQX4go1v6iA7Y3E4NVewX2J5YK",
+        "amount": 5000000.0,
+        "first": "2025-10-23 15:56:25",
+        "last": "2025-10-23 15:56:25"
+      },
+      {
+        "receiver": "G8YiCZ5FetbeAvB1uoQRTLkV8aaD8EUuaPhHPTdai7Cj",
+        "amount": 3000000.0,
+        "first": "2025-10-24 18:29:25",
+        "last": "2025-10-24 18:29:25"
+      },
+      {
+        "receiver": "7Vdm9sTd9sVHyv9kciZ2aKjXB694fgNs8b6cKif7NZ6M",
+        "amount": 2500000.0,
+        "first": "2025-11-13 00:32:02",
+        "last": "2025-11-13 00:32:02"
+      },
+      {
+        "receiver": "A3BNkHHR56HcWf2k7fBXkjeso2LJhDZBTHPkkAC5Se9X",
+        "amount": 1500000.0,
+        "first": "2025-10-24 23:59:34",
+        "last": "2025-10-24 23:59:34"
+      },
+      {
+        "receiver": "8psNvWTrdNTiVRNzAgsou9kETXNJm2SXZyaKuJraVRtf",
+        "amount": 1461375.85499165,
+        "first": "2025-10-14 20:22:56",
+        "last": "2025-12-12 19:20:27"
+      },
+      {
+        "receiver": "CaE9dbEmhF5TthLk1dK3WxMXZ56pC1ySQxeo3RgKc67c",
+        "amount": 1150000.0,
+        "first": "2025-11-10 04:21:26",
+        "last": "2025-11-10 04:21:26"
+      },
+      {
+        "receiver": "8SFT3oWjDBFa6Twxu8zXkrpi7BHSsZH679fGz9D9SVoA",
+        "amount": 1100000.0,
+        "first": "2025-11-28 19:23:12",
+        "last": "2025-11-28 19:23:12"
+      }
+    ],
+    "628RzrmapfdaXqeXyWnebbceBxEsGQ2WmKJcK2UHQpaD": [
+      {
+        "receiver": "8LzQdFqBxzBFx2xgDPacDFZB7Aj1upDbfuy6M5AXChTg",
+        "amount": 17550000.133875437,
+        "first": "2025-10-09 22:14:34",
+        "last": "2025-10-09 22:14:34"
+      },
+      {
+        "receiver": "9gsJ6f1B5XRxBoD2wkdCv4LBPGJh62pwr1KUEx8TTdCA",
+        "amount": 2033647.687914778,
+        "first": "2025-10-30 00:54:22",
+        "last": "2025-10-30 00:54:22"
+      }
+    ],
+    "6qZRYpsJbx9WDtDfUkbCwopMGK6eh2yEP25Nzb2J4RxM": [
+      {
+        "receiver": "628RzrmapfdaXqeXyWnebbceBxEsGQ2WmKJcK2UHQpaD",
+        "amount": 20000000.0,
+        "first": "2025-10-07 00:42:52",
+        "last": "2025-10-07 00:42:52"
+      },
+      {
+        "receiver": "BjuEs4JtdZiAHzCqbHDtFkxd3LKCJHjKSpnj8ivexaPF",
+        "amount": 20000000.0,
+        "first": "2025-10-07 00:42:08",
+        "last": "2025-10-07 00:42:08"
+      },
+      {
+        "receiver": "4c1D6iXb6aG2fnKXDcWjhNx49ReQ6M9aMquiXsWoHwC3",
+        "amount": 20000000.0,
+        "first": "2025-10-07 00:41:33",
+        "last": "2025-10-07 00:41:33"
+      },
+      {
+        "receiver": "H9kufedd9X76wXJ4cS9xmzBDU6nCyG4qLrUDBba9TxqZ",
+        "amount": 20000000.0,
+        "first": "2025-10-07 00:40:44",
+        "last": "2025-10-07 00:40:44"
+      },
+      {
+        "receiver": "HGezrugGoTBeXBdZoHLm9kpuPf67mavMyCYfGGRJBkNn",
+        "amount": 10000000.0,
+        "first": "2025-10-07 00:44:45",
+        "last": "2025-10-07 00:44:45"
+      }
+    ],
+    "71Ec9X3YDPiXirtdJTXqrBchWUaMbj4AfvEb9Zv1kEuU": [
+      {
+        "receiver": "48GrPmhm4tDE2ivvkPwKXbYFsGE1uXuJLatWd9zmBj8v",
+        "amount": 1250000.0,
+        "first": "2025-10-12 09:45:50",
+        "last": "2025-10-12 09:45:50"
+      },
+      {
+        "receiver": "DtiJsZT9RbBiUENoT7JuKtfGnMpZbRvVPFnW3p59Vzep",
+        "amount": 1205743.0,
+        "first": "2025-10-21 13:02:35",
+        "last": "2025-10-21 13:02:35"
+      }
+    ],
+    "8LzQdFqBxzBFx2xgDPacDFZB7Aj1upDbfuy6M5AXChTg": [
+      {
+        "receiver": "7oKJVspmgeEZ7bDrBBxTJ2FLvRcJef7baNWCuWN4MMSk",
+        "amount": 5416490.946105038,
+        "first": "2025-10-10 07:40:47",
+        "last": "2025-10-10 07:40:47"
+      },
+      {
+        "receiver": "DtiJsZT9RbBiUENoT7JuKtfGnMpZbRvVPFnW3p59Vzep",
+        "amount": 1689144.139813644,
+        "first": "2025-10-10 05:27:43",
+        "last": "2025-10-10 05:27:43"
+      },
+      {
+        "receiver": "D7mQ2hxc9nP3cSD9UFS1nSGu3TbdoENyjYdEoePU19Xt",
+        "amount": 1488023.704163933,
+        "first": "2025-10-10 01:06:33",
+        "last": "2025-10-10 01:06:33"
+      },
+      {
+        "receiver": "8V4asuh4PMGsSCrKZ5mjnXPTAndhgQ9j3sgZNR7ki5FH",
+        "amount": 1224223.688235233,
+        "first": "2025-10-10 06:34:24",
+        "last": "2025-10-10 06:34:56"
+      }
+    ],
+    "958NhZnaTDnf3M8igXVSHV5fKAPZrufpYLBVZRXgob1P": [
+      {
+        "receiver": "B293ytxD3vn7o6y2GY913ac7TixqZCvC9jxygc5rAcPb",
+        "amount": 1300020.0,
+        "first": "2025-10-24 18:34:53",
+        "last": "2025-10-30 04:13:54"
+      },
+      {
+        "receiver": "Dm7ivP94k5GwCF1tKkboRyhPEBkxJ9Bn11VJT6jGxvJv",
+        "amount": 1274187.649297406,
+        "first": "2025-11-08 20:38:13",
+        "last": "2025-11-08 22:13:43"
+      }
+    ],
+    "9BMPXbY8hTqpzCzar1rXmajx83PiPutYvvuE2cNdcNuA": [
+      {
+        "receiver": "9NYsrCEsmXTBqv8DN8hZEZ9sPKZ9D1ZZdDvEDYwikLzY",
+        "amount": 1300000.0,
+        "first": "2025-10-12 00:10:32",
+        "last": "2025-10-12 00:10:32"
+      },
+      {
+        "receiver": "2P9HSSsph4eZhNFotUiTZFQYnMnQ2uWKoDEks8L316r2",
+        "amount": 1300000.0,
+        "first": "2025-10-12 08:45:11",
+        "last": "2025-10-12 08:45:11"
+      }
+    ],
+    "BPrNYyEcJB5754GF9aJrtB2SKJ96j1oLgUJg7dpzankn": [
+      {
+        "receiver": "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "amount": 4950362.021584155,
+        "first": "2025-10-10 10:27:54",
+        "last": "2025-10-20 03:11:53"
+      },
+      {
+        "receiver": "8V4asuh4PMGsSCrKZ5mjnXPTAndhgQ9j3sgZNR7ki5FH",
+        "amount": 3477507.176298805,
+        "first": "2025-10-20 17:44:42",
+        "last": "2025-10-20 17:44:42"
+      },
+      {
+        "receiver": "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB",
+        "amount": 1778806.297418693,
+        "first": "2025-10-10 12:15:19",
+        "last": "2025-10-20 03:48:57"
+      }
+    ],
+    "DLcpi2JnzviPZeMkKqZP1ikWUodq5959hiWeHztUijtR": [
+      {
+        "receiver": "71Ec9X3YDPiXirtdJTXqrBchWUaMbj4AfvEb9Zv1kEuU",
+        "amount": 2600000.0,
+        "first": "2025-10-12 00:13:58",
+        "last": "2025-10-12 00:15:33"
+      },
+      {
+        "receiver": "BzjePtftYZjakD36cBrr23RRkUNQY2TmHCjhDaR89Zvg",
+        "amount": 1300000.0,
+        "first": "2025-10-12 00:14:46",
+        "last": "2025-10-12 00:14:46"
+      }
+    ],
+    "F4KHDgyUpi6AgJHuQSbGH1GtrAygTQZE9t3DWe1B5RE1": [
+      {
+        "receiver": "GsxE8wWpm73zMBtdxtkukWspAsu2nTS8cegqdCeXxTU2",
+        "amount": 3916222.106434661,
+        "first": "2025-12-10 19:10:58",
+        "last": "2025-12-10 19:13:22"
+      },
+      {
+        "receiver": "6CSzmTJHru8zjLQeH3qxYoSNueZ1bUad5AtN4daSyH19",
+        "amount": 3272222.222222223,
+        "first": "2025-10-15 01:38:32",
+        "last": "2025-10-15 03:33:58"
+      },
+      {
+        "receiver": "HLnpSz9h2S4hiLQ43rnSD9XkcUThA7B8hQMKmDaiTLcC",
+        "amount": 1249185.185185185,
+        "first": "2025-10-22 16:15:20",
+        "last": "2025-10-22 16:15:20"
+      }
+    ],
+    "HLnpSz9h2S4hiLQ43rnSD9XkcUThA7B8hQMKmDaiTLcC": [
+      {
+        "receiver": "6o4s2Dkdj3HsB4DnfzWc6XCDBwsF3f75FX9nuSvVPSAD",
+        "amount": 7226627.826061896,
+        "first": "2025-10-14 11:29:22",
+        "last": "2025-10-14 11:29:43"
+      },
+      {
+        "receiver": "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "amount": 2267395.441223334,
+        "first": "2025-10-07 17:31:36",
+        "last": "2025-11-22 02:12:03"
+      },
+      {
+        "receiver": "XoXoL2gjxbKWVNtg672gzQjRi268nTonPHr24qZJzNb",
+        "amount": 1261884.348411829,
+        "first": "2025-10-08 19:19:53",
+        "last": "2025-10-10 06:57:50"
+      }
+    ],
+    "HNjPH5X6qcG7Ev3gpoxpK1pSyQRugUZrGTys9hcjgqak": [
+      {
+        "receiver": "GsxE8wWpm73zMBtdxtkukWspAsu2nTS8cegqdCeXxTU2",
+        "amount": 4416209.208375293,
+        "first": "2025-10-09 16:56:59",
+        "last": "2025-10-09 16:56:59"
+      },
+      {
+        "receiver": "bobCPc5nqVoX7r8gKzCMPLrKjFidjnSCrAdcYGCH2Ye",
+        "amount": 1926890.725761855,
+        "first": "2025-10-07 15:16:38",
+        "last": "2025-10-07 15:16:38"
+      }
+    ],
+    "HY8pWqhnNXmyektecHfX85hJuDVSUDKDzL5ziUkDSZu5": [
+      {
+        "receiver": "6V2Zez7mfTcpx3gjmkSWUCuLCbpGwgS6EN2xqXuxgEMc",
+        "amount": 3722284.20598633,
+        "first": "2025-10-21 01:00:11",
+        "last": "2025-10-21 01:00:11"
+      },
+      {
+        "receiver": "8psNvWTrdNTiVRNzAgsou9kETXNJm2SXZyaKuJraVRtf",
+        "amount": 1017160.018027582,
+        "first": "2025-10-07 02:04:21",
+        "last": "2025-10-07 18:03:10"
+      }
+    ],
+    "yudkpbXU7Ufvumi6fpJ69HMwyfoQQ8UeSFZc4be2hiW": [
+      {
+        "receiver": "6qZRYpsJbx9WDtDfUkbCwopMGK6eh2yEP25Nzb2J4RxM",
+        "amount": 100000000.0,
+        "first": "2025-10-07 00:36:23",
+        "last": "2025-10-07 00:36:23"
+      },
+      {
+        "receiver": "G8YiCZ5FetbeAvB1uoQRTLkV8aaD8EUuaPhHPTdai7Cj",
+        "amount": 6500000.0,
+        "first": "2025-10-18 23:50:52",
+        "last": "2025-10-23 20:05:54"
+      }
+    ]
+  },
+  "coordinated_events": [
+    {
+      "time": "2025-10-06 21:00:00",
+      "buyers": [
+        "8KFzNrh4CwP8UXn9Qi7y7aTnz2iKg9xYVd4YiDP3Adce",
+        "BoM3XBa1S9aS4AdKPsuPnPFRZhpySSU6gfoisq75y5cW",
+        "ricEmGn6WZ9kN2ASm1MAt7LoE1hBgu1VcQrjRwkAPfc",
+        "GQhp1metiEge237QfN6rLtFENiz9BW2RCV3s3KPEbWdJ",
+        "8vM9VWTHpFKJdyAXMTAVj5w3kjbH2zz1K9S6ps4bfNfc",
+        "G3xfHU267fZjMZuTadom6yHwoGg3EqdM2hFCN4gZeKx6",
+        "3WVcDPEtR5RGV7SHCX6DULfdujyf8YeCLXY2Ke12QAG6",
+        "6gyf431apkiPUZSpLT2y3i1Zu1Xy8bq3jAC5MnzkHx3v",
+        "57BAhQRLhmW7CUcAG4PX4KQxPxHNqgqQkkiULBdiinJG",
+        "2t3Vnqg7niZr3hXKrxBr1E9r6YTvKFhsuSu5P6upiRJp",
+        "9Quai5qWgr2q4x2krqMN7adsQqJ4otQptBaKtEd9MKDR",
+        "D5pRkseJdGXiZrDp4FaBZfZd4JQAWyFp1bE4nw7hUKUZ",
+        "Bos3jQMtBfQ46keJgmi1YkqBW2R59zsPutmtiMnPzBNV",
+        "FfbXkvVw6HbedopCXNa8By6bENgzbyz7tYR4v8tqiAxd",
+        "21vjEdbXiZZV1E5p6o4kL4RWrE5UsRjsjasEw1Mv7Aiy",
+        "2rqBjjoyTYwRrsn8sU6wFAhduVWyDcuuVpJyxtfq7VLU",
+        "4rnm8AUz5wVFLiYWzmsSa6638Hmb2RtYBic1SerE9oWW",
+        "AXA2k9FKgTyUaaQSAvB7qVHUsnRJJST2rsmF6EFDZBHZ",
+        "GNUDsg2v2Noixgd54iQ4VmTsJyGjBn7jU7b4Q5wd4PBR",
+        "HrWuK5zC6KVFbWiFZXW3m6hNYRu57r2gnhTdmHArEVVw",
+        "hswtMtZrQz1E42pVULzz5GgRHXVd2hdaeSvYSx3BRp1",
+        "HXzdyGkmpNKAJfcebrMmxhcPHyety1bSUPqwqTpXrYnY",
+        "BosfVsXbf6jxpuNJd9zzPr83FLrdkSWDEMXDxmwbRJgv",
+        "DHFdFqjCMzdG13VNJNrST6MkezAuMzriveCaPZWcBTTT"
+      ],
+      "sellers": [
+        "HrWuK5zC6KVFbWiFZXW3m6hNYRu57r2gnhTdmHArEVVw",
+        "hswtMtZrQz1E42pVULzz5GgRHXVd2hdaeSvYSx3BRp1",
+        "BoM3XBa1S9aS4AdKPsuPnPFRZhpySSU6gfoisq75y5cW",
+        "8vM9VWTHpFKJdyAXMTAVj5w3kjbH2zz1K9S6ps4bfNfc",
+        "Bos3jQMtBfQ46keJgmi1YkqBW2R59zsPutmtiMnPzBNV",
+        "FfbXkvVw6HbedopCXNa8By6bENgzbyz7tYR4v8tqiAxd",
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS",
+        "BosfVsXbf6jxpuNJd9zzPr83FLrdkSWDEMXDxmwbRJgv",
+        "GNUDsg2v2Noixgd54iQ4VmTsJyGjBn7jU7b4Q5wd4PBR",
+        "57BAhQRLhmW7CUcAG4PX4KQxPxHNqgqQkkiULBdiinJG"
+      ]
+    },
+    {
+      "time": "2025-10-06 21:05:00",
+      "buyers": [
+        "9RSVzUD4XHHMgRSh9tMmTV6tTLQWbUwWeZ9Thhz3DNi8",
+        "5hcuxSXSNj3EPPs8aiktpxy6BaWCgvEHzWmhVeLGca4Z",
+        "ADwCpHQ4zfdiRYvCUHJRGQ1X4NbGfxJ3cnKMdrTi71jf",
+        "7ve6hXVp1HEsgMGnJEoGv9Z7J184YQqsAxmGVUdMPcMt",
+        "Dbo3qjR3Xyhz26ZwMV94FYweWktSdi5x4A6rbkjZzqNu",
+        "8Nztq12MMXkuBcPfDDZN4BxHpKMkzLw8A3hsXusJboLv",
+        "AgMBjJdCzKDeyXPNRi2yZ6vLwKxsXe4D4ZWW3PwQGHjS",
+        "HEeL77WmYDAffZokrjNS8qe5wodu7rZ8khTcsE9BPJ4X",
+        "D5pRkseJdGXiZrDp4FaBZfZd4JQAWyFp1bE4nw7hUKUZ",
+        "AX2Sf6bkCCGPN9awFrzt7LCJmEDBHjKJbXE9yEmhMxAM",
+        "3s5uQYAHd5SQTZF9Gj6kauubuTRotnRhuv6wgfWHzQAx",
+        "wAVQktfDqjZ1qitnEgZpjGQSGyrx3XwgrcgS1G19w2e",
+        "21vjEdbXiZZV1E5p6o4kL4RWrE5UsRjsjasEw1Mv7Aiy",
+        "2rqBjjoyTYwRrsn8sU6wFAhduVWyDcuuVpJyxtfq7VLU",
+        "4rnm8AUz5wVFLiYWzmsSa6638Hmb2RtYBic1SerE9oWW",
+        "9FpixNTMNWwU7JL7bDvTS7mdZ2m2ZkFgfKDfMDbo5snZ",
+        "D5kuymDE8CTAQ2ANVn8LQXsmoE2Ys4QCFCgAS1oxCN8A",
+        "34yVeWYmJrUrYGXVkVfrUKYFfVYVNvaQphxzx2B5me62",
+        "6g4yBNkdEakFN5qrQ8c2Mz26dbHoakCuM2DNxRq49YMV",
+        "74DYf9oprzCTWUEsE86fuoJUSQ4UUEJY3EzApXYbFA2i",
+        "3eGkMXpYVbKWnbLuh4MAPRY8yA9EcmB9seh7VrTohWvt",
+        "HNo2jppzT7axNcow7TjxWweFbbX8Fz1E8NZvuggWDded",
+        "4HsStbJVFZpwAbQ37FMWAjZmQgxrtHNGSbUrM1wyTAEq",
+        "6PvjPbm4DaUW98KxEJHMsgawfdY4azPLJwN3HHeVxNVw",
+        "7A9ZnT21uK5NLJq4R3MVsbZrWi2u8uocM19eSjNEzQQs"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-06 21:10:00",
+      "buyers": [
+        "8KFzNrh4CwP8UXn9Qi7y7aTnz2iKg9xYVd4YiDP3Adce",
+        "8EzGMYhhSYeQuoXBP3MBvnnhV1RKdgh5fEVEgiFx2dQj",
+        "2MXSNJtu1LZABBkQ4rJYHi7c35Qg27YmqsNT86kJrnTC",
+        "8ogB1EeXKhNk2XeNTcBEiRawpUgTx4Shpdn19bJ3Mz9G",
+        "DK3D1mxVWzcxEiqYd1UVa1cr9ZzpbaqxuxW6C22K1Dtv",
+        "F2vEBHj9ykM8RvXhEsigSs8VNwQ7hN82H4LxfD2rh3pN",
+        "69fP1imFMsbSRsZBAvmRdMAH8YSMjKTjRdTYxS3tLsjA",
+        "CXHE53i4NgX24qyPbaUqBPjPgak5fFgozZRPcUGP1X8Q",
+        "2PAnsVDYkuQTMxysupCXQFRxB95h24KN6YafDQv6xX9g",
+        "44bM6dAGRNW5E61TYxtyueuMupp7kqdx8HZ2hWgZb9WC",
+        "6KzhZEhFLsnoN94qpHLMkk1Dne7xVwUbxrvsMcTb7EDQ",
+        "8eRQksj334SXG7WBBhD6uxt4NSTXf6mmBMiYzCd9gex4",
+        "8dpp4d3ayff5MpCvxN48eEPN621SgNujG45vmzxBuVyg",
+        "6k5nbPWSpcbcCwkg7Hz3qVMbGLRdxgSqYziugzo11GH7",
+        "BX3BZwCpeBmdtUkieVSLKbZLHz9bEaJWCnVP1LE4D8qy"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS",
+        "3WVcDPEtR5RGV7SHCX6DULfdujyf8YeCLXY2Ke12QAG6",
+        "HNo2jppzT7axNcow7TjxWweFbbX8Fz1E8NZvuggWDded"
+      ]
+    },
+    {
+      "time": "2025-10-06 21:15:00",
+      "buyers": [
+        "Lkb6zau6M1BUUq8oHyDmsw3o5gCbMvDwaseUvd5666z",
+        "Gj5K5kX2ktxaydCwZZ34xSgPuo7tKYj6qViV5w7i9Wkp",
+        "A1vgNK8fGcQYazrPAnXD5zy4Akw1sC9DYLxWfqJ6Fm7m"
+      ],
+      "sellers": [
+        "2rqBjjoyTYwRrsn8sU6wFAhduVWyDcuuVpJyxtfq7VLU",
+        "GNUDsg2v2Noixgd54iQ4VmTsJyGjBn7jU7b4Q5wd4PBR",
+        "G3xfHU267fZjMZuTadom6yHwoGg3EqdM2hFCN4gZeKx6"
+      ]
+    },
+    {
+      "time": "2025-10-06 21:20:00",
+      "buyers": [
+        "79iQBsxSTUpht36gQ8BvLDAc2AudVWN2iEkXxKdoP3L6",
+        "D5pRkseJdGXiZrDp4FaBZfZd4JQAWyFp1bE4nw7hUKUZ",
+        "6o4s2Dkdj3HsB4DnfzWc6XCDBwsF3f75FX9nuSvVPSAD",
+        "5yfEuroCDbc7ZyUQJtStrR4yFua4nP89jCuSCcgsqe1X"
+      ],
+      "sellers": [
+        "Bos3jQMtBfQ46keJgmi1YkqBW2R59zsPutmtiMnPzBNV",
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS",
+        "G3xfHU267fZjMZuTadom6yHwoGg3EqdM2hFCN4gZeKx6"
+      ]
+    },
+    {
+      "time": "2025-10-06 21:25:00",
+      "buyers": [
+        "2uGGxrMetvgCWQ7VenGEmFUBRan1dW8BNG3YYZagRefb",
+        "7ZbqvjyYdt6rBcz2MNKC5rBFQW9MzAgHjoE25pR9hfHe",
+        "AEeNr1RpnT9qoqXxQ3PxSXjJvhia7XYrtQBqM9q3rseJ",
+        "D913J2PpycBdVhtMWDETXkFQSqBwuQWANhFG7UnL5n18",
+        "Coav25hvjD1T2UnH9fv49pmMRK73oJMpqxhH3t3hcho9",
+        "758LF4jY3GGVTKAJYyTK1fJhKWf8si6s85vH92aF2o1V"
+      ],
+      "sellers": [
+        "4HsStbJVFZpwAbQ37FMWAjZmQgxrtHNGSbUrM1wyTAEq",
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-06 21:30:00",
+      "buyers": [
+        "42rAu1NoFof7KCnNcbjNRtrZGr4CTXGsJnSRssLgiAxp",
+        "Gb6cmcZfPhVbYD3YPV2pQd4ZoWVSLqkdTG4XYEMugoqG",
+        "Fuw9nLU6sZQn2mDFA3ZsVgxhLxabhX9rHVKyAUbZcXCt",
+        "7vzCUcxbW9ZQZRXf3Csv5dBigfUVAUb9YqDZdVJLZqpZ",
+        "HBons9j7apmrqqxyHFdvaTQtFpmPWcTXYKvDY4Qturer",
+        "DVci8kF3oBkhqRUi6U5PGMdD5uhN3esnXQ1vcdkm8nTG",
+        "AUZTY7j6zehkBmvDYECdHDMWdjkYL56KwrVxGESUosDv",
+        "2RoJG1PmZMrFjQdMqBahyYfePgWwPYDPpYk2Q1T84tZm",
+        "Hcw9P4gVrDUJaYi5q4gaW135fkDqKhMYbygTMMjH98qK",
+        "8P3aWTD4tPpoC8yU4G3uTGrwR7wX2AVaLMQX1Btqxyab",
+        "9KLoQU9R8SHq6wWkw7btne3vtvLNunUytXS2dGJFDvci",
+        "D2ZwJWEd5MUDribCWYjk6quVdP96G2Bgkx87yY4Wg4tv",
+        "2wMpSopsqpH8TxciXqqRoViQV96CrKGG1rMd9PcdfpXo",
+        "H3DN3qmCtwALBDxZ9RUR5chfCa9TnKfXQ8MiLkS6BCgy"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-06 21:40:00",
+      "buyers": [
+        "21vjEdbXiZZV1E5p6o4kL4RWrE5UsRjsjasEw1Mv7Aiy",
+        "5SBbN6TyLsJNP4wZ8MRr61VReysJAxUgESWkx5NJJVu",
+        "D5pRkseJdGXiZrDp4FaBZfZd4JQAWyFp1bE4nw7hUKUZ"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-06 21:45:00",
+      "buyers": [
+        "D8aLToJWPJ3df9sEsSVUkqtiSF7uHp7ezXpDHBKwgXoG",
+        "EUfKG74Xpcb3oUqNMhvrwcTMLogLkXwrMnks6fEDAujs",
+        "72xbMKaZANVaVQdSu6BULQxjryrcEkzYm1rZDwgT1ab4",
+        "GsxE8wWpm73zMBtdxtkukWspAsu2nTS8cegqdCeXxTU2"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-07 01:30:00",
+      "buyers": [
+        "4qo14MZ6aMQp5wmV653uEKZmxEkNoEnGqd59dVsvp8Ft",
+        "9vcF7eQipTWqDVAcJQ3dmGz8endxrXZTADeAbbPt9g4j",
+        "7tFSy7M67ErjjpHZJmsn3J2MFJzLZcy2EHoXAk8ARK8L",
+        "HwxNgtoZFFPLRLxSrc9y4ezfHcFvKtYjTYjJqkyGSZNA"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-07 01:35:00",
+      "buyers": [
+        "74DYf9oprzCTWUEsE86fuoJUSQ4UUEJY3EzApXYbFA2i",
+        "FjVSFBomprMA7UKrEH9VA8RF4W6UuSCAKg4ueoXjcddW",
+        "3eGkMXpYVbKWnbLuh4MAPRY8yA9EcmB9seh7VrTohWvt",
+        "9FpixNTMNWwU7JL7bDvTS7mdZ2m2ZkFgfKDfMDbo5snZ",
+        "Edrwxw2CMxjAEKCcZptfJcTYy9tUhPAiUioj6drJws7v",
+        "D5kuymDE8CTAQ2ANVn8LQXsmoE2Ys4QCFCgAS1oxCN8A",
+        "AX2Sf6bkCCGPN9awFrzt7LCJmEDBHjKJbXE9yEmhMxAM",
+        "ADwCpHQ4zfdiRYvCUHJRGQ1X4NbGfxJ3cnKMdrTi71jf",
+        "3s5uQYAHd5SQTZF9Gj6kauubuTRotnRhuv6wgfWHzQAx",
+        "7A9ZnT21uK5NLJq4R3MVsbZrWi2u8uocM19eSjNEzQQs",
+        "wAVQktfDqjZ1qitnEgZpjGQSGyrx3XwgrcgS1G19w2e",
+        "HwxNgtoZFFPLRLxSrc9y4ezfHcFvKtYjTYjJqkyGSZNA",
+        "E6ZQJP1fsHhpfTJoEijW3SfL6gZXMTmyiRxWJXFDFBPR",
+        "6g4yBNkdEakFN5qrQ8c2Mz26dbHoakCuM2DNxRq49YMV"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-07 09:45:00",
+      "buyers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "GHyrykmnJZzhRY3xfWxEAr27rtL3NGxUKrGKYYpZpHqc",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ]
+    },
+    {
+      "time": "2025-10-07 11:15:00",
+      "buyers": [
+        "GoabPiARnV45METVvtsoSDKuWgJRrJBLfDhKBDKJpxnm",
+        "4MvvFWgELDqwGRfxKpqT2NG15kX6g93MPA6RXgKn3qBp",
+        "bobCPc5nqVoX7r8gKzCMPLrKjFidjnSCrAdcYGCH2Ye"
+      ],
+      "sellers": [
+        "bobCPc5nqVoX7r8gKzCMPLrKjFidjnSCrAdcYGCH2Ye",
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-07 13:15:00",
+      "buyers": [
+        "6kwDCDDDJ63y4pbdqvxQEYfp8BNvrtrM6ZFLFQF3jScp",
+        "FjpFsSRZJjxXCgnvbm1wXXKA6ErP13G62PJAGyTtkYHS",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ]
+    },
+    {
+      "time": "2025-10-07 13:35:00",
+      "buyers": [
+        "BfDDjHs5UpnkA5moUrPynDumejCrovjqBe5tZELqGAZa",
+        "HY8pWqhnNXmyektecHfX85hJuDVSUDKDzL5ziUkDSZu5",
+        "G4tinUhbt18yjMGEH2yn359gu54VL3Jj9T5rg8Qrfr41"
+      ],
+      "sellers": [
+        "G4tinUhbt18yjMGEH2yn359gu54VL3Jj9T5rg8Qrfr41",
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-07 13:45:00",
+      "buyers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "GQhp1metiEge237QfN6rLtFENiz9BW2RCV3s3KPEbWdJ",
+        "6JmoaF8irPW3e8icKSVVdEP6M2d5HiaJr4ZcTAgBkepZ"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8"
+      ]
+    },
+    {
+      "time": "2025-10-07 14:55:00",
+      "buyers": [
+        "FFxvcWpJ66jr4fQkV54aWQckuFd9vqLmrTbzQpjotnEP",
+        "DLcpi2JnzviPZeMkKqZP1ikWUodq5959hiWeHztUijtR",
+        "9BMPXbY8hTqpzCzar1rXmajx83PiPutYvvuE2cNdcNuA"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-07 15:00:00",
+      "buyers": [
+        "DZ3wuza3bnXrofUw9pPTG9sA6Z1MMMJHYSXvDPGkcDJR",
+        "5NiSDcaFydLscKrpcoupRTWwEyNqWbMLekikmHY5SFM5",
+        "DdfdrLPNVKHZLg8ePo3YX2425ZjU5SUjpZhd9Ld9S1dd"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-07 16:30:00",
+      "buyers": [],
+      "sellers": [
+        "5SBbN6TyLsJNP4wZ8MRr61VReysJAxUgESWkx5NJJVu",
+        "EUfKG74Xpcb3oUqNMhvrwcTMLogLkXwrMnks6fEDAujs",
+        "72xbMKaZANVaVQdSu6BULQxjryrcEkzYm1rZDwgT1ab4",
+        "4qo14MZ6aMQp5wmV653uEKZmxEkNoEnGqd59dVsvp8Ft",
+        "9RSVzUD4XHHMgRSh9tMmTV6tTLQWbUwWeZ9Thhz3DNi8",
+        "Edrwxw2CMxjAEKCcZptfJcTYy9tUhPAiUioj6drJws7v",
+        "7tFSy7M67ErjjpHZJmsn3J2MFJzLZcy2EHoXAk8ARK8L",
+        "9vcF7eQipTWqDVAcJQ3dmGz8endxrXZTADeAbbPt9g4j",
+        "D8aLToJWPJ3df9sEsSVUkqtiSF7uHp7ezXpDHBKwgXoG",
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS",
+        "2Qn2GzxHBKAwxtuFkenNETjpHyJDifEeDhCHhBXhmBy1",
+        "FjVSFBomprMA7UKrEH9VA8RF4W6UuSCAKg4ueoXjcddW",
+        "6PvjPbm4DaUW98KxEJHMsgawfdY4azPLJwN3HHeVxNVw",
+        "HwxNgtoZFFPLRLxSrc9y4ezfHcFvKtYjTYjJqkyGSZNA",
+        "E6ZQJP1fsHhpfTJoEijW3SfL6gZXMTmyiRxWJXFDFBPR",
+        "34yVeWYmJrUrYGXVkVfrUKYFfVYVNvaQphxzx2B5me62"
+      ]
+    },
+    {
+      "time": "2025-10-07 17:00:00",
+      "buyers": [
+        "9K69SdZ7HfaAML6UWoeQwq2cptoiK9pFk5qL6F77eBDG"
+      ],
+      "sellers": [
+        "8EzGMYhhSYeQuoXBP3MBvnnhV1RKdgh5fEVEgiFx2dQj",
+        "Gj5K5kX2ktxaydCwZZ34xSgPuo7tKYj6qViV5w7i9Wkp",
+        "CXHE53i4NgX24qyPbaUqBPjPgak5fFgozZRPcUGP1X8Q",
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS",
+        "69fP1imFMsbSRsZBAvmRdMAH8YSMjKTjRdTYxS3tLsjA",
+        "2MXSNJtu1LZABBkQ4rJYHi7c35Qg27YmqsNT86kJrnTC"
+      ]
+    },
+    {
+      "time": "2025-10-07 19:05:00",
+      "buyers": [
+        "5SBbN6TyLsJNP4wZ8MRr61VReysJAxUgESWkx5NJJVu",
+        "EUfKG74Xpcb3oUqNMhvrwcTMLogLkXwrMnks6fEDAujs",
+        "72xbMKaZANVaVQdSu6BULQxjryrcEkzYm1rZDwgT1ab4",
+        "D8aLToJWPJ3df9sEsSVUkqtiSF7uHp7ezXpDHBKwgXoG",
+        "2Qn2GzxHBKAwxtuFkenNETjpHyJDifEeDhCHhBXhmBy1"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-07 19:50:00",
+      "buyers": [
+        "GQhp1metiEge237QfN6rLtFENiz9BW2RCV3s3KPEbWdJ",
+        "ricEmGn6WZ9kN2ASm1MAt7LoE1hBgu1VcQrjRwkAPfc",
+        "7dGrdJRYtsNR8UYxZ3TnifXGjGc9eRYLq9sELwYpuuUu",
+        "DHFdFqjCMzdG13VNJNrST6MkezAuMzriveCaPZWcBTTT"
+      ],
+      "sellers": [
+        "GNUDsg2v2Noixgd54iQ4VmTsJyGjBn7jU7b4Q5wd4PBR",
+        "7dGrdJRYtsNR8UYxZ3TnifXGjGc9eRYLq9sELwYpuuUu"
+      ]
+    },
+    {
+      "time": "2025-10-08 00:35:00",
+      "buyers": [],
+      "sellers": [
+        "8ogB1EeXKhNk2XeNTcBEiRawpUgTx4Shpdn19bJ3Mz9G",
+        "DK3D1mxVWzcxEiqYd1UVa1cr9ZzpbaqxuxW6C22K1Dtv",
+        "F2vEBHj9ykM8RvXhEsigSs8VNwQ7hN82H4LxfD2rh3pN",
+        "2PAnsVDYkuQTMxysupCXQFRxB95h24KN6YafDQv6xX9g",
+        "44bM6dAGRNW5E61TYxtyueuMupp7kqdx8HZ2hWgZb9WC",
+        "6KzhZEhFLsnoN94qpHLMkk1Dne7xVwUbxrvsMcTb7EDQ",
+        "8eRQksj334SXG7WBBhD6uxt4NSTXf6mmBMiYzCd9gex4",
+        "8dpp4d3ayff5MpCvxN48eEPN621SgNujG45vmzxBuVyg",
+        "6k5nbPWSpcbcCwkg7Hz3qVMbGLRdxgSqYziugzo11GH7",
+        "BX3BZwCpeBmdtUkieVSLKbZLHz9bEaJWCnVP1LE4D8qy"
+      ]
+    },
+    {
+      "time": "2025-10-08 01:40:00",
+      "buyers": [],
+      "sellers": [
+        "FEp6DVB8WyeCbqrjbU7nuQmDYYGcdH4raJEoPvMfUQFG",
+        "C16cKmtEj95vrGQj9reRu3GeLJ5ABXcLczp2y1yxqsin",
+        "4Y1DLHNN8dqzpzBQLud4zLjpaZCqGckidvkjM54268Zz"
+      ]
+    },
+    {
+      "time": "2025-10-08 03:05:00",
+      "buyers": [],
+      "sellers": [
+        "D913J2PpycBdVhtMWDETXkFQSqBwuQWANhFG7UnL5n18",
+        "Coav25hvjD1T2UnH9fv49pmMRK73oJMpqxhH3t3hcho9",
+        "AEeNr1RpnT9qoqXxQ3PxSXjJvhia7XYrtQBqM9q3rseJ",
+        "7ZbqvjyYdt6rBcz2MNKC5rBFQW9MzAgHjoE25pR9hfHe"
+      ]
+    },
+    {
+      "time": "2025-10-08 05:50:00",
+      "buyers": [],
+      "sellers": [
+        "74DYf9oprzCTWUEsE86fuoJUSQ4UUEJY3EzApXYbFA2i",
+        "3eGkMXpYVbKWnbLuh4MAPRY8yA9EcmB9seh7VrTohWvt",
+        "9FpixNTMNWwU7JL7bDvTS7mdZ2m2ZkFgfKDfMDbo5snZ",
+        "D5kuymDE8CTAQ2ANVn8LQXsmoE2Ys4QCFCgAS1oxCN8A",
+        "AX2Sf6bkCCGPN9awFrzt7LCJmEDBHjKJbXE9yEmhMxAM",
+        "ADwCpHQ4zfdiRYvCUHJRGQ1X4NbGfxJ3cnKMdrTi71jf",
+        "3s5uQYAHd5SQTZF9Gj6kauubuTRotnRhuv6wgfWHzQAx",
+        "7A9ZnT21uK5NLJq4R3MVsbZrWi2u8uocM19eSjNEzQQs",
+        "wAVQktfDqjZ1qitnEgZpjGQSGyrx3XwgrcgS1G19w2e",
+        "6g4yBNkdEakFN5qrQ8c2Mz26dbHoakCuM2DNxRq49YMV"
+      ]
+    },
+    {
+      "time": "2025-10-08 20:15:00",
+      "buyers": [],
+      "sellers": [
+        "7ctSkuVbF8XPyyh5bokR7agwgFsxtfAucvsbvQt2D6cw",
+        "E7uhkKw6FFZyx53aL5ymrnKC4tttzjqy3o6kpH9rMmC8",
+        "AASjzVp8Ff5qTr41mVTnDEL5zeYoa6d1DN93pdCv7Shg",
+        "U18Sc6b3fAxUATNfhMfMPpz72QVgqbTwWAueeXUaJ1q"
+      ]
+    },
+    {
+      "time": "2025-10-08 20:25:00",
+      "buyers": [],
+      "sellers": [
+        "AVhRvnMCbN7FXZHp7KnkT2NGU3a6eZteCBgPxjSgiqxT",
+        "EHvKUCpU52WgrKu6yyDdJGMQCSLXEmriAuv3PELUfxJU",
+        "B5ZJQJuuFUYcwi81DXHnypY33cKRqgrupX1gqCZed1UR",
+        "9aeTPBTJVHacEJzhCQpSu9kGKoUm9t7QrUrEQYH4MeDa",
+        "HvGtVzGocSDGRboN4CEXP7CBaVdMC2heZMdXnxwfgPhu",
+        "GaezFnQ7Wo9UzbgU5HnRryv4AsSotS1bbM3nPZ79E2Wy"
+      ]
+    },
+    {
+      "time": "2025-10-08 20:30:00",
+      "buyers": [],
+      "sellers": [
+        "DifKUryJWS1hEQfFFvnRC64ydBD7Y4RYuDG4cvHkr4ZG",
+        "FuUDWeaerG8vmuQWaQ6WJgz45pAUwFsCChgxQes2Zbbz",
+        "DkaRBcaUgo55gqeiMwxSxxHviXHyohjdRWFMVvjp7iz2",
+        "ECDD7erWhXWoTspgEH6UEDjjRstD2obGFDszvLWZuf7z",
+        "2vu4Go3849WpZ1Ff4U1PxoLzv8zWZU3i2fDxsbDA4LgZ",
+        "4uf2LjSany9t8LkoTysBDPGxUckH6WWJ8yiWKUk7drZ6",
+        "E76D5NMqj8vp8ufFbnbbwEHP2c7n7BaLUG5bjVQgvP5J",
+        "8WCqmVtNCwtXWo5Pd2U2JqN6rPnsVGgdaxGasgjmxcS7"
+      ]
+    },
+    {
+      "time": "2025-10-08 20:35:00",
+      "buyers": [],
+      "sellers": [
+        "K7Y2UWgVDLqbVPZJcTBSj8m8S86FLyUPLSvY3mdX4Z4",
+        "A7o1xPt8Gf78UhkiCFwxNU8D73eKUxPCGtaDamgDifEH",
+        "7SK2Bjyuxqkwfp3jHGYbps5RWk8JF111RAcnMikLCqix",
+        "BE23ANmucchhXCF97BkD3etjjtFd1NeL9MQMX8dPqUuV",
+        "7LLd49eijArwMYgucVD7inMDEdLmxvruu66EKuvbWDGP",
+        "NMpzrdDCerii1JHRTMNUjasZJfgAitzhBuy1Kz3hHBz",
+        "E11J8GozN6kVETnwiz6VZDvNxNc94X9LEit3rZTMwmJq",
+        "5R5iEiZUuAYfXEN62Jw3uQidjf2SmBqAbY7yNtfw6Z1r",
+        "74edHpkiLoHbHGYMg9dJCeZqyk1JbM22eNuVK4rC9iYv",
+        "5yfEuroCDbc7ZyUQJtStrR4yFua4nP89jCuSCcgsqe1X"
+      ]
+    },
+    {
+      "time": "2025-10-08 21:05:00",
+      "buyers": [
+        "XoXoL2gjxbKWVNtg672gzQjRi268nTonPHr24qZJzNb",
+        "G4tinUhbt18yjMGEH2yn359gu54VL3Jj9T5rg8Qrfr41"
+      ],
+      "sellers": [
+        "XoXoL2gjxbKWVNtg672gzQjRi268nTonPHr24qZJzNb",
+        "8Nztq12MMXkuBcPfDDZN4BxHpKMkzLw8A3hsXusJboLv",
+        "G4tinUhbt18yjMGEH2yn359gu54VL3Jj9T5rg8Qrfr41"
+      ]
+    },
+    {
+      "time": "2025-10-08 22:55:00",
+      "buyers": [],
+      "sellers": [
+        "5SBbN6TyLsJNP4wZ8MRr61VReysJAxUgESWkx5NJJVu",
+        "EUfKG74Xpcb3oUqNMhvrwcTMLogLkXwrMnks6fEDAujs",
+        "72xbMKaZANVaVQdSu6BULQxjryrcEkzYm1rZDwgT1ab4",
+        "4qo14MZ6aMQp5wmV653uEKZmxEkNoEnGqd59dVsvp8Ft",
+        "Edrwxw2CMxjAEKCcZptfJcTYy9tUhPAiUioj6drJws7v",
+        "7tFSy7M67ErjjpHZJmsn3J2MFJzLZcy2EHoXAk8ARK8L",
+        "D8aLToJWPJ3df9sEsSVUkqtiSF7uHp7ezXpDHBKwgXoG",
+        "9vcF7eQipTWqDVAcJQ3dmGz8endxrXZTADeAbbPt9g4j",
+        "2Qn2GzxHBKAwxtuFkenNETjpHyJDifEeDhCHhBXhmBy1",
+        "FjVSFBomprMA7UKrEH9VA8RF4W6UuSCAKg4ueoXjcddW",
+        "6PvjPbm4DaUW98KxEJHMsgawfdY4azPLJwN3HHeVxNVw",
+        "HwxNgtoZFFPLRLxSrc9y4ezfHcFvKtYjTYjJqkyGSZNA",
+        "E6ZQJP1fsHhpfTJoEijW3SfL6gZXMTmyiRxWJXFDFBPR",
+        "34yVeWYmJrUrYGXVkVfrUKYFfVYVNvaQphxzx2B5me62"
+      ]
+    },
+    {
+      "time": "2025-10-09 02:15:00",
+      "buyers": [
+        "A31xMeBLt5gvdke5zSYQ4fQyFsisMzfD1JQNoPncMkXF",
+        "DLcpi2JnzviPZeMkKqZP1ikWUodq5959hiWeHztUijtR",
+        "EYFrb9n5drHHHgn6Xydzi9ykZmUiJ35JSLaCc1iyumFU"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-09 19:45:00",
+      "buyers": [],
+      "sellers": [
+        "8EzGMYhhSYeQuoXBP3MBvnnhV1RKdgh5fEVEgiFx2dQj",
+        "Gj5K5kX2ktxaydCwZZ34xSgPuo7tKYj6qViV5w7i9Wkp",
+        "9K69SdZ7HfaAML6UWoeQwq2cptoiK9pFk5qL6F77eBDG",
+        "A1vgNK8fGcQYazrPAnXD5zy4Akw1sC9DYLxWfqJ6Fm7m",
+        "69fP1imFMsbSRsZBAvmRdMAH8YSMjKTjRdTYxS3tLsjA",
+        "66VvGXEKVDD3GzMATec7Nch2b3i1hTGqRneYt5jdpvB4"
+      ]
+    },
+    {
+      "time": "2025-10-10 01:00:00",
+      "buyers": [
+        "5NiSDcaFydLscKrpcoupRTWwEyNqWbMLekikmHY5SFM5",
+        "FFxvcWpJ66jr4fQkV54aWQckuFd9vqLmrTbzQpjotnEP",
+        "DdfdrLPNVKHZLg8ePo3YX2425ZjU5SUjpZhd9Ld9S1dd"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-10 01:25:00",
+      "buyers": [
+        "E9EQuJxbgb62HeYEX56GWkbWauXxLe3xWqSPUp5RbED5",
+        "9szsRmJknP5f6oxpJLWCSCyMhBPiQiK9DV3Dbbebhiwc",
+        "DtiJsZT9RbBiUENoT7JuKtfGnMpZbRvVPFnW3p59Vzep"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-10 01:35:00",
+      "buyers": [
+        "6SjzDunpZUxiJybqYTYyYaNzY9VjW8E7bdBk8xGYtBfP",
+        "DLcpi2JnzviPZeMkKqZP1ikWUodq5959hiWeHztUijtR",
+        "DZ3wuza3bnXrofUw9pPTG9sA6Z1MMMJHYSXvDPGkcDJR"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-10 04:20:00",
+      "buyers": [
+        "A31xMeBLt5gvdke5zSYQ4fQyFsisMzfD1JQNoPncMkXF",
+        "5NiSDcaFydLscKrpcoupRTWwEyNqWbMLekikmHY5SFM5",
+        "6SjzDunpZUxiJybqYTYyYaNzY9VjW8E7bdBk8xGYtBfP",
+        "DdfdrLPNVKHZLg8ePo3YX2425ZjU5SUjpZhd9Ld9S1dd"
+      ],
+      "sellers": [
+        "BTmqi8V5WvMBiXhEDf7zhncFoxFczQREyQNcKLkhzEZS"
+      ]
+    },
+    {
+      "time": "2025-10-10 06:45:00",
+      "buyers": [
+        "5wMHFyCgRrggsKWrvS2zHDHi7V6xfwfSAsZG95LwXYUQ",
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "7oKJVspmgeEZ7bDrBBxTJ2FLvRcJef7baNWCuWN4MMSk"
+      ],
+      "sellers": [
+        "5wMHFyCgRrggsKWrvS2zHDHi7V6xfwfSAsZG95LwXYUQ",
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8"
+      ]
+    },
+    {
+      "time": "2025-10-10 06:50:00",
+      "buyers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "6SjzDunpZUxiJybqYTYyYaNzY9VjW8E7bdBk8xGYtBfP",
+        "9BMPXbY8hTqpzCzar1rXmajx83PiPutYvvuE2cNdcNuA"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8"
+      ]
+    },
+    {
+      "time": "2025-10-10 07:40:00",
+      "buyers": [
+        "Hjwo1jEQu4pmA7RehQbQouASEvUdndYYPz67rrXegEns",
+        "FkdDHrM8j8psKbxuwjV1jBKCM2JGPygkj7WCX8sSCzNm",
+        "GQhp1metiEge237QfN6rLtFENiz9BW2RCV3s3KPEbWdJ"
+      ],
+      "sellers": [
+        "FkdDHrM8j8psKbxuwjV1jBKCM2JGPygkj7WCX8sSCzNm"
+      ]
+    },
+    {
+      "time": "2025-10-10 08:15:00",
+      "buyers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "HUyZAgbkjj7uXLS1KhXQk1Ge3fV3tcPYS7TNBX8XUCQZ",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ]
+    },
+    {
+      "time": "2025-10-10 08:20:00",
+      "buyers": [
+        "HE3F6Pn22dQpK4sTDej88ixat1eT4EoD9CMN8pj4SLBk",
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "HUyZAgbkjj7uXLS1KhXQk1Ge3fV3tcPYS7TNBX8XUCQZ"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8"
+      ]
+    },
+    {
+      "time": "2025-10-10 10:30:00",
+      "buyers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB",
+        "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ]
+    },
+    {
+      "time": "2025-10-10 13:10:00",
+      "buyers": [
+        "69fP1imFMsbSRsZBAvmRdMAH8YSMjKTjRdTYxS3tLsjA",
+        "8EzGMYhhSYeQuoXBP3MBvnnhV1RKdgh5fEVEgiFx2dQj",
+        "CXHE53i4NgX24qyPbaUqBPjPgak5fFgozZRPcUGP1X8Q",
+        "2MXSNJtu1LZABBkQ4rJYHi7c35Qg27YmqsNT86kJrnTC"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-10 13:15:00",
+      "buyers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "C8qmFonF293MiEsmYbVJjjQHnKmbmnN4FYwCzXwQ1hgu",
+        "6LJ5MQLiLGRByoxwh8xzfohYR1KW6cAJbMz85f4FgnVU",
+        "9K69SdZ7HfaAML6UWoeQwq2cptoiK9pFk5qL6F77eBDG",
+        "A1vgNK8fGcQYazrPAnXD5zy4Akw1sC9DYLxWfqJ6Fm7m",
+        "66VvGXEKVDD3GzMATec7Nch2b3i1hTGqRneYt5jdpvB4",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ]
+    },
+    {
+      "time": "2025-10-10 13:25:00",
+      "buyers": [
+        "C16cKmtEj95vrGQj9reRu3GeLJ5ABXcLczp2y1yxqsin",
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "4Y1DLHNN8dqzpzBQLud4zLjpaZCqGckidvkjM54268Zz",
+        "FEp6DVB8WyeCbqrjbU7nuQmDYYGcdH4raJEoPvMfUQFG"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8"
+      ]
+    },
+    {
+      "time": "2025-10-10 13:40:00",
+      "buyers": [
+        "HE3F6Pn22dQpK4sTDej88ixat1eT4EoD9CMN8pj4SLBk",
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "7ZbqvjyYdt6rBcz2MNKC5rBFQW9MzAgHjoE25pR9hfHe",
+        "QzZ9vQErJY9HNNHHhpLYKXsgrRgU4a1ySF6ojYb7N3W",
+        "AEeNr1RpnT9qoqXxQ3PxSXjJvhia7XYrtQBqM9q3rseJ",
+        "D913J2PpycBdVhtMWDETXkFQSqBwuQWANhFG7UnL5n18",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ],
+      "sellers": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ]
+    },
+    {
+      "time": "2025-10-10 16:35:00",
+      "buyers": [
+        "ErdmUvHpNV13j6H6KoQfCFFU7qgaz2GTVc5QbtmPZz9n",
+        "FFxvcWpJ66jr4fQkV54aWQckuFd9vqLmrTbzQpjotnEP",
+        "A31xMeBLt5gvdke5zSYQ4fQyFsisMzfD1JQNoPncMkXF",
+        "EYFrb9n5drHHHgn6Xydzi9ykZmUiJ35JSLaCc1iyumFU"
+      ],
+      "sellers": []
+    },
+    {
+      "time": "2025-10-10 16:40:00",
+      "buyers": [
+        "D5pRkseJdGXiZrDp4FaBZfZd4JQAWyFp1bE4nw7hUKUZ",
+        "6SjzDunpZUxiJybqYTYyYaNzY9VjW8E7bdBk8xGYtBfP",
+        "DdfdrLPNVKHZLg8ePo3YX2425ZjU5SUjpZhd9Ld9S1dd"
+      ],
+      "sellers": []
+    }
+  ],
+  "funding_clusters": {},
+  "suspected_groups": [
+    {
+      "type": "same_distributor",
+      "hub": "5LMtwSn45ttbcUfqnEbyT9PwEuTYbQ3LgHEHSTD4oUWY",
+      "members": [
+        "BjuEs4JtdZiAHzCqbHDtFkxd3LKCJHjKSpnj8ivexaPF",
+        "9gsJ6f1B5XRxBoD2wkdCv4LBPGJh62pwr1KUEx8TTdCA",
+        "CmmAmcF9bBo97HEKDrSHYbC367nZ2qbXycGcTJzTRVvY",
+        "LCJ2bM8gHxFkcepShNUMovsEKVf3b14RiAuMbnUJptC",
+        "GJDzNW1m3qEdKtUXYLoQX4go1v6iA7Y3E4NVewX2J5YK",
+        "G8YiCZ5FetbeAvB1uoQRTLkV8aaD8EUuaPhHPTdai7Cj",
+        "7Vdm9sTd9sVHyv9kciZ2aKjXB694fgNs8b6cKif7NZ6M",
+        "A3BNkHHR56HcWf2k7fBXkjeso2LJhDZBTHPkkAC5Se9X",
+        "8psNvWTrdNTiVRNzAgsou9kETXNJm2SXZyaKuJraVRtf",
+        "CaE9dbEmhF5TthLk1dK3WxMXZ56pC1ySQxeo3RgKc67c",
+        "8SFT3oWjDBFa6Twxu8zXkrpi7BHSsZH679fGz9D9SVoA"
+      ],
+      "size": 11
+    },
+    {
+      "type": "same_distributor",
+      "hub": "6qZRYpsJbx9WDtDfUkbCwopMGK6eh2yEP25Nzb2J4RxM",
+      "members": [
+        "628RzrmapfdaXqeXyWnebbceBxEsGQ2WmKJcK2UHQpaD",
+        "BjuEs4JtdZiAHzCqbHDtFkxd3LKCJHjKSpnj8ivexaPF",
+        "4c1D6iXb6aG2fnKXDcWjhNx49ReQ6M9aMquiXsWoHwC3",
+        "H9kufedd9X76wXJ4cS9xmzBDU6nCyG4qLrUDBba9TxqZ",
+        "HGezrugGoTBeXBdZoHLm9kpuPf67mavMyCYfGGRJBkNn"
+      ],
+      "size": 5
+    },
+    {
+      "type": "same_distributor",
+      "hub": "8LzQdFqBxzBFx2xgDPacDFZB7Aj1upDbfuy6M5AXChTg",
+      "members": [
+        "7oKJVspmgeEZ7bDrBBxTJ2FLvRcJef7baNWCuWN4MMSk",
+        "DtiJsZT9RbBiUENoT7JuKtfGnMpZbRvVPFnW3p59Vzep",
+        "D7mQ2hxc9nP3cSD9UFS1nSGu3TbdoENyjYdEoePU19Xt",
+        "8V4asuh4PMGsSCrKZ5mjnXPTAndhgQ9j3sgZNR7ki5FH"
+      ],
+      "size": 4
+    },
+    {
+      "type": "same_distributor",
+      "hub": "BPrNYyEcJB5754GF9aJrtB2SKJ96j1oLgUJg7dpzankn",
+      "members": [
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "8V4asuh4PMGsSCrKZ5mjnXPTAndhgQ9j3sgZNR7ki5FH",
+        "EV7VScMVUyfe8LKczt5rgJjhfyJy4DnfRGcJJ9g3zjZB"
+      ],
+      "size": 3
+    },
+    {
+      "type": "same_distributor",
+      "hub": "F4KHDgyUpi6AgJHuQSbGH1GtrAygTQZE9t3DWe1B5RE1",
+      "members": [
+        "GsxE8wWpm73zMBtdxtkukWspAsu2nTS8cegqdCeXxTU2",
+        "6CSzmTJHru8zjLQeH3qxYoSNueZ1bUad5AtN4daSyH19",
+        "HLnpSz9h2S4hiLQ43rnSD9XkcUThA7B8hQMKmDaiTLcC"
+      ],
+      "size": 3
+    },
+    {
+      "type": "same_distributor",
+      "hub": "HLnpSz9h2S4hiLQ43rnSD9XkcUThA7B8hQMKmDaiTLcC",
+      "members": [
+        "6o4s2Dkdj3HsB4DnfzWc6XCDBwsF3f75FX9nuSvVPSAD",
+        "AxR5o7n98EY6xoNGVhrJ3QGZAS2wRUcbzRnU5Dwbaev8",
+        "XoXoL2gjxbKWVNtg672gzQjRi268nTonPHr24qZJzNb"
+      ],
+      "size": 3
+    }
+  ]
+}

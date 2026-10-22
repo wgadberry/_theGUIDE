@@ -1,0 +1,6 @@
+-- vw_tx_address_risk_score view
+-- Generated from t16o_db instance
+
+DROP VIEW IF EXISTS `vw_tx_address_risk_score`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_tx_address_risk_score` AS select `a`.`address` AS `address`,`a`.`address_type` AS `address_type`,`a`.`label` AS `label`,count(distinct `g`.`id`) AS `total_edges`,sum(`gt`.`risk_weight`) AS `total_risk_points`,avg(`gt`.`risk_weight`) AS `avg_risk_weight`,max(`gt`.`risk_weight`) AS `max_risk_weight`,count(distinct (case when (`gt`.`category` = 'bridge') then `g`.`id` end)) AS `bridge_count`,count(distinct (case when (`gt`.`category` = 'swap') then `g`.`id` end)) AS `swap_count`,count(distinct (case when (`gt`.`type_code` = 'burn') then `g`.`id` end)) AS `burn_count`,count(distinct `g`.`token_id`) AS `unique_tokens`,`f`.`address` AS `funded_by` from (((`tx_address` `a` left join `tx_guide` `g` on(((`a`.`id` = `g`.`from_address_id`) or (`a`.`id` = `g`.`to_address_id`)))) left join `tx_guide_type` `gt` on((`g`.`edge_type_id` = `gt`.`id`))) left join `tx_address` `f` on((`a`.`funded_by_address_id` = `f`.`id`))) where (`a`.`address_type` in ('wallet','unknown')) group by `a`.`id`,`a`.`address`,`a`.`address_type`,`a`.`label`,`f`.`address` having (count(distinct `g`.`id`) > 0);

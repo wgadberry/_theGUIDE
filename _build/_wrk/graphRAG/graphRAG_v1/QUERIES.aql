@@ -1,0 +1,204 @@
+// =============================================================================
+// T16O Graph Queries -- Learning Examples
+// Run in ArangoDB Web UI: http://localhost:8529 -> Queries tab
+// Copy one query block at a time (between the // --- lines)
+// =============================================================================
+
+
+// ---------------------------------------------------------------------------
+// 1. BASIC: Get a wallet's recent activity (last 20 edges)
+// ---------------------------------------------------------------------------
+FOR e IN edges
+    FILTER e._from == 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+        OR e._to == 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+    SORT e.block_time DESC
+    LIMIT 20
+    LET from_addr = DOCUMENT(e._from)
+    LET to_addr = DOCUMENT(e._to)
+    RETURN {
+        type: e.edge_type,
+        from: { address: from_addr._key, type: from_addr.type },
+        to: { address: to_addr._key, type: to_addr.type },
+        amount: e.amount,
+        token: e.token,
+        block_time: e.block_time,
+        signature: e.signature
+    }
+
+
+// ---------------------------------------------------------------------------
+// 2. TRAVERSAL: 2-hop neighborhood (who do they interact with?)
+// ---------------------------------------------------------------------------
+FOR v, e, p IN 1..2 OUTBOUND 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+    edges
+    LIMIT 50
+    RETURN DISTINCT {
+        address: v._key,
+        type: v.type,
+        label: v.label,
+        depth: LENGTH(p.edges),
+        via_edge: LAST(p.edges).edge_type
+    }
+
+
+// ---------------------------------------------------------------------------
+// 3. SWAP PAIRS: Reconstruct full swaps (what was sent, what was received)
+// ---------------------------------------------------------------------------
+LET wallet = 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+FOR e IN edges
+    FILTER e._from == wallet AND e.edge_type == 'swap_in'
+    SORT e.block_time DESC
+    LIMIT 20
+    LET swap_out = FIRST(
+        FOR e2 IN edges
+            FILTER e2.signature == e.signature
+                AND e2.edge_type == 'swap_out'
+                AND e2._to == wallet
+            RETURN e2
+    )
+    LET pool_detail = e.pool ? DOCUMENT(CONCAT('pools/', SPLIT(e.pool, '/')[1])) : null
+    LET token_in = e.token ? DOCUMENT(e.token) : null
+    LET token_out = swap_out.token ? DOCUMENT(swap_out.token) : null
+    RETURN {
+        signature: e.signature,
+        block_time: e.block_time,
+        sent: {
+            token: token_in.symbol || SPLIT(e.token, '/')[1],
+            amount: e.amount,
+            decimals: e.decimals
+        },
+        received: swap_out ? {
+            token: token_out.symbol || SPLIT(swap_out.token, '/')[1],
+            amount: swap_out.amount,
+            decimals: swap_out.decimals
+        } : null,
+        pool: pool_detail ? {
+            dex: pool_detail.dex,
+            pair: pool_detail.token_pair
+        } : null
+    }
+
+
+// ---------------------------------------------------------------------------
+// 4. MULTI-COLLECTION TRAVERSAL: Wallet -> Pool -> Pool's tokens
+// Uses both edge collections: edges (swaps) + pool_edges (structure)
+// ---------------------------------------------------------------------------
+FOR v, e, p IN 1..2 OUTBOUND 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+    edges, pool_edges
+    FILTER (LENGTH(p.edges) == 1 AND e.edge_type IN ['swap_in', 'swap_out'])
+        OR (LENGTH(p.edges) == 2 AND e.edge_type == 'trades_token')
+    LIMIT 100
+    RETURN {
+        address: v._key,
+        type: v.type,
+        label: v.label,
+        depth: LENGTH(p.edges),
+        edge_type: e.edge_type
+    }
+
+
+// ---------------------------------------------------------------------------
+// 5. TOP TOKENS: Most-traded tokens for a wallet
+// ---------------------------------------------------------------------------
+LET wallet = 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+FOR e IN edges
+    FILTER (e._from == wallet OR e._to == wallet) AND e.token != null
+    COLLECT token = e.token WITH COUNT INTO tx_count
+    SORT tx_count DESC
+    LIMIT 10
+    LET token_doc = DOCUMENT(token)
+    RETURN {
+        token: token_doc.symbol || token_doc._key,
+        decimals: token_doc.decimals,
+        transactions: tx_count
+    }
+
+
+// ---------------------------------------------------------------------------
+// 6. COUNTERPARTIES: Who does this wallet interact with most?
+// ---------------------------------------------------------------------------
+LET wallet = 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+FOR e IN edges
+    FILTER e._from == wallet
+    COLLECT counterparty = e._to WITH COUNT INTO cnt
+    SORT cnt DESC
+    LIMIT 15
+    LET cp = DOCUMENT(counterparty)
+    RETURN {
+        address: cp._key,
+        type: cp.type,
+        label: cp.label,
+        interactions: cnt
+    }
+
+
+// ---------------------------------------------------------------------------
+// 7. SHORTEST PATH: How are two wallets connected?
+// ---------------------------------------------------------------------------
+FOR p IN OUTBOUND SHORTEST_PATH
+    'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+    TO 'addresses/HuTshmtwcQkWBLzgW3m4uwcmik7Lmz4YFpYcTqMJpXiP'
+    edges
+    RETURN {
+        address: p.vertices[-1]._key,
+        type: p.vertices[-1].type,
+        edge: p.edges[-1] ? p.edges[-1].edge_type : null
+    }
+
+
+// ---------------------------------------------------------------------------
+// 8. GRAPH STATS: Full overview of the database
+// ---------------------------------------------------------------------------
+LET addr_types = (
+    FOR a IN addresses
+        COLLECT type = a.type WITH COUNT INTO cnt
+        SORT cnt DESC
+        RETURN { type, cnt }
+)
+LET edge_types = (
+    FOR e IN edges
+        COLLECT type = e.edge_type WITH COUNT INTO cnt
+        SORT cnt DESC
+        RETURN { type, cnt }
+)
+RETURN {
+    total_addresses: LENGTH(addresses),
+    total_edges: LENGTH(edges),
+    total_tokens: LENGTH(tokens),
+    total_pools: LENGTH(pools),
+    total_programs: LENGTH(programs),
+    address_types: addr_types,
+    edge_types: edge_types
+}
+
+
+// ---------------------------------------------------------------------------
+// 9. TIME SERIES: Hourly activity for a wallet (last 24 buckets)
+// ---------------------------------------------------------------------------
+LET wallet = 'addresses/D5YqVMoSxnqeZAKAUUE1Dm3bmjtdxQ5DCF356ozqN9cM'
+FOR e IN edges
+    FILTER e._from == wallet OR e._to == wallet
+    LET hour = FLOOR(e.block_time / 3600) * 3600
+    COLLECT time_bucket = hour WITH COUNT INTO cnt
+    SORT time_bucket DESC
+    LIMIT 24
+    RETURN {
+        time: DATE_ISO8601(time_bucket * 1000),
+        transactions: cnt
+    }
+
+
+// ---------------------------------------------------------------------------
+// 10. DEX LEADERBOARD: Which programs handle the most swaps?
+// ---------------------------------------------------------------------------
+FOR e IN edges
+    FILTER e.edge_type == 'swap_in' AND e.program != null
+    COLLECT program = e.program WITH COUNT INTO cnt
+    SORT cnt DESC
+    LIMIT 10
+    LET prog_detail = DOCUMENT(CONCAT('programs/', SPLIT(program, '/')[1]))
+    RETURN {
+        program: prog_detail ? prog_detail.name : SPLIT(program, '/')[1],
+        type: prog_detail.program_type,
+        swap_count: cnt
+    }

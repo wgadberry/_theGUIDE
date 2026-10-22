@@ -1,0 +1,49 @@
+# =============================================================================
+# T16O Pipeline — Docker build context exclusions
+# =============================================================================
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Dev / IDE
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secrets — never bake into image
+.env
+guide-config.json
+*.key
+*.pem
+*.crt
+
+# Local data / samples
+sample_tx.json
+*.log
+logs/
+
+# Docs
+README.md
+*.md

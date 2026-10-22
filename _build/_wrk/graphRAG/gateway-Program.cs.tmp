@@ -1,0 +1,622 @@
+using T16O.GraphRAG.Gateway.Hubs;
+using T16O.GraphRAG.Gateway.Services;
+using Microsoft.AspNetCore.ResponseCompression;
+using StackExchange.Redis;
+using System.IO.Compression;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Redis connection (shared across SignalR backplane + subscriber service)
+var redisConnStr = builder.Configuration.GetValue<string>("Redis:ConnectionString")
+    ?? "localhost:6379,abortConnect=false";
+var redisConnection = await ConnectionMultiplexer.ConnectAsync(redisConnStr);
+builder.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
+
+// ArangoDB HttpClient
+var arangoEndpoint = builder.Configuration.GetValue<string>("ArangoDB:Endpoint") ?? "http://localhost:8529";
+var arangoDb = builder.Configuration.GetValue<string>("ArangoDB:Database") ?? "t16o_guide";
+var arangoUser = builder.Configuration.GetValue<string>("ArangoDB:Username") ?? "root";
+var arangoPass = builder.Configuration.GetValue<string>("ArangoDB:Password") ?? "localdev";
+
+builder.Services.AddHttpClient("arango", client =>
+{
+    client.BaseAddress = new Uri(arangoEndpoint);
+    var creds = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{arangoUser}:{arangoPass}"));
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", creds);
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    client.Timeout = TimeSpan.FromSeconds(120);
+});
+
+// Response compression (gzip)
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(["application/json"]);
+});
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;
+});
+
+// SignalR with Redis backplane (allows multiple gateway instances)
+builder.Services.AddSignalR()
+    .AddStackExchangeRedis(redisConnStr, options =>
+    {
+        options.Configuration.ChannelPrefix = RedisChannel.Literal("t16o-signalr");
+    });
+
+// CORS — allow viewer from any origin during development
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+
+    options.AddPolicy("SignalR", policy =>
+    {
+        policy.SetIsOriginAllowed(_ => true)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+// Background service: subscribes to Redis progress channels, routes to SignalR clients
+builder.Services.AddHostedService<RedisProgressSubscriber>();
+
+// Worker configuration
+builder.Services.Configure<WorkerOptions>(builder.Configuration.GetSection("Workers"));
+
+var app = builder.Build();
+
+app.UseResponseCompression();
+app.UseCors();
+
+// ── ArangoDB query helper ────────────────────────────────────
+async Task<JsonElement?> ArangoQuery(IHttpClientFactory httpFactory, string aql, Dictionary<string, object>? bindVars = null)
+{
+    var client = httpFactory.CreateClient("arango");
+    var body = new { query = aql, bindVars = bindVars ?? new Dictionary<string, object>() };
+    var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+    var response = await client.PostAsync($"/_db/{arangoDb}/_api/cursor", content);
+    var json = await response.Content.ReadAsStringAsync();
+    var doc = JsonDocument.Parse(json);
+    if (doc.RootElement.TryGetProperty("error", out var err) && err.GetBoolean())
+        return null;
+    if (doc.RootElement.TryGetProperty("result", out var result))
+        return result;
+    return null;
+}
+
+// ── REST API endpoints ───────────────────────────────────────
+app.MapGet("/health", () => Results.Ok(new { status = "ok", service = "graphrag-gateway" }));
+
+app.MapGet("/api/queue-status", async (IConnectionMultiplexer redis) =>
+{
+    var db = redis.GetDatabase();
+    var depth = await db.ListLengthAsync("t16o:tx:queue");
+    return Results.Ok(new { queue_depth = depth });
+});
+
+app.MapPost("/api/load-token", async (LoadTokenRequest request, IConnectionMultiplexer redis) =>
+{
+    var db = redis.GetDatabase();
+
+    // XADD to stream — consumer group workers claim and process
+    await db.StreamAddAsync("t16o:stream:load-token", [
+        new NameValueEntry("mint", request.Mint),
+        new NameValueEntry("connection_id", request.ConnectionId ?? ""),
+        new NameValueEntry("threads", (request.Threads ?? 20).ToString()),
+        new NameValueEntry("top_holder_count", (request.TopHolderCount ?? 80).ToString()),
+        new NameValueEntry("max_pages", (request.MaxPages ?? 5).ToString()),
+        new NameValueEntry("page_size", (request.PageSize ?? 100).ToString()),
+        new NameValueEntry("created_at", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()),
+    ], maxLength: 10000, useApproximateMaxLength: true);
+
+    return Results.Ok(new { status = "accepted", mint = request.Mint });
+});
+
+app.MapGet("/api/holders/{mint}", async (string mint, IConnectionMultiplexer redis) =>
+{
+    var db = redis.GetDatabase();
+    var cached = await db.StringGetAsync($"holders:{mint}");
+    if (cached.IsNullOrEmpty)
+        return Results.NotFound(new { error = "no cached holders", mint });
+
+    return Results.Content(cached!, "application/json");
+});
+
+app.MapGet("/api/token-bundle/{mint}", async (string mint, IConnectionMultiplexer redis, HttpContext ctx) =>
+{
+    // Single endpoint: returns holders + token hash status in one call.
+    // The viewer can call this ONCE instead of multiple round trips.
+    var db = redis.GetDatabase();
+
+    var holdersTask = db.StringGetAsync($"holders:{mint}");
+    var hashTask = db.HashGetAllAsync($"token:{mint}");
+
+    await Task.WhenAll(holdersTask, hashTask);
+
+    var holders = holdersTask.Result;
+    var hashFields = hashTask.Result;
+
+    var tokenInfo = new Dictionary<string, string?>();
+    foreach (var field in hashFields)
+        tokenInfo[field.Name!] = field.Value;
+
+    var result = new
+    {
+        holders = holders.IsNullOrEmpty ? null : (object)System.Text.Json.JsonSerializer.Deserialize<object>(holders!),
+        token = tokenInfo.Count > 0 ? tokenInfo : null,
+        cached = !holders.IsNullOrEmpty,
+    };
+
+    return Results.Ok(result);
+});
+
+// ── /api/token/{mint} — signals-based architecture, 100% graph-native ──
+// ?address=<wallet> → wallet-centric (no edge filter). Without → mint search (tx_count >= 10 on edges).
+// Response: { meta, nodes, edges, signals, holders, swapStats }
+app.MapGet("/api/token/{mint}", async (string mint, string? address, bool? fast, IHttpClientFactory httpFactory, IConnectionMultiplexer redis) =>
+{
+    var isWalletMode = !string.IsNullOrEmpty(address);
+    var isFast = fast == true;
+    var edgeMinTx = isWalletMode ? 1 : 10;
+    var CACHE_TTL = TimeSpan.FromSeconds(300);
+
+    // ── Check Redis cache first ──
+    if (!isWalletMode)
+    {
+        var cacheKey = isFast ? $"graph:{mint}:fast" : $"graph:{mint}:full";
+        var cached = await redis.GetDatabase().StringGetAsync(cacheKey);
+        if (!cached.IsNullOrEmpty)
+            return Results.Content(cached!, "application/json");
+    }
+
+    // ── NODES: flat wallet/pool records with resolved labels + holder rank/pct ──
+    var nodesAql = isWalletMode
+        ? @"FOR t IN transfer
+                FILTER t.token_address == @mint
+                FILTER t.source_owner == @address OR t.destination_owner == @address
+                LET addrs = [t.source_owner, t.destination_owner]
+                FOR addr IN addrs
+                    COLLECT a = addr WITH COUNT INTO tx_count
+                    SORT tx_count DESC LIMIT 500
+                    LET doc = DOCUMENT(CONCAT('address/', a))
+                    LET pool_doc = (doc.type == 'pool') ? DOCUMENT(CONCAT('pool/', a)) : null
+                    LET prog_doc = (doc.type == 'program') ? DOCUMENT(CONCAT('program/', a)) : null
+                    LET h = DOCUMENT(CONCAT('holder/', @mint, '_', a))
+                    RETURN { address: a, tx_count, type: doc.type || 'unknown',
+                             label: doc.label || (pool_doc != null ? pool_doc.name : null) || (prog_doc != null ? prog_doc.name : null),
+                             funded_by: doc.funded_by, funded_by_tx: doc.funded_by_tx,
+                             funded_by_time: doc.funded_by_time, tags: doc.tags,
+                             holder_rank: h ? h.rank : null, holder_pct: h ? h.percentage : null,
+                             holder_amount: h ? h.amount : null }"
+        : @"FOR t IN transfer
+                FILTER t.token_address == @mint
+                LET addrs = [t.source_owner, t.destination_owner]
+                FOR addr IN addrs
+                    COLLECT a = addr WITH COUNT INTO tx_count
+                    SORT tx_count DESC LIMIT 500
+                    LET doc = DOCUMENT(CONCAT('address/', a))
+                    LET pool_doc = (doc.type == 'pool') ? DOCUMENT(CONCAT('pool/', a)) : null
+                    LET prog_doc = (doc.type == 'program') ? DOCUMENT(CONCAT('program/', a)) : null
+                    LET h = DOCUMENT(CONCAT('holder/', @mint, '_', a))
+                    RETURN { address: a, tx_count, type: doc.type || 'unknown',
+                             label: doc.label || (pool_doc != null ? pool_doc.name : null) || (prog_doc != null ? prog_doc.name : null),
+                             funded_by: doc.funded_by, funded_by_tx: doc.funded_by_tx,
+                             funded_by_time: doc.funded_by_time, tags: doc.tags,
+                             holder_rank: h ? h.rank : null, holder_pct: h ? h.percentage : null,
+                             holder_amount: h ? h.amount : null }";
+
+    // ── EDGES: transfer edges with funded_by on both ends ──
+    var edgesAql = @"
+        LET participants = (
+            FOR t IN transfer FILTER t.token_address == @mint
+            LET addrs = [t.source_owner, t.destination_owner]
+            FOR addr IN addrs RETURN DISTINCT addr
+        )
+        FOR t IN transfer
+            FILTER t.token_address == @mint
+            FILTER t.source_owner IN participants AND t.destination_owner IN participants
+            FILTER t.source_owner != t.destination_owner
+            COLLECT from_addr = t.source_owner, to_addr = t.destination_owner
+            AGGREGATE tx_count = LENGTH(1),
+                       total_amount = SUM(TO_NUMBER(t.amount)),
+                       first_tx = MIN(t.block_time),
+                       last_tx = MAX(t.block_time)
+            FILTER tx_count >= @minTx
+            SORT tx_count DESC LIMIT 2000
+            LET fd = DOCUMENT(CONCAT('address/', from_addr))
+            LET td = DOCUMENT(CONCAT('address/', to_addr))
+            LET fp = (fd.type == 'pool') ? DOCUMENT(CONCAT('pool/', from_addr)) : null
+            LET tp = (td.type == 'pool') ? DOCUMENT(CONCAT('pool/', to_addr)) : null
+            RETURN { source: from_addr, target: to_addr, tx_count, edge_type: 'spl_transfer',
+                     total_amount, first_tx, last_tx,
+                     source_type: fd.type || 'unknown', target_type: td.type || 'unknown',
+                     source_label: fd.label || (fp != null ? fp.name : '') || '',
+                     target_label: td.label || (tp != null ? tp.name : '') || '',
+                     source_funded_by: fd.funded_by, target_funded_by: td.funded_by }";
+
+    // ── SIGNAL: shared_funder (group signal — one record per funder, wallets array) ──
+    var sharedFunderAql = @"
+        LET holders_list = (FOR h IN holder FILTER h.mint == @mint RETURN h.owner)
+        FOR act IN activity
+            FILTER act.activity_type == 'ACTIVITY_FUNDED_BY'
+            LET funder = PARSE_IDENTIFIER(act._from).key
+            LET funded = PARSE_IDENTIFIER(act._to).key
+            FILTER funded IN holders_list
+            COLLECT funder_addr = funder INTO funded_entries = funded
+            FILTER LENGTH(funded_entries) >= 2
+            SORT LENGTH(funded_entries) DESC
+            RETURN {
+                signal_type: 'shared_funder',
+                signal_value: funder_addr,
+                wallets: funded_entries,
+                strength: 1.0
+            }";
+
+    // ── SIGNAL: shared_pool (depth-2 graph traversal: wallet→tx→pool, group signal) ──
+    var sharedPoolAql = @"
+        LET holders_list = (FOR h IN holder FILTER h.mint == @mint RETURN h.owner)
+        LET total = LENGTH(holders_list)
+        LET max_pool = CEIL(total * 0.5)
+        FOR p IN pool
+            FILTER p.token_1 == @mint OR p.token_2 == @mint
+            LET wallets = (
+                FOR v, e, path IN 2..2 INBOUND p activity
+                    FILTER IS_SAME_COLLECTION('address', v)
+                    FILTER path.edges[0].is_agg == false
+                    FILTER path.edges[1].is_agg == true
+                    FILTER v._key IN holders_list
+                    RETURN DISTINCT v._key
+            )
+            FILTER LENGTH(wallets) >= 2 AND LENGTH(wallets) <= max_pool
+            SORT LENGTH(wallets) DESC
+            LIMIT 50
+            RETURN {
+                signal_type: 'shared_pool',
+                signal_value: p._key,
+                pool_name: p.name || p._key,
+                wallets: wallets,
+                strength: FLOOR((1.0 / LOG2(LENGTH(wallets) + 1)) * 100) / 100
+            }";
+
+    // ── SIGNAL: bidirectional_transfer (wallets that sent AND received from each other) ──
+    //    Aggregates directional edges first, then self-joins on the aggregated set
+    var bidirectionalAql = @"
+        LET holders_list = (FOR h IN holder FILTER h.mint == @mint RETURN h.owner)
+        LET directed = (
+            FOR t IN transfer
+                FILTER t.token_address == @mint
+                FILTER t.source_owner IN holders_list AND t.destination_owner IN holders_list
+                COLLECT src = t.source_owner, dst = t.destination_owner WITH COUNT INTO cnt
+                RETURN {src, dst, cnt}
+        )
+        FOR a IN directed
+            FOR b IN directed
+                FILTER b.src == a.dst AND b.dst == a.src
+                FILTER a.src < a.dst
+                LET total = a.cnt + b.cnt
+                SORT total DESC LIMIT 500
+                RETURN {
+                    wallet_a: a.src, wallet_b: a.dst,
+                    signal_type: 'bidirectional_transfer', signal_value: total,
+                    strength: FLOOR((total >= 10 ? 1.0 : total / 10.0) * 100) / 100
+                }";
+
+    // ── META ──
+    var metaAql = @"
+        LET doc = DOCUMENT(CONCAT('token/', @mint))
+        RETURN doc == null ? null : { mint: @mint, symbol: doc.token_symbol, name: doc.token_name,
+                                      decimals: doc.decimals, icon: doc.token_icon,
+                                      first_seen: doc.first_seen, last_seen: doc.last_seen }";
+
+    // ── HOLDERS ──
+    var holdersAql = @"
+        FOR h IN holder FILTER h.mint == @mint SORT h.rank ASC
+        RETURN { owner: h.owner, amount: h.amount, decimals: h.decimals,
+                 percentage: h.percentage, rank: h.rank }";
+
+    // ── SWAP EDGES: wallet→pool via depth-2 activity traversal ──
+    var swapEdgesAql = @"
+        LET holders_list = (FOR h IN holder FILTER h.mint == @mint RETURN h.owner)
+        FOR p IN pool
+            FILTER p.token_1 == @mint OR p.token_2 == @mint
+            LET wallets = (
+                FOR v, e, path IN 2..2 INBOUND p activity
+                    FILTER IS_SAME_COLLECTION('address', v)
+                    FILTER path.edges[0].is_agg == false
+                    FILTER path.edges[1].is_agg == true
+                    FILTER v._key IN holders_list
+                    LET agg_act = path.vertices[1]
+                    COLLECT wallet = v._key
+                    AGGREGATE swap_count = LENGTH(1),
+                              total_in = SUM(TO_NUMBER(agg_act.amount_in)),
+                              total_out = SUM(TO_NUMBER(agg_act.amount_out)),
+                              first_tx = MIN(agg_act.block_time),
+                              last_tx = MAX(agg_act.block_time)
+                    RETURN { wallet, swap_count, total_in, total_out, first_tx, last_tx }
+            )
+            FOR w IN wallets
+                SORT w.swap_count DESC
+                LET wd = DOCUMENT(CONCAT('address/', w.wallet))
+                RETURN {
+                    source: w.wallet, target: p._key,
+                    tx_count: w.swap_count,
+                    edge_type: 'swap',
+                    total_in: w.total_in, total_out: w.total_out,
+                    first_tx: w.first_tx, last_tx: w.last_tx,
+                    source_type: 'wallet',
+                    target_type: 'pool',
+                    source_label: wd.label || '',
+                    target_label: p.name || p._key,
+                    source_funded_by: wd.funded_by,
+                    target_funded_by: null
+                }";
+
+    // ── SIGNAL: fan_out (high out-degree distributors from transfer edges) ──
+    //    Only considers wallet-type addresses (not pools/programs)
+    var fanOutAql = @"
+        LET holders_list = (
+            FOR h IN holder FILTER h.mint == @mint
+                LET doc = DOCUMENT(CONCAT('address/', h.owner))
+                FILTER doc == null OR doc.type == null OR doc.type == 'wallet' OR doc.type == 'unknown'
+                RETURN h.owner
+        )
+        LET out_stats = (
+            FOR t IN transfer
+                FILTER t.token_address == @mint
+                FILTER t.source_owner IN holders_list
+                COLLECT src = t.source_owner
+                AGGREGATE out_targets = UNIQUE(t.destination_owner), out_tx = LENGTH(1)
+                RETURN { wallet: src, out_deg: LENGTH(out_targets), out_tx, targets: out_targets }
+        )
+        LET in_stats = (
+            FOR t IN transfer
+                FILTER t.token_address == @mint
+                FILTER t.destination_owner IN holders_list
+                COLLECT dst = t.destination_owner
+                AGGREGATE in_deg = LENGTH(1)
+                RETURN { wallet: dst, in_deg }
+        )
+        LET in_map = MERGE(FOR s IN in_stats RETURN {[s.wallet]: s.in_deg})
+        FOR s IN out_stats
+            LET in_deg = TO_NUMBER(in_map[s.wallet]) || 0
+            FILTER s.out_deg >= 5
+            FILTER s.out_tx >= 10
+            FILTER s.out_deg / (in_deg + 1) >= 3
+            SORT s.out_deg DESC
+            LIMIT 20
+            RETURN {
+                signal_type: 'fan_out',
+                signal_value: s.wallet,
+                wallet_count: s.out_deg,
+                out_tx: s.out_tx,
+                in_deg: in_deg,
+                wallets: SLICE(s.targets, 0, 50),
+                strength: 1.0
+            }";
+
+    // ── SIGNAL: pool_chain (wallets that funded pool addresses for this token) ──
+    var poolChainAql = @"
+        LET holders_list = (FOR h IN holder FILTER h.mint == @mint RETURN h.owner)
+        LET token_pools = (
+            FOR p IN pool
+                FILTER p.token_1 == @mint OR p.token_2 == @mint
+                RETURN { address: p._key, name: p.name || p._key }
+        )
+        LET pool_addrs = token_pools[*].address
+        FOR p IN token_pools
+            LET pool_doc = DOCUMENT(CONCAT('address/', p.address))
+            FILTER pool_doc != null AND pool_doc.funded_by != null AND pool_doc.funded_by != 'none'
+            LET funder = pool_doc.funded_by
+            FILTER funder IN holders_list
+            COLLECT funder_addr = funder INTO funded_pools = { pool: p.address, pool_name: p.name }
+            SORT LENGTH(funded_pools) DESC
+            RETURN {
+                signal_type: 'pool_chain',
+                signal_value: funder_addr,
+                wallet_count: LENGTH(funded_pools),
+                pools: funded_pools,
+                wallets: APPEND([funder_addr], funded_pools[*].pool),
+                strength: 1.0
+            }";
+
+    // ── SWAP STATS ──
+    var swapAql = @"
+        FOR act IN activity
+            FILTER act.is_agg == true
+            FILTER act.token_in == @mint OR act.token_out == @mint
+            COLLECT direction = (act.token_in == @mint ? 'sell' : 'buy')
+            AGGREGATE cnt = LENGTH(1), wallets = UNIQUE(act.account)
+            RETURN { direction, count: cnt, unique_wallets: LENGTH(wallets) }";
+
+    // ── Fire all queries in parallel ──
+    var mintBind = new Dictionary<string, object> { ["mint"] = mint };
+    var edgeBind = new Dictionary<string, object> { ["mint"] = mint, ["minTx"] = edgeMinTx };
+    var nodeBind = isWalletMode
+        ? new Dictionary<string, object> { ["mint"] = mint, ["address"] = address! }
+        : mintBind;
+
+    // Fast path: meta + nodes + holders only (sub-second)
+    // Full path: + edges + swap edges + signals (can take 10s+ for heavy tokens)
+    var metaTask = ArangoQuery(httpFactory, metaAql, mintBind);
+    var nodesTask = ArangoQuery(httpFactory, nodesAql, nodeBind);
+    var holdersTask = ArangoQuery(httpFactory, holdersAql, mintBind);
+    var swapTask = ArangoQuery(httpFactory, swapAql, mintBind);
+
+    Task<JsonElement?>? edgesTask = null;
+    Task<JsonElement?>? swapEdgesTask = null;
+    Task<JsonElement?>? sfTask = null;
+    Task<JsonElement?>? spTask = null;
+    Task<JsonElement?>? biTask = null;
+    Task<JsonElement?>? foTask = null;
+    Task<JsonElement?>? pcTask = null;
+
+    if (!isFast)
+    {
+        edgesTask = ArangoQuery(httpFactory, edgesAql, edgeBind);
+        swapEdgesTask = ArangoQuery(httpFactory, swapEdgesAql, mintBind);
+        sfTask = ArangoQuery(httpFactory, sharedFunderAql, mintBind);
+        spTask = ArangoQuery(httpFactory, sharedPoolAql, mintBind);
+        foTask = ArangoQuery(httpFactory, fanOutAql, mintBind);
+        biTask = ArangoQuery(httpFactory, bidirectionalAql, mintBind);
+        pcTask = ArangoQuery(httpFactory, poolChainAql, mintBind);
+    }
+
+    var allTasks = new List<Task> { metaTask, nodesTask, holdersTask, swapTask };
+    if (edgesTask != null) allTasks.Add(edgesTask);
+    if (swapEdgesTask != null) allTasks.Add(swapEdgesTask);
+    if (sfTask != null) allTasks.Add(sfTask);
+    if (spTask != null) allTasks.Add(spTask);
+    if (biTask != null) allTasks.Add(biTask);
+    if (foTask != null) allTasks.Add(foTask);
+    if (pcTask != null) allTasks.Add(pcTask);
+    await Task.WhenAll(allTasks);
+
+    var metaResult = await metaTask;
+    var allNodes = await nodesTask;
+
+    // Merge transfer edges + swap edges into one array
+    var mergedEdges = new List<JsonElement>();
+    var transferEdges = edgesTask != null ? await edgesTask : null;
+    var swapEdges = swapEdgesTask != null ? await swapEdgesTask : null;
+    if (transferEdges?.ValueKind == JsonValueKind.Array)
+        foreach (var e in transferEdges.Value.EnumerateArray()) mergedEdges.Add(e);
+    if (swapEdges?.ValueKind == JsonValueKind.Array)
+        foreach (var e in swapEdges.Value.EnumerateArray()) mergedEdges.Add(e);
+    object edges = mergedEdges;
+
+    // Filter nodes to only those appearing in edges (mint mode only, skip in fast mode)
+    object? filteredNodes = allNodes;
+    if (!isWalletMode && !isFast && mergedEdges.Count > 0 && allNodes?.ValueKind == JsonValueKind.Array)
+    {
+        var edgeAddrs = new HashSet<string>();
+        foreach (var e in mergedEdges)
+        {
+            if (e.TryGetProperty("source", out var s)) edgeAddrs.Add(s.GetString()!);
+            if (e.TryGetProperty("target", out var t)) edgeAddrs.Add(t.GetString()!);
+        }
+        var filtered = new List<JsonElement>();
+        foreach (var n in allNodes.Value.EnumerateArray())
+        {
+            if (n.TryGetProperty("address", out var a) && edgeAddrs.Contains(a.GetString()!))
+                filtered.Add(n);
+        }
+        filteredNodes = filtered;
+    }
+
+    // Group signals by type
+    var signals = new
+    {
+        shared_funder = sfTask != null ? await sfTask : (object?)null,
+        shared_pool = spTask != null ? await spTask : (object?)null,
+        bidirectional_transfer = biTask != null ? await biTask : (object?)null,
+        fan_out = foTask != null ? await foTask : (object?)null,
+        pool_chain = pcTask != null ? await pcTask : (object?)null,
+    };
+
+    var result = new
+    {
+        meta = new {
+            token = metaResult?.ValueKind == JsonValueKind.Array && metaResult.Value.GetArrayLength() > 0
+                ? metaResult.Value[0] : (object?)null,
+            mode = isWalletMode ? "wallet" : "mint",
+            edgeMinTx,
+        },
+        nodes = filteredNodes,
+        edges,
+        signals,
+        holders = await holdersTask,
+        swapStats = await swapTask,
+    };
+
+    // ── Cache to Redis ──
+    if (!isWalletMode)
+    {
+        try
+        {
+            var jsonStr = JsonSerializer.Serialize(result);
+            var db = redis.GetDatabase();
+            var pipe = db.CreateBatch();
+
+            if (isFast)
+            {
+                // Fast blob only
+                pipe.StringSetAsync($"graph:{mint}:fast", jsonStr, CACHE_TTL);
+            }
+            else
+            {
+                // Full blob
+                pipe.StringSetAsync($"graph:{mint}:full", jsonStr, CACHE_TTL);
+
+                // Also build the fast blob from full data
+                var fastData = new
+                {
+                    result.meta, result.nodes, result.holders, result.swapStats,
+                    edges = Array.Empty<object>(),
+                    signals = new { shared_funder = (object?)null, shared_pool = (object?)null,
+                                    bidirectional_transfer = (object?)null, fan_out = (object?)null,
+                                    pool_chain = (object?)null },
+                };
+                pipe.StringSetAsync($"graph:{mint}:fast", JsonSerializer.Serialize(fastData), CACHE_TTL);
+
+                // Signals hash — each type as a separate field
+                pipe.KeyDeleteAsync($"graph:{mint}:signals");
+                if (signals.shared_funder != null)
+                    pipe.HashSetAsync($"graph:{mint}:signals", "shared_funder", JsonSerializer.Serialize(signals.shared_funder));
+                if (signals.shared_pool != null)
+                    pipe.HashSetAsync($"graph:{mint}:signals", "shared_pool", JsonSerializer.Serialize(signals.shared_pool));
+                if (signals.bidirectional_transfer != null)
+                    pipe.HashSetAsync($"graph:{mint}:signals", "bidirectional_transfer", JsonSerializer.Serialize(signals.bidirectional_transfer));
+                if (signals.fan_out != null)
+                    pipe.HashSetAsync($"graph:{mint}:signals", "fan_out", JsonSerializer.Serialize(signals.fan_out));
+                if (signals.pool_chain != null)
+                    pipe.HashSetAsync($"graph:{mint}:signals", "pool_chain", JsonSerializer.Serialize(signals.pool_chain));
+                pipe.KeyExpireAsync($"graph:{mint}:signals", CACHE_TTL);
+            }
+
+            pipe.Execute();
+        }
+        catch (Exception ex)
+        {
+            // Cache write failure should not block response
+            Console.WriteLine($"Cache write error for {mint}: {ex.Message}");
+        }
+    }
+
+    return Results.Ok(result);
+});
+
+// SignalR hub
+app.MapHub<GraphHub>("/hub/graph", options =>
+{
+    options.AllowStatefulReconnects = true;
+}).RequireCors("SignalR");
+
+app.Run();
+
+// Request DTOs
+record LoadTokenRequest(
+    string Mint,
+    string? ConnectionId = null,
+    int? Threads = null,
+    int? TopHolderCount = null,
+    int? MaxPages = null,
+    int? PageSize = null
+);
+
+public class WorkerOptions
+{
+    public int TopHolderThreads { get; set; } = 8;
+    public int SigsPerHolder { get; set; } = 1000;
+    public int TopHolderCount { get; set; } = 80;
+}

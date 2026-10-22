@@ -1,0 +1,2442 @@
+{
+  "result": {
+    "edges": [
+      {
+        "amount": 0.907444,
+        "block_time": 1766366329,
+        "block_time_utc": "2025-12-22 01:18:49.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 0,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "5jHj7JBXUzXPBJ3EigFjr9L2mM1FRgVgGbB2xusEL3kud729iL2tnRMgfkdhRxzbixeC3Pxxqoy6W52s7pLbb6nM",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 3336148.863951,
+        "block_time": 1766366329,
+        "block_time_utc": "2025-12-22 01:18:49.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 0,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "5jHj7JBXUzXPBJ3EigFjr9L2mM1FRgVgGbB2xusEL3kud729iL2tnRMgfkdhRxzbixeC3Pxxqoy6W52s7pLbb6nM",
+        "source": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "CFUCK",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.052199,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "swap",
+        "dex": "MeteoraPoolSwap",
+        "ins_index": 2,
+        "pool": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "pool_label": "Meteora (WSOL-DEFIMFER) Market",
+        "program": "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "source_label": "Meteora (WSOL-DEFIMFER) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 3702.19602,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 19,
+        "pool": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "pool_label": "Raydium (CFUCK-WSOL) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "source_label": "Raydium (CFUCK-WSOL) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 181292.035676,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 11,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.001044,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 19,
+        "pool": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "pool_label": "Raydium (CFUCK-WSOL) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "target_label": "Raydium (CFUCK-WSOL) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.051155,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 11,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 1272785.482462,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "swap",
+        "dex": "MeteoraPoolSwap",
+        "ins_index": 2,
+        "pool": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "pool_label": "Meteora (WSOL-DEFIMFER) Market",
+        "program": "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "target_label": "Meteora (WSOL-DEFIMFER) Market",
+        "token_symbol": "DEFIMFER",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.001072,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 9,
+        "pool": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "pool_label": "Raydium (CFUCK-WSOL) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "source_label": "Raydium (CFUCK-WSOL) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.052312,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 1,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.053277,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "swap",
+        "dex": "MeteoraPoolSwap",
+        "ins_index": 13,
+        "pool": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "pool_label": "Meteora (WSOL-DEFIMFER) Market",
+        "program": "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "target_label": "Meteora (WSOL-DEFIMFER) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 3879.118629,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 9,
+        "pool": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "pool_label": "Raydium (CFUCK-WSOL) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "target_label": "Raydium (CFUCK-WSOL) Market",
+        "token_symbol": "CFUCK",
+        "type": "swap_in"
+      },
+      {
+        "amount": 190076.812799,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 1,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "CFUCK",
+        "type": "swap_in"
+      },
+      {
+        "amount": 1278368.248489,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "swap",
+        "dex": "MeteoraPoolSwap",
+        "ins_index": 13,
+        "pool": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "pool_label": "Meteora (WSOL-DEFIMFER) Market",
+        "program": "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "source_label": "Meteora (WSOL-DEFIMFER) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "DEFIMFER",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.110328,
+        "block_time": 1766338963,
+        "block_time_utc": "2025-12-21 17:42:43.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 1,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "5pZf4vdZ9cBMbq6aBRH9U6bBRrhYXKPwLoX91Yws1o46wnjVG4BEaFADPcX6HKw1pp3hqzqZTLA7JsKVnUio2EwE",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "HV1KXxWFaSeriyFvXyx48FqG9BoFbfinB8njCJonqP7K",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 400000.0,
+        "block_time": 1766338963,
+        "block_time_utc": "2025-12-21 17:42:43.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 1,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "5pZf4vdZ9cBMbq6aBRH9U6bBRrhYXKPwLoX91Yws1o46wnjVG4BEaFADPcX6HKw1pp3hqzqZTLA7JsKVnUio2EwE",
+        "source": "HV1KXxWFaSeriyFvXyx48FqG9BoFbfinB8njCJonqP7K",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "CFUCK",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.001836,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "swap",
+        "dex": "HumidiFiSwap",
+        "ins_index": 16,
+        "pool": "6n9VhCwQ7EwK6NqFDjnHPzEk6wZdRBTfh43RFgHQWHuQ",
+        "pool_label": "HumidiFi (WSOL-USDC) Market",
+        "program": "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "6n9VhCwQ7EwK6NqFDjnHPzEk6wZdRBTfh43RFgHQWHuQ",
+        "source_label": "HumidiFi (WSOL-USDC) Market",
+        "target": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.230401,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "swap",
+        "dex": "HumidiFiSwap",
+        "ins_index": 7,
+        "pool": "8Re9ESfUWCTKKZ5iKQW4WB2DLsDjPyT2ifzQUopQ5BAs",
+        "pool_label": "HumidiFi (WBTC-USDC) Market",
+        "program": "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "8Re9ESfUWCTKKZ5iKQW4WB2DLsDjPyT2ifzQUopQ5BAs",
+        "source_label": "HumidiFi (WBTC-USDC) Market",
+        "target": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "target_label": "wallet",
+        "token_symbol": "USDC",
+        "type": "swap_out"
+      },
+      {
+        "amount": 6481.709272,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 21,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.001836,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 21,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.230401,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "swap",
+        "dex": "HumidiFiSwap",
+        "ins_index": 16,
+        "pool": "6n9VhCwQ7EwK6NqFDjnHPzEk6wZdRBTfh43RFgHQWHuQ",
+        "pool_label": "HumidiFi (WSOL-USDC) Market",
+        "program": "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "source_label": "wallet",
+        "target": "6n9VhCwQ7EwK6NqFDjnHPzEk6wZdRBTfh43RFgHQWHuQ",
+        "target_label": "HumidiFi (WSOL-USDC) Market",
+        "token_symbol": "USDC",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.0,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "swap",
+        "dex": "HumidiFiSwap",
+        "ins_index": 7,
+        "pool": "8Re9ESfUWCTKKZ5iKQW4WB2DLsDjPyT2ifzQUopQ5BAs",
+        "pool_label": "HumidiFi (WBTC-USDC) Market",
+        "program": "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "source_label": "wallet",
+        "target": "8Re9ESfUWCTKKZ5iKQW4WB2DLsDjPyT2ifzQUopQ5BAs",
+        "target_label": "HumidiFi (WBTC-USDC) Market",
+        "token_symbol": "WBTC",
+        "type": "swap_in"
+      },
+      {
+        "amount": 280365.998217,
+        "block_time": 1766333795,
+        "block_time_utc": "2025-12-21 16:16:35.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 2,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "22FSDhKVh5MyvkaKRSjkMRpFsgGRcMFccNaB3MXSUscrtqnzysS9ekeEQqt1gh1wwwFBrenDtQDi1RadUMDuf9HR",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.07932,
+        "block_time": 1766333795,
+        "block_time_utc": "2025-12-21 16:16:35.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 2,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "22FSDhKVh5MyvkaKRSjkMRpFsgGRcMFccNaB3MXSUscrtqnzysS9ekeEQqt1gh1wwwFBrenDtQDi1RadUMDuf9HR",
+        "source": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.014429,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "swap",
+        "dex": "MeteoraPoolSwap",
+        "ins_index": 0,
+        "pool": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "pool_label": "Meteora (WSOL-DEFIMFER) Market",
+        "program": "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "source_label": "Meteora (WSOL-DEFIMFER) Market",
+        "target": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 51055.926189,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 8,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.014427,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 8,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 352313.52885,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "swap",
+        "dex": "MeteoraPoolSwap",
+        "ins_index": 0,
+        "pool": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "pool_label": "Meteora (WSOL-DEFIMFER) Market",
+        "program": "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "target_label": "Meteora (WSOL-DEFIMFER) Market",
+        "token_symbol": "DEFIMFER",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.149963,
+        "block_time": 1766333675,
+        "block_time_utc": "2025-12-21 16:14:35.000000",
+        "category": "swap",
+        "dex": "RaydiumCpmmPoolSwap",
+        "ins_index": 0,
+        "pool": "Arf5iyDLVnVCSgx33Fzzu16nBWk6k7jEqAzWtTvHmPs7",
+        "pool_label": "Raydium (WSOL-SOLTIT) Market",
+        "program": "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C",
+        "signature": "2aDYtPynnu2TnSCUjqAGN23SXJGXkcNQCqu8t6Cncyaj6vEnSk7hckvYKU5958WiA5R4beHya4ng5MxZHBAjpaZ6",
+        "source": "Arf5iyDLVnVCSgx33Fzzu16nBWk6k7jEqAzWtTvHmPs7",
+        "source_label": "Raydium (WSOL-SOLTIT) Market",
+        "target": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 531790.004872,
+        "block_time": 1766333675,
+        "block_time_utc": "2025-12-21 16:14:35.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 3,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2aDYtPynnu2TnSCUjqAGN23SXJGXkcNQCqu8t6Cncyaj6vEnSk7hckvYKU5958WiA5R4beHya4ng5MxZHBAjpaZ6",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.149939,
+        "block_time": 1766333675,
+        "block_time_utc": "2025-12-21 16:14:35.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 3,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2aDYtPynnu2TnSCUjqAGN23SXJGXkcNQCqu8t6Cncyaj6vEnSk7hckvYKU5958WiA5R4beHya4ng5MxZHBAjpaZ6",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 13512856.370047,
+        "block_time": 1766333675,
+        "block_time_utc": "2025-12-21 16:14:35.000000",
+        "category": "swap",
+        "dex": "RaydiumCpmmPoolSwap",
+        "ins_index": 0,
+        "pool": "Arf5iyDLVnVCSgx33Fzzu16nBWk6k7jEqAzWtTvHmPs7",
+        "pool_label": "Raydium (WSOL-SOLTIT) Market",
+        "program": "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C",
+        "signature": "2aDYtPynnu2TnSCUjqAGN23SXJGXkcNQCqu8t6Cncyaj6vEnSk7hckvYKU5958WiA5R4beHya4ng5MxZHBAjpaZ6",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "Arf5iyDLVnVCSgx33Fzzu16nBWk6k7jEqAzWtTvHmPs7",
+        "target_label": "Raydium (WSOL-SOLTIT) Market",
+        "token_symbol": "SOLTIT",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.306466,
+        "block_time": 1766305867,
+        "block_time_utc": "2025-12-21 08:31:07.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 0,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "1yxdyKqNu9ZifQoXEqPcdxNC4gdEnjurNLZ8GB6NLWXzraRSczhADh8e2ZbZgtun63y3N4EHQEjhsDhPAdzKW9B",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 1112049.621316,
+        "block_time": 1766305867,
+        "block_time_utc": "2025-12-21 08:31:07.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 0,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "1yxdyKqNu9ZifQoXEqPcdxNC4gdEnjurNLZ8GB6NLWXzraRSczhADh8e2ZbZgtun63y3N4EHQEjhsDhPAdzKW9B",
+        "source": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "CFUCK",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.000927,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "RaydiumCpmmPoolSwap",
+        "ins_index": 0,
+        "pool": "GcxNEzvGsn3sJ753Ak6mcca43GsjLmNvFHYQva2bsf4k",
+        "pool_label": "Raydium (WSOL-RCON) Market",
+        "program": "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "GcxNEzvGsn3sJ753Ak6mcca43GsjLmNvFHYQva2bsf4k",
+        "target_label": "Raydium (WSOL-RCON) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.116861,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 12,
+        "pool": "8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj",
+        "pool_label": "Raydium (WSOL-USDC) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj",
+        "target_label": "Raydium (WSOL-USDC) Market",
+        "token_symbol": "USDC",
+        "type": "swap_in"
+      },
+      {
+        "amount": 3312.249454,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 8,
+        "pool": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "pool_label": "Raydium (CFUCK-USDC) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "target_label": "Raydium (CFUCK-USDC) Market",
+        "token_symbol": "CFUCK",
+        "type": "swap_in"
+      },
+      {
+        "amount": 968.380588,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "OrcaWhirlPoolSwap",
+        "ins_index": 4,
+        "pool": "63tiX6bCDk1anErPdoRsxwkcgVJ9KzuADDxgK7CbAHFN",
+        "pool_label": "Orca (CFUCK-RCON) Market",
+        "program": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "63tiX6bCDk1anErPdoRsxwkcgVJ9KzuADDxgK7CbAHFN",
+        "target_label": "Orca (CFUCK-RCON) Market",
+        "token_symbol": "RCON",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.000933,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 12,
+        "pool": "8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj",
+        "pool_label": "Raydium (WSOL-USDC) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj",
+        "source_label": "Raydium (WSOL-USDC) Market",
+        "target": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "target_label": "wallet",
+        "token_symbol": "WSOL",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.116861,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 8,
+        "pool": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "pool_label": "Raydium (CFUCK-USDC) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "source_label": "Raydium (CFUCK-USDC) Market",
+        "target": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "target_label": "wallet",
+        "token_symbol": "USDC",
+        "type": "swap_out"
+      },
+      {
+        "amount": 3312.249454,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "OrcaWhirlPoolSwap",
+        "ins_index": 4,
+        "pool": "63tiX6bCDk1anErPdoRsxwkcgVJ9KzuADDxgK7CbAHFN",
+        "pool_label": "Orca (CFUCK-RCON) Market",
+        "program": "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "63tiX6bCDk1anErPdoRsxwkcgVJ9KzuADDxgK7CbAHFN",
+        "source_label": "Orca (CFUCK-RCON) Market",
+        "target": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 968.380588,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "swap",
+        "dex": "RaydiumCpmmPoolSwap",
+        "ins_index": 0,
+        "pool": "GcxNEzvGsn3sJ753Ak6mcca43GsjLmNvFHYQva2bsf4k",
+        "pool_label": "Raydium (WSOL-RCON) Market",
+        "program": "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GcxNEzvGsn3sJ753Ak6mcca43GsjLmNvFHYQva2bsf4k",
+        "source_label": "Raydium (WSOL-RCON) Market",
+        "target": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "target_label": "wallet",
+        "token_symbol": "RCON",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.248461,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "swap",
+        "dex": "HumidiFiSwap",
+        "ins_index": 3,
+        "pool": "AvGeFw71N5sNfV97mZ1uNrHg4yfufRicCJUrS9j2ehTX",
+        "pool_label": "HumidiFi (WSOL-USDC) Market",
+        "program": "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "AvGeFw71N5sNfV97mZ1uNrHg4yfufRicCJUrS9j2ehTX",
+        "source_label": "HumidiFi (WSOL-USDC) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "USDC",
+        "type": "swap_out"
+      },
+      {
+        "amount": 7087.400916,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 15,
+        "pool": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "pool_label": "Raydium (CFUCK-USDC) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "source_label": "Raydium (CFUCK-USDC) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 693968.000625,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 7,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "source_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "target": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "target_label": "wallet",
+        "token_symbol": "CFUCK",
+        "type": "swap_out"
+      },
+      {
+        "amount": 0.001984,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "swap",
+        "dex": "HumidiFiSwap",
+        "ins_index": 3,
+        "pool": "AvGeFw71N5sNfV97mZ1uNrHg4yfufRicCJUrS9j2ehTX",
+        "pool_label": "HumidiFi (WSOL-USDC) Market",
+        "program": "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "AvGeFw71N5sNfV97mZ1uNrHg4yfufRicCJUrS9j2ehTX",
+        "target_label": "HumidiFi (WSOL-USDC) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.196396,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "swap",
+        "dex": "PumpFunAmmSwap",
+        "ins_index": 7,
+        "pool": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "target_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "token_symbol": "WSOL",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.248461,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "swap",
+        "dex": "RaydiumClmmPoolSwap",
+        "ins_index": 15,
+        "pool": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "pool_label": "Raydium (CFUCK-USDC) Market",
+        "program": "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "source_label": "wallet",
+        "target": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "target_label": "Raydium (CFUCK-USDC) Market",
+        "token_symbol": "USDC",
+        "type": "swap_in"
+      },
+      {
+        "amount": 0.909483,
+        "block_time": 1766366329,
+        "block_time_utc": "2025-12-22 01:18:49.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 7,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "5jHj7JBXUzXPBJ3EigFjr9L2mM1FRgVgGbB2xusEL3kud729iL2tnRMgfkdhRxzbixeC3Pxxqoy6W52s7pLbb6nM",
+        "source": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "source_label": "wallet",
+        "target": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766366329,
+        "block_time_utc": "2025-12-22 01:18:49.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 0,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "5jHj7JBXUzXPBJ3EigFjr9L2mM1FRgVgGbB2xusEL3kud729iL2tnRMgfkdhRxzbixeC3Pxxqoy6W52s7pLbb6nM",
+        "source": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "source_label": "wallet",
+        "target": "C7KCXRc2inkbHi3ajP5aJVobUttLfdbapc3KVmNU1Dpn",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 1272785.482462,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "other",
+        "dex": null,
+        "ins_index": 6,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "MINT_SOURCE_1111111111111111111111111111111",
+        "source_label": "SYNTHETIC:MINT",
+        "target": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "target_label": "wallet",
+        "token_symbol": "Unknown",
+        "type": "mint"
+      },
+      {
+        "amount": 0.047082,
+        "block_time": 1766366309,
+        "block_time_utc": "2025-12-22 01:18:29.000000",
+        "category": "other",
+        "dex": null,
+        "ins_index": 9,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW",
+        "source": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "source_label": "wallet",
+        "target": "BURN_SINK_11111111111111111111111111111111",
+        "target_label": "SYNTHETIC:BURN",
+        "token_symbol": "",
+        "type": "burn"
+      },
+      {
+        "amount": 0.048054,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "other",
+        "dex": null,
+        "ins_index": 17,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "MINT_SOURCE_1111111111111111111111111111111",
+        "source_label": "SYNTHETIC:MINT",
+        "target": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "target_label": "wallet",
+        "token_symbol": "",
+        "type": "mint"
+      },
+      {
+        "amount": 1278368.248489,
+        "block_time": 1766339474,
+        "block_time_utc": "2025-12-21 17:51:14.000000",
+        "category": "other",
+        "dex": null,
+        "ins_index": 20,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG",
+        "source": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "source_label": "wallet",
+        "target": "BURN_SINK_11111111111111111111111111111111",
+        "target_label": "SYNTHETIC:BURN",
+        "token_symbol": "Unknown",
+        "type": "burn"
+      },
+      {
+        "amount": 0.112367,
+        "block_time": 1766338963,
+        "block_time_utc": "2025-12-21 17:42:43.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 9,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "5pZf4vdZ9cBMbq6aBRH9U6bBRrhYXKPwLoX91Yws1o46wnjVG4BEaFADPcX6HKw1pp3hqzqZTLA7JsKVnUio2EwE",
+        "source": "AdjDJtgHW6V2nLymzjwg9EdmqusVu2S29Gry99rHqnse",
+        "source_label": "wallet",
+        "target": "AdjDJtgHW6V2nLymzjwg9EdmqusVu2S29Gry99rHqnse",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766338963,
+        "block_time_utc": "2025-12-21 17:42:43.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 2,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "5pZf4vdZ9cBMbq6aBRH9U6bBRrhYXKPwLoX91Yws1o46wnjVG4BEaFADPcX6HKw1pp3hqzqZTLA7JsKVnUio2EwE",
+        "source": "AdjDJtgHW6V2nLymzjwg9EdmqusVu2S29Gry99rHqnse",
+        "source_label": "wallet",
+        "target": "AhDKovZgo948W96a3TUGoHyhjvdfA7ngpPs7XPMrccxw",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 20,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "source_label": "wallet",
+        "target": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 13,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "source_label": "wallet",
+        "target": "5Gfpebo7uXJVfa6AQVNPzAwhvxni7BYTBQpHKPycmMg5",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766334553,
+        "block_time_utc": "2025-12-21 16:29:13.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 4,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj",
+        "source": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "source_label": "wallet",
+        "target": "BU8guPB19S1rWopT8DpDiddE5Xvx4oGCigN8xUVKScAG",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766333795,
+        "block_time_utc": "2025-12-21 16:16:35.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 13,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "22FSDhKVh5MyvkaKRSjkMRpFsgGRcMFccNaB3MXSUscrtqnzysS9ekeEQqt1gh1wwwFBrenDtQDi1RadUMDuf9HR",
+        "source": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "source_label": "wallet",
+        "target": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766333795,
+        "block_time_utc": "2025-12-21 16:16:35.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 2,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "22FSDhKVh5MyvkaKRSjkMRpFsgGRcMFccNaB3MXSUscrtqnzysS9ekeEQqt1gh1wwwFBrenDtQDi1RadUMDuf9HR",
+        "source": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "source_label": "wallet",
+        "target": "2CR3Si7C8GQzeZgFwXQZtiBwBmhS9dbkjDwFGGCvXazZ",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.001844,
+        "block_time": 1766333795,
+        "block_time_utc": "2025-12-21 16:16:35.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 3,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "22FSDhKVh5MyvkaKRSjkMRpFsgGRcMFccNaB3MXSUscrtqnzysS9ekeEQqt1gh1wwwFBrenDtQDi1RadUMDuf9HR",
+        "source": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "source_label": "wallet",
+        "target": "DUAgi1pWZSXoLS6ebuvHfYErjFEXSaTQVnnKjB1Zn2eS",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 352313.52885,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "other",
+        "dex": null,
+        "ins_index": 4,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "MINT_SOURCE_1111111111111111111111111111111",
+        "source_label": "SYNTHETIC:MINT",
+        "target": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "target_label": "wallet",
+        "token_symbol": "Unknown",
+        "type": "mint"
+      },
+      {
+        "amount": 352313.52885,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "other",
+        "dex": null,
+        "ins_index": 4,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "MINT_SOURCE_1111111111111111111111111111111",
+        "source_label": "SYNTHETIC:MINT",
+        "target": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "target_label": "wallet",
+        "token_symbol": "Unknown",
+        "type": "mint"
+      },
+      {
+        "amount": 0.013014,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "other",
+        "dex": null,
+        "ins_index": 7,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "source_label": "wallet",
+        "target": "BURN_SINK_11111111111111111111111111111111",
+        "target_label": "SYNTHETIC:BURN",
+        "token_symbol": "",
+        "type": "burn"
+      },
+      {
+        "amount": 0.002042,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 4,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002042,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 4,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766333685,
+        "block_time_utc": "2025-12-21 16:14:45.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 0,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "A1tpDqSg6ueekfg1MezEjzv18CDk4vQFY8X4LLTPbL1M",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002063,
+        "block_time": 1766333675,
+        "block_time_utc": "2025-12-21 16:14:35.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 4,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2aDYtPynnu2TnSCUjqAGN23SXJGXkcNQCqu8t6Cncyaj6vEnSk7hckvYKU5958WiA5R4beHya4ng5MxZHBAjpaZ6",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766333675,
+        "block_time_utc": "2025-12-21 16:14:35.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 0,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "2aDYtPynnu2TnSCUjqAGN23SXJGXkcNQCqu8t6Cncyaj6vEnSk7hckvYKU5958WiA5R4beHya4ng5MxZHBAjpaZ6",
+        "source": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "source_label": "wallet",
+        "target": "A1tpDqSg6ueekfg1MezEjzv18CDk4vQFY8X4LLTPbL1M",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.308506,
+        "block_time": 1766305867,
+        "block_time_utc": "2025-12-21 08:31:07.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 7,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "1yxdyKqNu9ZifQoXEqPcdxNC4gdEnjurNLZ8GB6NLWXzraRSczhADh8e2ZbZgtun63y3N4EHQEjhsDhPAdzKW9B",
+        "source": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "source_label": "wallet",
+        "target": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766305867,
+        "block_time_utc": "2025-12-21 08:31:07.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 0,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "1yxdyKqNu9ZifQoXEqPcdxNC4gdEnjurNLZ8GB6NLWXzraRSczhADh8e2ZbZgtun63y3N4EHQEjhsDhPAdzKW9B",
+        "source": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "source_label": "wallet",
+        "target": "C7KCXRc2inkbHi3ajP5aJVobUttLfdbapc3KVmNU1Dpn",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 5,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 5,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "EPcF2rMSyN7WCU1QgwSvTTxJfC9qSqZmkRRuN6pbN78x",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "EPcF2rMSyN7WCU1QgwSvTTxJfC9qSqZmkRRuN6pbN78x",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "EPcF2rMSyN7WCU1QgwSvTTxJfC9qSqZmkRRuN6pbN78x",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "ZScCTUaVKEyW8cLev4ygSzecGZqmpc7sBMEjjjuHyvT",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "ZScCTUaVKEyW8cLev4ygSzecGZqmpc7sBMEjjjuHyvT",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766291070,
+        "block_time_utc": "2025-12-21 04:24:30.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C",
+        "source": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "source_label": "wallet",
+        "target": "ZScCTUaVKEyW8cLev4ygSzecGZqmpc7sBMEjjjuHyvT",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 3,
+        "pool": null,
+        "pool_label": null,
+        "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "HwLorX3mezcp5d8R2N287eF2DvZTj5NPWSXh6wnXWJkP",
+        "source_label": "wallet",
+        "target": "HwLorX3mezcp5d8R2N287eF2DvZTj5NPWSXh6wnXWJkP",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "close_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "HwLorX3mezcp5d8R2N287eF2DvZTj5NPWSXh6wnXWJkP",
+        "source_label": "wallet",
+        "target": "GihBTBGkxdLLJKgBvcehZPsvLF7TsKLFWVu3RihjtL6Q",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      },
+      {
+        "amount": 0.002039,
+        "block_time": 1766290898,
+        "block_time_utc": "2025-12-21 04:21:38.000000",
+        "category": "account",
+        "dex": null,
+        "ins_index": 1,
+        "pool": null,
+        "pool_label": null,
+        "program": "11111111111111111111111111111111",
+        "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2",
+        "source": "HwLorX3mezcp5d8R2N287eF2DvZTj5NPWSXh6wnXWJkP",
+        "source_label": "wallet",
+        "target": "GihBTBGkxdLLJKgBvcehZPsvLF7TsKLFWVu3RihjtL6Q",
+        "target_label": "wallet",
+        "token_symbol": "SOL",
+        "type": "create_ata"
+      }
+    ],
+    "nodes": [
+      {
+        "address": "BURN_SINK_11111111111111111111111111111111",
+        "address_type": "unknown",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          ]
+        },
+        "label": "SYNTHETIC:BURN",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "MINT_SOURCE_1111111111111111111111111111111",
+        "address_type": "unknown",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          ]
+        },
+        "label": "SYNTHETIC:MINT",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "5tzFkiKscXHK5ZXCGbXZxdw7gTjjD1mBwuoFbhUvuAi9",
+        "interactions": {
+          "dexes": [
+            "RaydiumCpmmPoolSwap",
+            "RaydiumClmmPoolSwap",
+            "OrcaWhirlPoolSwap"
+          ],
+          "pools": [
+            {
+              "address": "GcxNEzvGsn3sJ753Ak6mcca43GsjLmNvFHYQva2bsf4k",
+              "label": "Raydium (WSOL-RCON) Market"
+            },
+            {
+              "address": "63tiX6bCDk1anErPdoRsxwkcgVJ9KzuADDxgK7CbAHFN",
+              "label": "Orca (CFUCK-RCON) Market"
+            },
+            {
+              "address": "8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj",
+              "label": "Raydium (WSOL-USDC) Market"
+            },
+            {
+              "address": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+              "label": "Raydium (CFUCK-USDC) Market"
+            }
+          ],
+          "programs": [
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+            "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C",
+            "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+            "11111111111111111111111111111111",
+            "whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 1.214417874,
+        "token_name": null
+      },
+      {
+        "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Pump.fun AMM (CFUCK-WSOL) Market",
+        "sol_balance": 0.00258216,
+        "token_name": null
+      },
+      {
+        "address": "So11111111111111111111111111111111111111112",
+        "address_type": "mint",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "mint",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": "Wrapped SOL"
+      },
+      {
+        "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "address_type": "mint",
+        "balance": 0.0,
+        "funded_by": "5TYZChz7APFopR5QirD5of4rQj1p9AXxeSAg6JndBdGj",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "mint",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": "USDC"
+      },
+      {
+        "address": "LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump",
+        "address_type": "mint",
+        "balance": 0.0,
+        "funded_by": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "mint",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": "CLUSTERFUCK"
+      },
+      {
+        "address": "63tiX6bCDk1anErPdoRsxwkcgVJ9KzuADDxgK7CbAHFN",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Orca (CFUCK-RCON) Market",
+        "sol_balance": 0.00543576,
+        "token_name": null
+      },
+      {
+        "address": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Raydium (CFUCK-WSOL) Market",
+        "sol_balance": 0.01163712,
+        "token_name": null
+      },
+      {
+        "address": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Raydium (CFUCK-USDC) Market",
+        "sol_balance": 0.01163712,
+        "token_name": null
+      },
+      {
+        "address": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "cPabHQWcAH3PZu6qha2Tk8Zn9s1eD14GUZLb8ar2Gzs",
+        "interactions": {
+          "dexes": [
+            "MeteoraPoolSwap",
+            "RaydiumClmmPoolSwap",
+            "PumpFunAmmSwap",
+            "HumidiFiSwap"
+          ],
+          "pools": [
+            {
+              "address": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+              "label": "Meteora (WSOL-DEFIMFER) Market"
+            },
+            {
+              "address": "AvGeFw71N5sNfV97mZ1uNrHg4yfufRicCJUrS9j2ehTX",
+              "label": "HumidiFi (WSOL-USDC) Market"
+            },
+            {
+              "address": "CHxmFq27RZvXp6QbzS9qzcXnoFoqUgP4d9UqsfE9RKSp",
+              "label": "Raydium (CFUCK-WSOL) Market"
+            },
+            {
+              "address": "836ZYWCM5g41pobwzhQYiRkb1SSqq37S76pfXsfGv5US",
+              "label": "Raydium (CFUCK-USDC) Market"
+            },
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+            "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK",
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+            "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "EPcF2rMSyN7WCU1QgwSvTTxJfC9qSqZmkRRuN6pbN78x",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "11111111111111111111111111111111",
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "ZScCTUaVKEyW8cLev4ygSzecGZqmpc7sBMEjjjuHyvT",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "GxDC9e7SP9mzhDo4re5HbpLa2RW7gB9DtmThx4i4pXSq",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "11111111111111111111111111111111",
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "7nZuYZYZnof9gF3zr9QhdnxpQ1mTM8LN3VaJuhrGbonk",
+        "address_type": "mint",
+        "balance": 0.0,
+        "funded_by": "CsdV5fggKKRNqhSRjzx8nQ2TWTJ3KQberbUCnS7hjAcs",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "mint",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": "RECON RACCOON"
+      },
+      {
+        "address": "GcxNEzvGsn3sJ753Ak6mcca43GsjLmNvFHYQva2bsf4k",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Raydium (WSOL-RCON) Market",
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "HV1KXxWFaSeriyFvXyx48FqG9BoFbfinB8njCJonqP7K",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "xX5U36VVKuTrfqZb7dgLgATysznFgmz5N1TjhipuKTR",
+        "interactions": {
+          "dexes": [
+            "PumpFunAmmSwap"
+          ],
+          "pools": [
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "HwLorX3mezcp5d8R2N287eF2DvZTj5NPWSXh6wnXWJkP",
+        "address_type": "wallet",
+        "balance": 2315198.089012,
+        "funded_by": "C16YSic6YL6yN4bZ5P2sb4NcPgkhm6YeHwb9GRqeaAzj",
+        "interactions": {
+          "dexes": [
+            "HumidiFiSwap"
+          ],
+          "pools": [
+            {
+              "address": "AvGeFw71N5sNfV97mZ1uNrHg4yfufRicCJUrS9j2ehTX",
+              "label": "HumidiFi (WSOL-USDC) Market"
+            }
+          ],
+          "programs": [
+            "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.41748665,
+        "token_name": null
+      },
+      {
+        "address": "AdjDJtgHW6V2nLymzjwg9EdmqusVu2S29Gry99rHqnse",
+        "address_type": "wallet",
+        "balance": 140566.388479,
+        "funded_by": "4NyK1AdJBNbgaJ9EsKz3J4rfeHsuYdjkTPg3JaNdLeFw",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.09956117,
+        "token_name": null
+      },
+      {
+        "address": "CHSBRJMtGGFDzXACSRffhQZdx4eNdqGG77xg5Ntumoon",
+        "address_type": "mint",
+        "balance": 0.0,
+        "funded_by": "F4KHDgyUpi6AgJHuQSbGH1GtrAygTQZE9t3DWe1B5RE1",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "mint",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": "DEFI MFER "
+      },
+      {
+        "address": "FVPN4Kjk63kRKh2v1XpiCug2ch5Hwm6fnP8LmKovNcdk",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "CGsqR7CTqTwbmAUTPnfg9Bj9GLJgkrUD9rhjh3vHEYvh",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Meteora (WSOL-DEFIMFER) Market",
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "GihBTBGkxdLLJKgBvcehZPsvLF7TsKLFWVu3RihjtL6Q",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "HwLorX3mezcp5d8R2N287eF2DvZTj5NPWSXh6wnXWJkP",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "address_type": "wallet",
+        "balance": 22277187.931329,
+        "funded_by": "5g7yNHyGLJ7fiQ9SN9mf47opDnMjc585kqXWt6d7aBWs",
+        "interactions": {
+          "dexes": [
+            "PumpFunAmmSwap"
+          ],
+          "pools": [
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.024041101,
+        "token_name": null
+      },
+      {
+        "address": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "address_type": "wallet",
+        "balance": 5564020.573799,
+        "funded_by": "8JUEoHNMbWM4eegcMvx6ZQJt3V3fbo8JNjpWiCtJgxfF",
+        "interactions": {
+          "dexes": [
+            "HumidiFiSwap",
+            "PumpFunAmmSwap"
+          ],
+          "pools": [
+            {
+              "address": "8Re9ESfUWCTKKZ5iKQW4WB2DLsDjPyT2ifzQUopQ5BAs",
+              "label": "HumidiFi (WBTC-USDC) Market"
+            },
+            {
+              "address": "6n9VhCwQ7EwK6NqFDjnHPzEk6wZdRBTfh43RFgHQWHuQ",
+              "label": "HumidiFi (WSOL-USDC) Market"
+            },
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "9H6tua7jkLhdm3w8BvgpTn5LZNU7g4ZynDmCiNN3q6Rp",
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 1.209152027,
+        "token_name": null
+      },
+      {
+        "address": "J2UXqJ1HYRwjCviLEqkY9mhoEPJ5UnoHEnbeijCweREV",
+        "address_type": "mint",
+        "balance": 0.0,
+        "funded_by": "yudkpbXU7Ufvumi6fpJ69HMwyfoQQ8UeSFZc4be2hiW",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "mint",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": "SOLTIT"
+      },
+      {
+        "address": "5Gfpebo7uXJVfa6AQVNPzAwhvxni7BYTBQpHKPycmMg5",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "Arf5iyDLVnVCSgx33Fzzu16nBWk6k7jEqAzWtTvHmPs7",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Raydium (WSOL-SOLTIT) Market",
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "address_type": "wallet",
+        "balance": 3336148.863951,
+        "funded_by": "3DByNiuBNXLFpBX6UTsxGuDN8kqL6CQmkU1b187zkpDh",
+        "interactions": {
+          "dexes": [
+            "PumpFunAmmSwap"
+          ],
+          "pools": [
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.934510996,
+        "token_name": null
+      },
+      {
+        "address": "8sLbNZoA1cfnvMJLPfp98ZLAnFSYCFApfJKMbiXNLwxj",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "Raydium (WSOL-USDC) Market",
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "C7KCXRc2inkbHi3ajP5aJVobUttLfdbapc3KVmNU1Dpn",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "HUMRWmxxZL9Kr6vKTrtuQpSH9WShkcPv96nqhJD49xX9",
+        "interactions": {
+          "dexes": [
+            "PumpFunAmmSwap"
+          ],
+          "pools": [
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "address_type": "wallet",
+        "balance": 3649112.149236,
+        "funded_by": "AafGzY9eiC5Ud3YFZQwkaKApp48cVBAT2kksGvEjhUvH",
+        "interactions": {
+          "dexes": [
+            "MeteoraPoolSwap",
+            "PumpFunAmmSwap",
+            "RaydiumCpmmPoolSwap"
+          ],
+          "pools": [
+            {
+              "address": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+              "label": "Meteora (WSOL-DEFIMFER) Market"
+            },
+            {
+              "address": "Arf5iyDLVnVCSgx33Fzzu16nBWk6k7jEqAzWtTvHmPs7",
+              "label": "Raydium (WSOL-SOLTIT) Market"
+            },
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+            "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+            "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.006235889,
+        "token_name": null
+      },
+      {
+        "address": "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
+        "address_type": "mint",
+        "balance": 0.0,
+        "funded_by": "F2kM1xFTvm1rVztHRvV3eFF4PCJmN5Cio5gSyb8VDQ9Q",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "mint",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": "Wrapped BTC (Wormhole)"
+      },
+      {
+        "address": "8Re9ESfUWCTKKZ5iKQW4WB2DLsDjPyT2ifzQUopQ5BAs",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "HumidiFi (WBTC-USDC) Market",
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "6n9VhCwQ7EwK6NqFDjnHPzEk6wZdRBTfh43RFgHQWHuQ",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "HumidiFi (WSOL-USDC) Market",
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "AvGeFw71N5sNfV97mZ1uNrHg4yfufRicCJUrS9j2ehTX",
+        "address_type": "pool",
+        "balance": 0.0,
+        "funded_by": null,
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": []
+        },
+        "label": "pool",
+        "pool_label": "HumidiFi (WSOL-USDC) Market",
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "AhDKovZgo948W96a3TUGoHyhjvdfA7ngpPs7XPMrccxw",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "AdjDJtgHW6V2nLymzjwg9EdmqusVu2S29Gry99rHqnse",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "BU8guPB19S1rWopT8DpDiddE5Xvx4oGCigN8xUVKScAG",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "Ha8PtYmihUAqH6iwiKaxw1pxNpj3QhN9udT46L5cbjLv",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "2CR3Si7C8GQzeZgFwXQZtiBwBmhS9dbkjDwFGGCvXazZ",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "interactions": {
+          "dexes": [
+            "PumpFunAmmSwap"
+          ],
+          "pools": [
+            {
+              "address": "FwawsTFru93RHPankhcCo4WeB2tPoXSEsAGBuozwm2ze",
+              "label": "Pump.fun AMM (CFUCK-WSOL) Market"
+            }
+          ],
+          "programs": [
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "DUAgi1pWZSXoLS6ebuvHfYErjFEXSaTQVnnKjB1Zn2eS",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "6HiHgmNr7Gxx9GwoXjwXWi7GaAmyYj3Zkzvxx9mHANcM",
+        "interactions": {
+          "dexes": [],
+          "pools": [],
+          "programs": [
+            "11111111111111111111111111111111"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      },
+      {
+        "address": "A1tpDqSg6ueekfg1MezEjzv18CDk4vQFY8X4LLTPbL1M",
+        "address_type": "wallet",
+        "balance": 0.0,
+        "funded_by": "D3jiMsZTivAzYtwQFrMSUfU13638NeUUSbaGq9JwPSyP",
+        "interactions": {
+          "dexes": [
+            "MeteoraPoolSwap",
+            "RaydiumCpmmPoolSwap"
+          ],
+          "pools": [
+            {
+              "address": "C1eRJTDeTxFi2kwkPm7SPNwguLnfZH8oaDsD4Mn83Y4b",
+              "label": "Meteora (WSOL-DEFIMFER) Market"
+            },
+            {
+              "address": "Arf5iyDLVnVCSgx33Fzzu16nBWk6k7jEqAzWtTvHmPs7",
+              "label": "Raydium (WSOL-SOLTIT) Market"
+            }
+          ],
+          "programs": [
+            "Eo7WjKq67rjJQSZxS6z3YkapzY3eMj6Xy8X5EQVn5UaB",
+            "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C"
+          ]
+        },
+        "label": "wallet",
+        "pool_label": null,
+        "sol_balance": 0.0,
+        "token_name": null
+      }
+    ],
+    "related_tokens": [
+      {
+        "mint": "So11111111111111111111111111111111111111112",
+        "name": "Wrapped SOL",
+        "swap_count": 11,
+        "symbol": "WSOL",
+        "total_volume": 2.147287
+      },
+      {
+        "mint": "CHSBRJMtGGFDzXACSRffhQZdx4eNdqGG77xg5Ntumoon",
+        "name": "DEFI MFER ",
+        "swap_count": 3,
+        "symbol": "DEFIMFER",
+        "total_volume": 2903467.259801
+      },
+      {
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "name": "USDC",
+        "swap_count": 3,
+        "symbol": "USDC",
+        "total_volume": 1.191446
+      },
+      {
+        "mint": "J2UXqJ1HYRwjCviLEqkY9mhoEPJ5UnoHEnbeijCweREV",
+        "name": "SOLTIT",
+        "swap_count": 1,
+        "symbol": "SOLTIT",
+        "total_volume": 13512856.370047
+      },
+      {
+        "mint": "7nZuYZYZnof9gF3zr9QhdnxpQ1mTM8LN3VaJuhrGbonk",
+        "name": "RECON RACCOON",
+        "swap_count": 1,
+        "symbol": "RCON",
+        "total_volume": 1936.761176
+      },
+      {
+        "mint": "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
+        "name": "Wrapped BTC (Wormhole)",
+        "swap_count": 1,
+        "symbol": "WBTC",
+        "total_volume": 0.0
+      }
+    ],
+    "token": {
+      "mint": "LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump",
+      "symbol": "CFUCK"
+    },
+    "txs": {
+      "block_time": 1766333795,
+      "block_time_utc": "2025-12-21 16:16:35.000000",
+      "edge_types": [
+        "swap_out"
+      ],
+      "next": [
+        {
+          "block_time": 1766334553,
+          "block_time_utc": "2025-12-21 16:29:13.000000",
+          "edge_types": [
+            "swap_out"
+          ],
+          "signature": "2MUkRrkmPK8nnecy3rXmTqiVHcDbQz4fA2D3EN1eHngtuD6kdiAkkbJqUxBtHHqNXaSVbCfJNdFjXM7uCuRQqZEj"
+        },
+        {
+          "block_time": 1766338963,
+          "block_time_utc": "2025-12-21 17:42:43.000000",
+          "edge_types": [
+            "swap_in"
+          ],
+          "signature": "5pZf4vdZ9cBMbq6aBRH9U6bBRrhYXKPwLoX91Yws1o46wnjVG4BEaFADPcX6HKw1pp3hqzqZTLA7JsKVnUio2EwE"
+        },
+        {
+          "block_time": 1766339474,
+          "block_time_utc": "2025-12-21 17:51:14.000000",
+          "edge_types": [
+            "swap_in"
+          ],
+          "signature": "TbLvGAyd4AfTnarGLWPAsp9v1ZTFpnteBDiAwCFKyGa4Ho5WpNZqTXmc2LnH9ooYeHrD6HGJNap2gsg3f5C9aoG"
+        },
+        {
+          "block_time": 1766366309,
+          "block_time_utc": "2025-12-22 01:18:29.000000",
+          "edge_types": [
+            "swap_out"
+          ],
+          "signature": "3nDG6VEw9k8nBE158hMtn4aDoAFBNWJ8BqP1HsQZzCMEx5au73E7MSoZWVFxhvKp8hACHcvQWnbryoTigc13ycqW"
+        },
+        {
+          "block_time": 1766366329,
+          "block_time_utc": "2025-12-22 01:18:49.000000",
+          "edge_types": [
+            "swap_in"
+          ],
+          "signature": "5jHj7JBXUzXPBJ3EigFjr9L2mM1FRgVgGbB2xusEL3kud729iL2tnRMgfkdhRxzbixeC3Pxxqoy6W52s7pLbb6nM"
+        }
+      ],
+      "prev": [
+        {
+          "block_time": 1766333685,
+          "block_time_utc": "2025-12-21 16:14:45.000000",
+          "edge_types": [
+            "swap_out"
+          ],
+          "signature": "2enV3BEALCtHuqMc76Sne8vgcpPJYE9r4DVU92Pd9teS5yJqZkkgg2kcC61Y6EWsyMbUaiBqdCPDjWwsN9Do71Kb"
+        },
+        {
+          "block_time": 1766333675,
+          "block_time_utc": "2025-12-21 16:14:35.000000",
+          "edge_types": [
+            "swap_out"
+          ],
+          "signature": "2aDYtPynnu2TnSCUjqAGN23SXJGXkcNQCqu8t6Cncyaj6vEnSk7hckvYKU5958WiA5R4beHya4ng5MxZHBAjpaZ6"
+        },
+        {
+          "block_time": 1766305867,
+          "block_time_utc": "2025-12-21 08:31:07.000000",
+          "edge_types": [
+            "swap_in"
+          ],
+          "signature": "1yxdyKqNu9ZifQoXEqPcdxNC4gdEnjurNLZ8GB6NLWXzraRSczhADh8e2ZbZgtun63y3N4EHQEjhsDhPAdzKW9B"
+        },
+        {
+          "block_time": 1766291070,
+          "block_time_utc": "2025-12-21 04:24:30.000000",
+          "edge_types": [
+            "swap_in",
+            "swap_out"
+          ],
+          "signature": "5FKT5D4MwhVSKzVgfwnHcJ2S95nkUnDD7TaVAg2p5M3GpSwgDvvdV8twBTyeGyrakJZyWXiDj8QEp97oXXnpBx6C"
+        },
+        {
+          "block_time": 1766290898,
+          "block_time_utc": "2025-12-21 04:21:38.000000",
+          "edge_types": [
+            "swap_out"
+          ],
+          "signature": "2Y3ZyxehvNd5gDYMhuAzzLvqXSgHoUGkAaUd59KxFxsfKi1Gfx8omPpdwrkZfrHrK6krWrp4zvEAJzMZUHLxdoU2"
+        }
+      ],
+      "signature": "22FSDhKVh5MyvkaKRSjkMRpFsgGRcMFccNaB3MXSUscrtqnzysS9ekeEQqt1gh1wwwFBrenDtQDi1RadUMDuf9HR"
+    }
+  }
+}

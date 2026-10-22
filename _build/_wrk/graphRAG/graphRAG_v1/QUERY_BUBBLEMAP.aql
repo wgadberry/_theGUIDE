@@ -1,0 +1,66 @@
+// =============================================================================
+// BUBBLEMAP QUERY -- Token holder flow visualization
+// Change the token_mint value on line 5 to query a different token
+// =============================================================================
+
+LET token_mint = "LegiuxbrPh7SKEpnTN1nB2AjtrmSGP7XJtYZV4spump"
+LET token_ref = CONCAT("tokens/", token_mint)
+LET token_doc = DOCUMENT(CONCAT("tokens/", token_mint))
+
+LET flows = (
+    FOR e IN edges
+        FILTER e.token == token_ref
+        FILTER e.edge_type IN ["spl_transfer", "swap_in", "swap_out"]
+        COLLECT
+            from_addr = e._from,
+            to_addr = e._to,
+            edge_type = e.edge_type
+        WITH COUNT INTO tx_count
+        SORT tx_count DESC
+        LIMIT 200
+        LET from_doc = DOCUMENT(from_addr)
+        LET to_doc = DOCUMENT(to_addr)
+        RETURN {
+            "from": {
+                address: from_doc._key,
+                type: from_doc.type,
+                label: from_doc.label
+            },
+            "to": {
+                address: to_doc._key,
+                type: to_doc.type,
+                label: to_doc.label
+            },
+            edge_type: edge_type,
+            tx_count: tx_count
+        }
+)
+
+LET all_addrs = UNION_DISTINCT(
+    (FOR f IN flows RETURN f["from"]),
+    (FOR f IN flows RETURN f["to"])
+)
+
+LET nodes = (
+    FOR addr IN all_addrs
+        LET out_count = SUM(FOR f IN flows FILTER f["from"].address == addr.address RETURN f.tx_count)
+        LET in_count = SUM(FOR f IN flows FILTER f["to"].address == addr.address RETURN f.tx_count)
+        LET pool_doc = DOCUMENT(CONCAT("pools/", addr.address))
+        RETURN MERGE(addr, {
+            out_tx: out_count,
+            in_tx: in_count,
+            dex: pool_doc.dex,
+            token_pair: pool_doc.token_pair
+        })
+)
+
+RETURN {
+    token: token_mint,
+    symbol: token_doc.symbol,
+    name: token_doc.name,
+    decimals: token_doc.decimals,
+    node_count: LENGTH(nodes),
+    edge_count: LENGTH(flows),
+    nodes: nodes,
+    edges: flows
+}

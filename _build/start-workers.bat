@@ -1,0 +1,37 @@
+@echo off
+setlocal
+set PYTHON=C:\Users\wgadb\AppData\Local\Programs\Python\Python314\python.exe
+
+echo Starting T16O Exchange Guide Workers...
+echo Using Python: %PYTHON%
+cd /d "%~dp0_wrk"
+
+echo Starting Gateway...
+start "T16O-Gateway" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-gateway.py --with-queue-consumer --with-response-consumer"
+
+timeout /t 2 >nul
+
+echo Starting Producer...
+start "T16O-Producer" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-producer.py --queue-consumer"
+
+echo Starting Decoder...
+start "T16O-Decoder" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-decoder.py --queue-consumer"
+
+echo Starting Detailer...
+start "T16O-Detailer" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-detailer.py --queue-consumer"
+
+echo Starting Shredder...
+start "T16O-Shredder" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-shredder.py --daemon"
+
+echo Starting Funder...
+start "T16O-Funder" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-funder.py --queue-consumer"
+
+echo Starting Aggregator...
+start "T16O-Aggregator" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-aggregator.py --queue-consumer"
+
+echo Starting Enricher...
+start "T16O-Enricher" cmd /k "%PYTHON% C:\Users\wgadb\source\repos\T16O\sql\shred\_theGuide\_build_all\_wrk\guide-enricher.py --queue-consumer"
+
+echo.
+echo All workers started. Check individual windows for status.
+echo To stop all: stop-workers.bat

@@ -1,0 +1,59 @@
+version: '3.8'
+
+# theGuide Infrastructure
+# Usage:
+#   Start:   docker-compose up -d
+#   Stop:    docker-compose down
+#   Logs:    docker-compose logs -f
+#   Status:  docker-compose ps
+#
+# NOTE: Does NOT create database schema - run 02-create-schema.sql after MySQL is ready
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: t16o_v1_mysql
+    restart: unless-stopped
+    ports:
+      - "3396:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: t16o_db
+    command:
+      - --binlog_expire_logs_seconds=259200
+      - --innodb_buffer_pool_size=2G
+      - --innodb_log_buffer_size=256M
+      - --innodb_flush_log_at_trx_commit=2
+      - --innodb_io_capacity=8000
+      - --innodb_io_capacity_max=16000
+    volumes:
+      - t16o_v1_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: t16o_v1_rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5692:5672"    # AMQP
+      - "15692:15672"  # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+    volumes:
+      - t16o_v1_rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  t16o_v1_mysql_data:
+    name: t16o_v1_mysql_data
+  t16o_v1_rabbitmq_data:
+    name: t16o_v1_rabbitmq_data
